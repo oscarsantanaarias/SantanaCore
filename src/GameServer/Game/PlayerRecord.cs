@@ -78,8 +78,11 @@ namespace Santana.Game
                     rates = gameCfg.WarfareExpRates;
                     break;
 
-                case GameRule.Arcade:
                 case GameRule.Arena:
+                    rates = gameCfg.DeathmatchExpRates;
+                    break;
+
+                case GameRule.Arcade:
                 case GameRule.Challenge:
                 case GameRule.CombatTrainingDM:
                 case GameRule.CombatTrainingTD:

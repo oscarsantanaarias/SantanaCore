@@ -249,7 +249,7 @@ namespace Santana.Game.GameRules
         {
             GetRecord(plr).Kills++;
 
-            Room.Broadcast(new SlaughterAttackPointAckMessage
+            Room.BroadcastExcept(Chaser, new SlaughterAttackPointAckMessage
             {
                 AccountId = plr.Account.Id,
                 Unk1 = unk1,
@@ -434,11 +434,15 @@ namespace Santana.Game.GameRules
                 Chaser.stats.Chaser.ChasedWon++;
             foreach (var plr in Room.TeamManager.PlayersPlaying.Where(plr => plr != Chaser))
             {
-                GetRecord(plr).Survived++;
-                plr.RoomInfo.Stats.ChaserSurvived++;
-                plr.stats.Chaser.ChaserWon++;
-                Room.Broadcast(new SlaughterRoundWinAckMessage());
+                GetRecord(plr).Wins++;
+                if (plr.RoomInfo.State != PlayerState.Dead)
+                {
+                    GetRecord(plr).Survived++;
+                    plr.RoomInfo.Stats.ChaserSurvived++;
+                    plr.stats.Chaser.ChaserWon++;
+                }
             }
+            Room.Broadcast(new SlaughterRoundWinAckMessage());
 
             RoundEnd();
         }
