@@ -171,7 +171,7 @@ namespace Santana.Game.GameRules
         {
             var rng = new Random();
             var generated = new List<ulong>();
-            foreach (var buff in new[] { (nibble: 1ul, amount: 30ul), (nibble: 2ul, amount: 2000ul), (nibble: 3ul, amount: 0ul), (nibble: 4ul, amount: 0ul), (nibble: 9ul, amount: 100ul) })
+            foreach (var buff in new[] { (nibble: 1ul, amount: 30ul), (nibble: 2ul, amount: 2000ul), (nibble: 3ul, amount: 5ul), (nibble: 4ul, amount: 5ul), (nibble: 9ul, amount: 100ul) })
             {
                 ulong inst = (ulong)(++_dropSeq & 0xFF);
                 ulong lowbits = ((ulong)rng.Next(1, 0xFFFF) << 8) | (Base & 0xFFul);
