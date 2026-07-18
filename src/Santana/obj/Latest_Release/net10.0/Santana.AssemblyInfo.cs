@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Santana")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Latest_Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("2026.7.7.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c78b8518efdf259c7d4e5480881ba00093ab9f85")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+adf43a1c32987ef5ceeb21d404678bd215effc8e")]
 [assembly: System.Reflection.AssemblyProductAttribute("Santana")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Santana")]
 [assembly: System.Reflection.AssemblyVersionAttribute("2026.7.7.0")]

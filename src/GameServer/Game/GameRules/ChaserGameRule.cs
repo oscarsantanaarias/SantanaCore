@@ -584,7 +584,10 @@ namespace Santana.Game.GameRules
             w.Write(Survived);
             w.Write(Unk9);
             w.Write(Unk10);
-            w.Write(ChaserCount);
+            var chaserRule = Player.Room?.GameRuleManager?.GameRule as ChaserGameRule;
+            var reAnnounced = chaserRule != null && chaserRule.Chaser == Player &&
+                              chaserRule.ValidPlayer(Player) && ChaserCount > 0;
+            w.Write(reAnnounced ? ChaserCount - 1 : ChaserCount);
             w.Write(Unk11);
             w.Write(Unk12);
             w.Write(Unk13);
