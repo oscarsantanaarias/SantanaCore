@@ -203,7 +203,7 @@ namespace Santana.Game.GameRules
             var type = (int)((pickup >> 24) & 0xF);
             Room.Broadcast(new SeizeBuffItemGainAckMessage
             {
-                PickupID = plr.RoomInfo.PeerId,
+                PickupID = plr.Account.Id,
                 PlayerID = pickup
             });
             if (type == 3)
