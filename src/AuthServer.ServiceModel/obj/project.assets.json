@@ -2,77 +2,6 @@
   "version": 4,
   "targets": {
     "net10.0": {
-      "DotNetty.Buffers/0.6.0": {
-        "type": "package",
-        "dependencies": {
-          "DotNetty.Common": "0.6.0",
-          "NETStandard.Library": "1.6.1"
-        },
-        "compile": {
-          "lib/netstandard1.3/DotNetty.Buffers.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.3/DotNetty.Buffers.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "DotNetty.Codecs/0.6.0": {
-        "type": "package",
-        "dependencies": {
-          "DotNetty.Buffers": "0.6.0",
-          "DotNetty.Common": "0.6.0",
-          "DotNetty.Transport": "0.6.0",
-          "NETStandard.Library": "1.6.1"
-        },
-        "compile": {
-          "lib/netstandard1.3/DotNetty.Codecs.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.3/DotNetty.Codecs.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "DotNetty.Common/0.6.0": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Extensions.Logging": "1.1.1",
-          "NETStandard.Library": "1.6.1"
-        },
-        "compile": {
-          "lib/netstandard1.3/DotNetty.Common.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.3/DotNetty.Common.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "DotNetty.Transport/0.6.0": {
-        "type": "package",
-        "dependencies": {
-          "DotNetty.Buffers": "0.6.0",
-          "DotNetty.Common": "0.6.0",
-          "NETStandard.Library": "1.6.1"
-        },
-        "compile": {
-          "lib/netstandard1.3/DotNetty.Transport.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.3/DotNetty.Transport.dll": {
-            "related": ".xml"
-          }
-        }
-      },
       "Iconic.Zlib.Netstandard/1.0.0": {
         "type": "package",
         "dependencies": {
@@ -323,22 +252,6 @@
         "runtime": {
           "lib/netstandard1.3/Serilog.dll": {
             "related": ".pdb;.xml"
-          }
-        }
-      },
-      "Sigil/4.7.0": {
-        "type": "package",
-        "dependencies": {
-          "NETStandard.Library": "1.5.0-rc2-24027"
-        },
-        "compile": {
-          "lib/netstandard1.5/Sigil.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.5/Sigil.dll": {
-            "related": ".xml"
           }
         }
       },
@@ -346,13 +259,13 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
+          "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.DotNetty\\SantanaLib.DotNetty.csproj": "1.0.0",
+          "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj": "1.0.0",
+          "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib\\SantanaLib.csproj": "1.0.0",
           "Iconic.Zlib.Netstandard": "1.0.0",
           "Microsoft.Extensions.Logging.Console": "2.1.1",
           "Microsoft.Extensions.Logging.Debug": "2.1.1",
           "Portable.BouncyCastle": "1.8.2",
-          "SantanaLib": "1.0.0",
-          "SantanaLib.DotNetty": "1.0.0",
-          "SantanaLib.Serialization": "1.0.0",
           "Serilog": "2.7.1"
         },
         "compile": {
@@ -361,138 +274,9 @@
         "runtime": {
           "bin/placeholder/ProudNetSrc.dll": {}
         }
-      },
-      "SantanaLib/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "compile": {
-          "bin/placeholder/SantanaLib.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SantanaLib.dll": {}
-        }
-      },
-      "SantanaLib.DotNetty/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "dependencies": {
-          "DotNetty.Buffers": "0.6.0",
-          "DotNetty.Codecs": "0.6.0",
-          "DotNetty.Common": "0.6.0",
-          "DotNetty.Transport": "0.6.0",
-          "SantanaLib": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/SantanaLib.DotNetty.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SantanaLib.DotNetty.dll": {}
-        }
-      },
-      "SantanaLib.DotNetty.SimpleRmi/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "dependencies": {
-          "DotNetty.Common": "0.6.0",
-          "DotNetty.Transport": "0.6.0",
-          "SantanaLib.DotNetty": "1.0.0",
-          "SantanaLib.Serialization": "1.0.0",
-          "Sigil": "4.7.0"
-        },
-        "compile": {
-          "bin/placeholder/SantanaLib.DotNetty.SimpleRmi.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SantanaLib.DotNetty.SimpleRmi.dll": {}
-        }
-      },
-      "SantanaLib.Serialization/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "dependencies": {
-          "SantanaLib": "1.0.0",
-          "Sigil": "4.7.0"
-        },
-        "compile": {
-          "bin/placeholder/SantanaLib.Serialization.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SantanaLib.Serialization.dll": {}
-        }
       }
     },
     "net8.0": {
-      "DotNetty.Buffers/0.6.0": {
-        "type": "package",
-        "dependencies": {
-          "DotNetty.Common": "0.6.0",
-          "NETStandard.Library": "1.6.1"
-        },
-        "compile": {
-          "lib/netstandard1.3/DotNetty.Buffers.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.3/DotNetty.Buffers.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "DotNetty.Codecs/0.6.0": {
-        "type": "package",
-        "dependencies": {
-          "DotNetty.Buffers": "0.6.0",
-          "DotNetty.Common": "0.6.0",
-          "DotNetty.Transport": "0.6.0",
-          "NETStandard.Library": "1.6.1"
-        },
-        "compile": {
-          "lib/netstandard1.3/DotNetty.Codecs.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.3/DotNetty.Codecs.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "DotNetty.Common/0.6.0": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Extensions.Logging": "1.1.1",
-          "NETStandard.Library": "1.6.1"
-        },
-        "compile": {
-          "lib/netstandard1.3/DotNetty.Common.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.3/DotNetty.Common.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "DotNetty.Transport/0.6.0": {
-        "type": "package",
-        "dependencies": {
-          "DotNetty.Buffers": "0.6.0",
-          "DotNetty.Common": "0.6.0",
-          "NETStandard.Library": "1.6.1"
-        },
-        "compile": {
-          "lib/netstandard1.3/DotNetty.Transport.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.3/DotNetty.Transport.dll": {
-            "related": ".xml"
-          }
-        }
-      },
       "Iconic.Zlib.Netstandard/1.0.0": {
         "type": "package",
         "dependencies": {
@@ -746,33 +530,17 @@
           }
         }
       },
-      "Sigil/4.7.0": {
-        "type": "package",
-        "dependencies": {
-          "NETStandard.Library": "1.5.0-rc2-24027"
-        },
-        "compile": {
-          "lib/netstandard1.5/Sigil.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.5/Sigil.dll": {
-            "related": ".xml"
-          }
-        }
-      },
       "ProudNetSrc/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.DotNetty\\SantanaLib.DotNetty.csproj": "1.0.0",
+          "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj": "1.0.0",
+          "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib\\SantanaLib.csproj": "1.0.0",
           "Iconic.Zlib.Netstandard": "1.0.0",
           "Microsoft.Extensions.Logging.Console": "2.1.1",
           "Microsoft.Extensions.Logging.Debug": "2.1.1",
           "Portable.BouncyCastle": "1.8.2",
-          "SantanaLib": "1.0.0",
-          "SantanaLib.DotNetty": "1.0.0",
-          "SantanaLib.Serialization": "1.0.0",
           "Serilog": "2.7.1"
         },
         "compile": {
@@ -781,128 +549,10 @@
         "runtime": {
           "bin/placeholder/ProudNetSrc.dll": {}
         }
-      },
-      "SantanaLib/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "compile": {
-          "bin/placeholder/SantanaLib.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SantanaLib.dll": {}
-        }
-      },
-      "SantanaLib.DotNetty/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "dependencies": {
-          "DotNetty.Buffers": "0.6.0",
-          "DotNetty.Codecs": "0.6.0",
-          "DotNetty.Common": "0.6.0",
-          "DotNetty.Transport": "0.6.0",
-          "SantanaLib": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/SantanaLib.DotNetty.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SantanaLib.DotNetty.dll": {}
-        }
-      },
-      "SantanaLib.DotNetty.SimpleRmi/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "dependencies": {
-          "DotNetty.Common": "0.6.0",
-          "DotNetty.Transport": "0.6.0",
-          "SantanaLib.DotNetty": "1.0.0",
-          "SantanaLib.Serialization": "1.0.0",
-          "Sigil": "4.7.0"
-        },
-        "compile": {
-          "bin/placeholder/SantanaLib.DotNetty.SimpleRmi.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SantanaLib.DotNetty.SimpleRmi.dll": {}
-        }
-      },
-      "SantanaLib.Serialization/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "dependencies": {
-          "SantanaLib": "1.0.0",
-          "Sigil": "4.7.0"
-        },
-        "compile": {
-          "bin/placeholder/SantanaLib.Serialization.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SantanaLib.Serialization.dll": {}
-        }
       }
     }
   },
   "libraries": {
-    "DotNetty.Buffers/0.6.0": {
-      "sha512": "MjxoFMdKsSJ5CLKTFHTKYoFUZUvC6VHGx71vPLSflmR/X4dSm57/hVxhsQY3YU6aASeRjqgNiCHn4II+UNOIWQ==",
-      "type": "package",
-      "path": "dotnetty.buffers/0.6.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "dotnetty.buffers.0.6.0.nupkg.sha512",
-        "dotnetty.buffers.nuspec",
-        "lib/net45/DotNetty.Buffers.dll",
-        "lib/net45/DotNetty.Buffers.xml",
-        "lib/netstandard1.3/DotNetty.Buffers.dll",
-        "lib/netstandard1.3/DotNetty.Buffers.xml"
-      ]
-    },
-    "DotNetty.Codecs/0.6.0": {
-      "sha512": "gLAVaII7A4er3ZwUJIAZpynDLsxNr7Acw61OoCDfzIAkcB2L6OJ9jPnKy8YtrtTnJXm0lNod5+7aRJTmaBbT0Q==",
-      "type": "package",
-      "path": "dotnetty.codecs/0.6.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "dotnetty.codecs.0.6.0.nupkg.sha512",
-        "dotnetty.codecs.nuspec",
-        "lib/net45/DotNetty.Codecs.dll",
-        "lib/net45/DotNetty.Codecs.xml",
-        "lib/netstandard1.3/DotNetty.Codecs.dll",
-        "lib/netstandard1.3/DotNetty.Codecs.xml"
-      ]
-    },
-    "DotNetty.Common/0.6.0": {
-      "sha512": "aVD0bWoaH+Ou0wOTFzYEs3hrzsckUEkbdweVgwHsk7q0OTPgmPD/QkGxjNqjZ9diUyeGvHzYn7mFQGG5cgbYUA==",
-      "type": "package",
-      "path": "dotnetty.common/0.6.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "dotnetty.common.0.6.0.nupkg.sha512",
-        "dotnetty.common.nuspec",
-        "lib/net45/DotNetty.Common.dll",
-        "lib/net45/DotNetty.Common.xml",
-        "lib/netstandard1.3/DotNetty.Common.dll",
-        "lib/netstandard1.3/DotNetty.Common.xml"
-      ]
-    },
-    "DotNetty.Transport/0.6.0": {
-      "sha512": "HLYcbZfLDIVPhtr+x3nv2vvxBxKONWXeP/B1LaXvPeSfdvlOtvoxB0tuv92SaOdqq9NUCjAP59Nn9xofRrt8mA==",
-      "type": "package",
-      "path": "dotnetty.transport/0.6.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "dotnetty.transport.0.6.0.nupkg.sha512",
-        "dotnetty.transport.nuspec",
-        "lib/net45/DotNetty.Transport.dll",
-        "lib/net45/DotNetty.Transport.xml",
-        "lib/netstandard1.3/DotNetty.Transport.dll",
-        "lib/netstandard1.3/DotNetty.Transport.xml"
-      ]
-    },
     "Iconic.Zlib.Netstandard/1.0.0": {
       "sha512": "1CqyBU2WER/qDzatH4zRv25/YrUYn5dyJ0zMkk7J78yjQ9VSfwkLoF1VGn6kyXAtMVe2wxQp4AFjj7gbGeIDhg==",
       "type": "package",
@@ -1144,87 +794,39 @@
         "serilog.nuspec"
       ]
     },
-    "Sigil/4.7.0": {
-      "sha512": "9jcSXlKJHpjiEFbg98qRdQKcY4IPUzpf52pbTVCvKlP0wLI/RlBiTmZ1+VY3rCKmiLQEgYQnXwD8imXXESWWog==",
-      "type": "package",
-      "path": "sigil/4.7.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net20/Sigil.dll",
-        "lib/net20/Sigil.xml",
-        "lib/net30/Sigil.dll",
-        "lib/net30/Sigil.xml",
-        "lib/net35/Sigil.dll",
-        "lib/net35/Sigil.xml",
-        "lib/net40/Sigil.dll",
-        "lib/net40/Sigil.xml",
-        "lib/net45/Sigil.dll",
-        "lib/net45/Sigil.xml",
-        "lib/netstandard1.5/Sigil.dll",
-        "lib/netstandard1.5/Sigil.xml",
-        "sigil.4.7.0.nupkg.sha512",
-        "sigil.nuspec"
-      ]
-    },
     "ProudNetSrc/1.0.0": {
       "type": "project",
       "path": "../ProudNetSrc/ProudNetSrc.csproj",
       "msbuildProject": "../ProudNetSrc/ProudNetSrc.csproj"
-    },
-    "SantanaLib/1.0.0": {
-      "type": "project",
-      "path": "../SantanaLib/SantanaLib.csproj",
-      "msbuildProject": "../SantanaLib/SantanaLib.csproj"
-    },
-    "SantanaLib.DotNetty/1.0.0": {
-      "type": "project",
-      "path": "../SantanaLib.DotNetty/SantanaLib.DotNetty.csproj",
-      "msbuildProject": "../SantanaLib.DotNetty/SantanaLib.DotNetty.csproj"
-    },
-    "SantanaLib.DotNetty.SimpleRmi/1.0.0": {
-      "type": "project",
-      "path": "../SantanaLib.DotNetty.SimpleRmi/SantanaLib.DotNetty.SimpleRmi.csproj",
-      "msbuildProject": "../SantanaLib.DotNetty.SimpleRmi/SantanaLib.DotNetty.SimpleRmi.csproj"
-    },
-    "SantanaLib.Serialization/1.0.0": {
-      "type": "project",
-      "path": "../SantanaLib.Serialization/SantanaLib.Serialization.csproj",
-      "msbuildProject": "../SantanaLib.Serialization/SantanaLib.Serialization.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0": [
-      "ProudNetSrc >= 1.0.0",
-      "SantanaLib.DotNetty.SimpleRmi >= 1.0.0",
-      "SantanaLib.Serialization >= 1.0.0"
+      "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.DotNetty.SimpleRmi\\SantanaLib.DotNetty.SimpleRmi.csproj",
+      "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj",
+      "ProudNetSrc >= 1.0.0"
     ],
     "net8.0": [
-      "ProudNetSrc >= 1.0.0",
-      "SantanaLib.DotNetty.SimpleRmi >= 1.0.0",
-      "SantanaLib.Serialization >= 1.0.0"
+      "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.DotNetty.SimpleRmi\\SantanaLib.DotNetty.SimpleRmi.csproj",
+      "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj",
+      "ProudNetSrc >= 1.0.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\sneo\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\theam\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\emulador_cs\\emuladorAnticheat\\src\\AuthServer.ServiceModel\\AuthServer.ServiceModel.csproj",
+      "projectUniqueName": "C:\\Users\\theam\\Desktop\\S4src\\src\\AuthServer.ServiceModel\\AuthServer.ServiceModel.csproj",
       "projectName": "AuthServer.ServiceModel",
-      "projectPath": "C:\\emulador_cs\\emuladorAnticheat\\src\\AuthServer.ServiceModel\\AuthServer.ServiceModel.csproj",
-      "packagesPath": "C:\\Users\\sneo\\.nuget\\packages\\",
-      "outputPath": "C:\\emulador_cs\\emuladorAnticheat\\src\\AuthServer.ServiceModel\\obj\\",
+      "projectPath": "C:\\Users\\theam\\Desktop\\S4src\\src\\AuthServer.ServiceModel\\AuthServer.ServiceModel.csproj",
+      "packagesPath": "C:\\Users\\theam\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\theam\\Desktop\\S4src\\src\\AuthServer.ServiceModel\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\sneo\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\theam\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1241,14 +843,14 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "C:\\emulador_cs\\emuladorAnticheat\\src\\ProudNetSrc\\ProudNetSrc.csproj": {
-              "projectPath": "C:\\emulador_cs\\emuladorAnticheat\\src\\ProudNetSrc\\ProudNetSrc.csproj"
+            "C:\\Users\\theam\\Desktop\\S4src\\src\\ProudNetSrc\\ProudNetSrc.csproj": {
+              "projectPath": "C:\\Users\\theam\\Desktop\\S4src\\src\\ProudNetSrc\\ProudNetSrc.csproj"
             },
-            "C:\\emulador_cs\\emuladorAnticheat\\src\\SantanaLib.DotNetty.SimpleRmi\\SantanaLib.DotNetty.SimpleRmi.csproj": {
-              "projectPath": "C:\\emulador_cs\\emuladorAnticheat\\src\\SantanaLib.DotNetty.SimpleRmi\\SantanaLib.DotNetty.SimpleRmi.csproj"
+            "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.DotNetty.SimpleRmi\\SantanaLib.DotNetty.SimpleRmi.csproj": {
+              "projectPath": "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.DotNetty.SimpleRmi\\SantanaLib.DotNetty.SimpleRmi.csproj"
             },
-            "C:\\emulador_cs\\emuladorAnticheat\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj": {
-              "projectPath": "C:\\emulador_cs\\emuladorAnticheat\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj"
+            "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj": {
+              "projectPath": "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj"
             }
           }
         },
@@ -1256,14 +858,14 @@
           "framework": "net8.0",
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\emulador_cs\\emuladorAnticheat\\src\\ProudNetSrc\\ProudNetSrc.csproj": {
-              "projectPath": "C:\\emulador_cs\\emuladorAnticheat\\src\\ProudNetSrc\\ProudNetSrc.csproj"
+            "C:\\Users\\theam\\Desktop\\S4src\\src\\ProudNetSrc\\ProudNetSrc.csproj": {
+              "projectPath": "C:\\Users\\theam\\Desktop\\S4src\\src\\ProudNetSrc\\ProudNetSrc.csproj"
             },
-            "C:\\emulador_cs\\emuladorAnticheat\\src\\SantanaLib.DotNetty.SimpleRmi\\SantanaLib.DotNetty.SimpleRmi.csproj": {
-              "projectPath": "C:\\emulador_cs\\emuladorAnticheat\\src\\SantanaLib.DotNetty.SimpleRmi\\SantanaLib.DotNetty.SimpleRmi.csproj"
+            "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.DotNetty.SimpleRmi\\SantanaLib.DotNetty.SimpleRmi.csproj": {
+              "projectPath": "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.DotNetty.SimpleRmi\\SantanaLib.DotNetty.SimpleRmi.csproj"
             },
-            "C:\\emulador_cs\\emuladorAnticheat\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj": {
-              "projectPath": "C:\\emulador_cs\\emuladorAnticheat\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj"
+            "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj": {
+              "projectPath": "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj"
             }
           }
         }
@@ -1880,5 +1482,47 @@
         }
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1105",
+      "level": "Error",
+      "message": "Projektinformationen für \"C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.DotNetty.SimpleRmi\\SantanaLib.DotNetty.SimpleRmi.csproj\" wurden nicht gefunden. Wenn Sie Visual Studio verwenden, wurde das Projekt möglicherweise entladen oder gehört nicht zur aktuellen Projektmappe. Führen Sie daher eine Wiederherstellung über die Befehlszeile aus. Andernfalls ist die Projektdatei möglicherweise ungültig, oder es fehlen Ziele, die für die Wiederherstellung erforderlich sind.",
+      "libraryId": "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.DotNetty.SimpleRmi\\SantanaLib.DotNetty.SimpleRmi.csproj",
+      "targetGraphs": [
+        "net10.0",
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1105",
+      "level": "Error",
+      "message": "Projektinformationen für \"C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj\" wurden nicht gefunden. Wenn Sie Visual Studio verwenden, wurde das Projekt möglicherweise entladen oder gehört nicht zur aktuellen Projektmappe. Führen Sie daher eine Wiederherstellung über die Befehlszeile aus. Andernfalls ist die Projektdatei möglicherweise ungültig, oder es fehlen Ziele, die für die Wiederherstellung erforderlich sind.",
+      "libraryId": "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj",
+      "targetGraphs": [
+        "net10.0",
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1105",
+      "level": "Error",
+      "message": "Projektinformationen für \"C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.DotNetty\\SantanaLib.DotNetty.csproj\" wurden nicht gefunden. Wenn Sie Visual Studio verwenden, wurde das Projekt möglicherweise entladen oder gehört nicht zur aktuellen Projektmappe. Führen Sie daher eine Wiederherstellung über die Befehlszeile aus. Andernfalls ist die Projektdatei möglicherweise ungültig, oder es fehlen Ziele, die für die Wiederherstellung erforderlich sind.",
+      "libraryId": "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.DotNetty\\SantanaLib.DotNetty.csproj",
+      "targetGraphs": [
+        "net10.0",
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1105",
+      "level": "Error",
+      "message": "Projektinformationen für \"C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib\\SantanaLib.csproj\" wurden nicht gefunden. Wenn Sie Visual Studio verwenden, wurde das Projekt möglicherweise entladen oder gehört nicht zur aktuellen Projektmappe. Führen Sie daher eine Wiederherstellung über die Befehlszeile aus. Andernfalls ist die Projektdatei möglicherweise ungültig, oder es fehlen Ziele, die für die Wiederherstellung erforderlich sind.",
+      "libraryId": "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib\\SantanaLib.csproj",
+      "targetGraphs": [
+        "net10.0",
+        "net8.0"
+      ]
+    }
+  ]
 }

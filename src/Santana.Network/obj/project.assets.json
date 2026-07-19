@@ -2,77 +2,6 @@
   "version": 4,
   "targets": {
     "net10.0": {
-      "DotNetty.Buffers/0.6.0": {
-        "type": "package",
-        "dependencies": {
-          "DotNetty.Common": "0.6.0",
-          "NETStandard.Library": "1.6.1"
-        },
-        "compile": {
-          "lib/netstandard1.3/DotNetty.Buffers.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.3/DotNetty.Buffers.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "DotNetty.Codecs/0.6.0": {
-        "type": "package",
-        "dependencies": {
-          "DotNetty.Buffers": "0.6.0",
-          "DotNetty.Common": "0.6.0",
-          "DotNetty.Transport": "0.6.0",
-          "NETStandard.Library": "1.6.1"
-        },
-        "compile": {
-          "lib/netstandard1.3/DotNetty.Codecs.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.3/DotNetty.Codecs.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "DotNetty.Common/0.6.0": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Extensions.Logging": "1.1.1",
-          "NETStandard.Library": "1.6.1"
-        },
-        "compile": {
-          "lib/netstandard1.3/DotNetty.Common.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.3/DotNetty.Common.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "DotNetty.Transport/0.6.0": {
-        "type": "package",
-        "dependencies": {
-          "DotNetty.Buffers": "0.6.0",
-          "DotNetty.Common": "0.6.0",
-          "NETStandard.Library": "1.6.1"
-        },
-        "compile": {
-          "lib/netstandard1.3/DotNetty.Transport.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.3/DotNetty.Transport.dll": {
-            "related": ".xml"
-          }
-        }
-      },
       "Foundatio/7.1.1845": {
         "type": "package",
         "dependencies": {
@@ -416,22 +345,6 @@
           }
         }
       },
-      "Sigil/4.7.0": {
-        "type": "package",
-        "dependencies": {
-          "NETStandard.Library": "1.5.0-rc2-24027"
-        },
-        "compile": {
-          "lib/netstandard1.5/Sigil.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.5/Sigil.dll": {
-            "related": ".xml"
-          }
-        }
-      },
       "StackExchange.Redis/2.0.513": {
         "type": "package",
         "dependencies": {
@@ -526,13 +439,13 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v10.0",
         "dependencies": {
+          "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.DotNetty\\SantanaLib.DotNetty.csproj": "1.0.0",
+          "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj": "1.0.0",
+          "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib\\SantanaLib.csproj": "1.0.0",
           "Iconic.Zlib.Netstandard": "1.0.0",
           "Microsoft.Extensions.Logging.Console": "2.1.1",
           "Microsoft.Extensions.Logging.Debug": "2.1.1",
           "Portable.BouncyCastle": "1.8.2",
-          "SantanaLib": "1.0.0",
-          "SantanaLib.DotNetty": "1.0.0",
-          "SantanaLib.Serialization": "1.0.0",
           "Serilog": "2.7.1"
         },
         "compile": {
@@ -557,121 +470,9 @@
         "runtime": {
           "bin/placeholder/Santana.dll": {}
         }
-      },
-      "SantanaLib/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "compile": {
-          "bin/placeholder/SantanaLib.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SantanaLib.dll": {}
-        }
-      },
-      "SantanaLib.DotNetty/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "dependencies": {
-          "DotNetty.Buffers": "0.6.0",
-          "DotNetty.Codecs": "0.6.0",
-          "DotNetty.Common": "0.6.0",
-          "DotNetty.Transport": "0.6.0",
-          "SantanaLib": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/SantanaLib.DotNetty.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SantanaLib.DotNetty.dll": {}
-        }
-      },
-      "SantanaLib.Serialization/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "dependencies": {
-          "SantanaLib": "1.0.0",
-          "Sigil": "4.7.0"
-        },
-        "compile": {
-          "bin/placeholder/SantanaLib.Serialization.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SantanaLib.Serialization.dll": {}
-        }
       }
     },
     "net8.0": {
-      "DotNetty.Buffers/0.6.0": {
-        "type": "package",
-        "dependencies": {
-          "DotNetty.Common": "0.6.0",
-          "NETStandard.Library": "1.6.1"
-        },
-        "compile": {
-          "lib/netstandard1.3/DotNetty.Buffers.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.3/DotNetty.Buffers.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "DotNetty.Codecs/0.6.0": {
-        "type": "package",
-        "dependencies": {
-          "DotNetty.Buffers": "0.6.0",
-          "DotNetty.Common": "0.6.0",
-          "DotNetty.Transport": "0.6.0",
-          "NETStandard.Library": "1.6.1"
-        },
-        "compile": {
-          "lib/netstandard1.3/DotNetty.Codecs.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.3/DotNetty.Codecs.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "DotNetty.Common/0.6.0": {
-        "type": "package",
-        "dependencies": {
-          "Microsoft.Extensions.Logging": "1.1.1",
-          "NETStandard.Library": "1.6.1"
-        },
-        "compile": {
-          "lib/netstandard1.3/DotNetty.Common.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.3/DotNetty.Common.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "DotNetty.Transport/0.6.0": {
-        "type": "package",
-        "dependencies": {
-          "DotNetty.Buffers": "0.6.0",
-          "DotNetty.Common": "0.6.0",
-          "NETStandard.Library": "1.6.1"
-        },
-        "compile": {
-          "lib/netstandard1.3/DotNetty.Transport.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.3/DotNetty.Transport.dll": {
-            "related": ".xml"
-          }
-        }
-      },
       "Foundatio/7.1.1845": {
         "type": "package",
         "dependencies": {
@@ -1015,22 +816,6 @@
         "runtime": {
           "lib/netstandard1.3/Serilog.dll": {
             "related": ".pdb;.xml"
-          }
-        }
-      },
-      "Sigil/4.7.0": {
-        "type": "package",
-        "dependencies": {
-          "NETStandard.Library": "1.5.0-rc2-24027"
-        },
-        "compile": {
-          "lib/netstandard1.5/Sigil.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard1.5/Sigil.dll": {
-            "related": ".xml"
           }
         }
       },
@@ -1140,13 +925,13 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v8.0",
         "dependencies": {
+          "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.DotNetty\\SantanaLib.DotNetty.csproj": "1.0.0",
+          "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj": "1.0.0",
+          "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib\\SantanaLib.csproj": "1.0.0",
           "Iconic.Zlib.Netstandard": "1.0.0",
           "Microsoft.Extensions.Logging.Console": "2.1.1",
           "Microsoft.Extensions.Logging.Debug": "2.1.1",
           "Portable.BouncyCastle": "1.8.2",
-          "SantanaLib": "1.0.0",
-          "SantanaLib.DotNetty": "1.0.0",
-          "SantanaLib.Serialization": "1.0.0",
           "Serilog": "2.7.1"
         },
         "compile": {
@@ -1171,111 +956,10 @@
         "runtime": {
           "bin/placeholder/Santana.dll": {}
         }
-      },
-      "SantanaLib/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "compile": {
-          "bin/placeholder/SantanaLib.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SantanaLib.dll": {}
-        }
-      },
-      "SantanaLib.DotNetty/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "dependencies": {
-          "DotNetty.Buffers": "0.6.0",
-          "DotNetty.Codecs": "0.6.0",
-          "DotNetty.Common": "0.6.0",
-          "DotNetty.Transport": "0.6.0",
-          "SantanaLib": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/SantanaLib.DotNetty.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SantanaLib.DotNetty.dll": {}
-        }
-      },
-      "SantanaLib.Serialization/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "dependencies": {
-          "SantanaLib": "1.0.0",
-          "Sigil": "4.7.0"
-        },
-        "compile": {
-          "bin/placeholder/SantanaLib.Serialization.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SantanaLib.Serialization.dll": {}
-        }
       }
     }
   },
   "libraries": {
-    "DotNetty.Buffers/0.6.0": {
-      "sha512": "MjxoFMdKsSJ5CLKTFHTKYoFUZUvC6VHGx71vPLSflmR/X4dSm57/hVxhsQY3YU6aASeRjqgNiCHn4II+UNOIWQ==",
-      "type": "package",
-      "path": "dotnetty.buffers/0.6.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "dotnetty.buffers.0.6.0.nupkg.sha512",
-        "dotnetty.buffers.nuspec",
-        "lib/net45/DotNetty.Buffers.dll",
-        "lib/net45/DotNetty.Buffers.xml",
-        "lib/netstandard1.3/DotNetty.Buffers.dll",
-        "lib/netstandard1.3/DotNetty.Buffers.xml"
-      ]
-    },
-    "DotNetty.Codecs/0.6.0": {
-      "sha512": "gLAVaII7A4er3ZwUJIAZpynDLsxNr7Acw61OoCDfzIAkcB2L6OJ9jPnKy8YtrtTnJXm0lNod5+7aRJTmaBbT0Q==",
-      "type": "package",
-      "path": "dotnetty.codecs/0.6.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "dotnetty.codecs.0.6.0.nupkg.sha512",
-        "dotnetty.codecs.nuspec",
-        "lib/net45/DotNetty.Codecs.dll",
-        "lib/net45/DotNetty.Codecs.xml",
-        "lib/netstandard1.3/DotNetty.Codecs.dll",
-        "lib/netstandard1.3/DotNetty.Codecs.xml"
-      ]
-    },
-    "DotNetty.Common/0.6.0": {
-      "sha512": "aVD0bWoaH+Ou0wOTFzYEs3hrzsckUEkbdweVgwHsk7q0OTPgmPD/QkGxjNqjZ9diUyeGvHzYn7mFQGG5cgbYUA==",
-      "type": "package",
-      "path": "dotnetty.common/0.6.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "dotnetty.common.0.6.0.nupkg.sha512",
-        "dotnetty.common.nuspec",
-        "lib/net45/DotNetty.Common.dll",
-        "lib/net45/DotNetty.Common.xml",
-        "lib/netstandard1.3/DotNetty.Common.dll",
-        "lib/netstandard1.3/DotNetty.Common.xml"
-      ]
-    },
-    "DotNetty.Transport/0.6.0": {
-      "sha512": "HLYcbZfLDIVPhtr+x3nv2vvxBxKONWXeP/B1LaXvPeSfdvlOtvoxB0tuv92SaOdqq9NUCjAP59Nn9xofRrt8mA==",
-      "type": "package",
-      "path": "dotnetty.transport/0.6.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "dotnetty.transport.0.6.0.nupkg.sha512",
-        "dotnetty.transport.nuspec",
-        "lib/net45/DotNetty.Transport.dll",
-        "lib/net45/DotNetty.Transport.xml",
-        "lib/netstandard1.3/DotNetty.Transport.dll",
-        "lib/netstandard1.3/DotNetty.Transport.xml"
-      ]
-    },
     "Foundatio/7.1.1845": {
       "sha512": "/ybZRo5nioFzwaEh6MURSRJbVgUWTdtRws7Q5Sj7J+mtG/3D6ruBgE6X1pqy/92HAcNVL/WXU8UBE+fk8cC6BQ==",
       "type": "package",
@@ -1629,29 +1313,6 @@
         "serilog.nuspec"
       ]
     },
-    "Sigil/4.7.0": {
-      "sha512": "9jcSXlKJHpjiEFbg98qRdQKcY4IPUzpf52pbTVCvKlP0wLI/RlBiTmZ1+VY3rCKmiLQEgYQnXwD8imXXESWWog==",
-      "type": "package",
-      "path": "sigil/4.7.0",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/net20/Sigil.dll",
-        "lib/net20/Sigil.xml",
-        "lib/net30/Sigil.dll",
-        "lib/net30/Sigil.xml",
-        "lib/net35/Sigil.dll",
-        "lib/net35/Sigil.xml",
-        "lib/net40/Sigil.dll",
-        "lib/net40/Sigil.xml",
-        "lib/net45/Sigil.dll",
-        "lib/net45/Sigil.xml",
-        "lib/netstandard1.5/Sigil.dll",
-        "lib/netstandard1.5/Sigil.xml",
-        "sigil.4.7.0.nupkg.sha512",
-        "sigil.nuspec"
-      ]
-    },
     "StackExchange.Redis/2.0.513": {
       "sha512": "Prh45gWLOE1FYHe40sJj+s7Ray31ZEtcBfoNv8C85a59FTY9zKYOv/kPEeOYRV4CKXIa7MGoc0OUlp9xX8jN5g==",
       "type": "package",
@@ -1864,59 +1525,39 @@
       "type": "project",
       "path": "../Santana/Santana.csproj",
       "msbuildProject": "../Santana/Santana.csproj"
-    },
-    "SantanaLib/1.0.0": {
-      "type": "project",
-      "path": "../SantanaLib/SantanaLib.csproj",
-      "msbuildProject": "../SantanaLib/SantanaLib.csproj"
-    },
-    "SantanaLib.DotNetty/1.0.0": {
-      "type": "project",
-      "path": "../SantanaLib.DotNetty/SantanaLib.DotNetty.csproj",
-      "msbuildProject": "../SantanaLib.DotNetty/SantanaLib.DotNetty.csproj"
-    },
-    "SantanaLib.Serialization/1.0.0": {
-      "type": "project",
-      "path": "../SantanaLib.Serialization/SantanaLib.Serialization.csproj",
-      "msbuildProject": "../SantanaLib.Serialization/SantanaLib.Serialization.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0": [
+      "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj",
+      "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib\\SantanaLib.csproj",
       "ProudNetSrc >= 1.0.0",
       "Santana >= 1.0.0",
-      "SantanaLib >= 1.0.0",
-      "SantanaLib.Serialization >= 1.0.0",
       "System.Numerics.Vectors >= 4.5.0"
     ],
     "net8.0": [
+      "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj",
+      "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib\\SantanaLib.csproj",
       "ProudNetSrc >= 1.0.0",
       "Santana >= 1.0.0",
-      "SantanaLib >= 1.0.0",
-      "SantanaLib.Serialization >= 1.0.0",
       "System.Numerics.Vectors >= 4.5.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\sneo\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\theam\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\emulador_cs\\emuladorAnticheat\\src\\Santana.Network\\Santana.Network.csproj",
+      "projectUniqueName": "C:\\Users\\theam\\Desktop\\S4src\\src\\Santana.Network\\Santana.Network.csproj",
       "projectName": "Santana.Network",
-      "projectPath": "C:\\emulador_cs\\emuladorAnticheat\\src\\Santana.Network\\Santana.Network.csproj",
-      "packagesPath": "C:\\Users\\sneo\\.nuget\\packages\\",
-      "outputPath": "C:\\emulador_cs\\emuladorAnticheat\\src\\Santana.Network\\obj\\",
+      "projectPath": "C:\\Users\\theam\\Desktop\\S4src\\src\\Santana.Network\\Santana.Network.csproj",
+      "packagesPath": "C:\\Users\\theam\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\theam\\Desktop\\S4src\\src\\Santana.Network\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\sneo\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\theam\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -1933,17 +1574,17 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "C:\\emulador_cs\\emuladorAnticheat\\src\\ProudNetSrc\\ProudNetSrc.csproj": {
-              "projectPath": "C:\\emulador_cs\\emuladorAnticheat\\src\\ProudNetSrc\\ProudNetSrc.csproj"
+            "C:\\Users\\theam\\Desktop\\S4src\\src\\ProudNetSrc\\ProudNetSrc.csproj": {
+              "projectPath": "C:\\Users\\theam\\Desktop\\S4src\\src\\ProudNetSrc\\ProudNetSrc.csproj"
             },
-            "C:\\emulador_cs\\emuladorAnticheat\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj": {
-              "projectPath": "C:\\emulador_cs\\emuladorAnticheat\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj"
+            "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj": {
+              "projectPath": "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj"
             },
-            "C:\\emulador_cs\\emuladorAnticheat\\src\\SantanaLib\\SantanaLib.csproj": {
-              "projectPath": "C:\\emulador_cs\\emuladorAnticheat\\src\\SantanaLib\\SantanaLib.csproj"
+            "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib\\SantanaLib.csproj": {
+              "projectPath": "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib\\SantanaLib.csproj"
             },
-            "C:\\emulador_cs\\emuladorAnticheat\\src\\Santana\\Santana.csproj": {
-              "projectPath": "C:\\emulador_cs\\emuladorAnticheat\\src\\Santana\\Santana.csproj"
+            "C:\\Users\\theam\\Desktop\\S4src\\src\\Santana\\Santana.csproj": {
+              "projectPath": "C:\\Users\\theam\\Desktop\\S4src\\src\\Santana\\Santana.csproj"
             }
           }
         },
@@ -1951,17 +1592,17 @@
           "framework": "net8.0",
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\emulador_cs\\emuladorAnticheat\\src\\ProudNetSrc\\ProudNetSrc.csproj": {
-              "projectPath": "C:\\emulador_cs\\emuladorAnticheat\\src\\ProudNetSrc\\ProudNetSrc.csproj"
+            "C:\\Users\\theam\\Desktop\\S4src\\src\\ProudNetSrc\\ProudNetSrc.csproj": {
+              "projectPath": "C:\\Users\\theam\\Desktop\\S4src\\src\\ProudNetSrc\\ProudNetSrc.csproj"
             },
-            "C:\\emulador_cs\\emuladorAnticheat\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj": {
-              "projectPath": "C:\\emulador_cs\\emuladorAnticheat\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj"
+            "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj": {
+              "projectPath": "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj"
             },
-            "C:\\emulador_cs\\emuladorAnticheat\\src\\SantanaLib\\SantanaLib.csproj": {
-              "projectPath": "C:\\emulador_cs\\emuladorAnticheat\\src\\SantanaLib\\SantanaLib.csproj"
+            "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib\\SantanaLib.csproj": {
+              "projectPath": "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib\\SantanaLib.csproj"
             },
-            "C:\\emulador_cs\\emuladorAnticheat\\src\\Santana\\Santana.csproj": {
-              "projectPath": "C:\\emulador_cs\\emuladorAnticheat\\src\\Santana\\Santana.csproj"
+            "C:\\Users\\theam\\Desktop\\S4src\\src\\Santana\\Santana.csproj": {
+              "projectPath": "C:\\Users\\theam\\Desktop\\S4src\\src\\Santana\\Santana.csproj"
             }
           }
         }
@@ -2596,7 +2237,7 @@
       "code": "NU1510",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "PackageReference System.Numerics.Vectors will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.",
+      "message": "PackageReference System.Numerics.Vectors wird nicht gekürzt. Dieses Paket ist automatisch verfügbar und muss nicht explizit referenziert werden. Entfernen Sie das PackageReference-Element.",
       "libraryId": "System.Numerics.Vectors",
       "targetGraphs": [
         "net8.0",
@@ -2604,10 +2245,40 @@
       ]
     },
     {
+      "code": "NU1105",
+      "level": "Error",
+      "message": "Projektinformationen für \"C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib\\SantanaLib.csproj\" wurden nicht gefunden. Wenn Sie Visual Studio verwenden, wurde das Projekt möglicherweise entladen oder gehört nicht zur aktuellen Projektmappe. Führen Sie daher eine Wiederherstellung über die Befehlszeile aus. Andernfalls ist die Projektdatei möglicherweise ungültig, oder es fehlen Ziele, die für die Wiederherstellung erforderlich sind.",
+      "libraryId": "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib\\SantanaLib.csproj",
+      "targetGraphs": [
+        "net10.0",
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1105",
+      "level": "Error",
+      "message": "Projektinformationen für \"C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj\" wurden nicht gefunden. Wenn Sie Visual Studio verwenden, wurde das Projekt möglicherweise entladen oder gehört nicht zur aktuellen Projektmappe. Führen Sie daher eine Wiederherstellung über die Befehlszeile aus. Andernfalls ist die Projektdatei möglicherweise ungültig, oder es fehlen Ziele, die für die Wiederherstellung erforderlich sind.",
+      "libraryId": "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.Serialization\\SantanaLib.Serialization.csproj",
+      "targetGraphs": [
+        "net10.0",
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1105",
+      "level": "Error",
+      "message": "Projektinformationen für \"C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.DotNetty\\SantanaLib.DotNetty.csproj\" wurden nicht gefunden. Wenn Sie Visual Studio verwenden, wurde das Projekt möglicherweise entladen oder gehört nicht zur aktuellen Projektmappe. Führen Sie daher eine Wiederherstellung über die Befehlszeile aus. Andernfalls ist die Projektdatei möglicherweise ungültig, oder es fehlen Ziele, die für die Wiederherstellung erforderlich sind.",
+      "libraryId": "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib.DotNetty\\SantanaLib.DotNetty.csproj",
+      "targetGraphs": [
+        "net10.0",
+        "net8.0"
+      ]
+    },
+    {
       "code": "NU1902",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'MessagePack' 1.7.3.4 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-2f33-pr97-265q",
+      "message": "Das Paket \"MessagePack\" 1.7.3.4 weist eine bekannte Moderat Schweregrad-Sicherheitsanfälligkeit auf, https://github.com/advisories/GHSA-2f33-pr97-265q.",
       "libraryId": "MessagePack",
       "targetGraphs": [
         "net10.0",
@@ -2618,7 +2289,7 @@
       "code": "NU1902",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'MessagePack' 1.7.3.4 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-2x83-8g95-xh59",
+      "message": "Das Paket \"MessagePack\" 1.7.3.4 weist eine bekannte Moderat Schweregrad-Sicherheitsanfälligkeit auf, https://github.com/advisories/GHSA-2x83-8g95-xh59.",
       "libraryId": "MessagePack",
       "targetGraphs": [
         "net10.0",
@@ -2629,7 +2300,7 @@
       "code": "NU1902",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'MessagePack' 1.7.3.4 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-4qm4-8hg2-g2xm",
+      "message": "Das Paket \"MessagePack\" 1.7.3.4 weist eine bekannte Moderat Schweregrad-Sicherheitsanfälligkeit auf, https://github.com/advisories/GHSA-4qm4-8hg2-g2xm.",
       "libraryId": "MessagePack",
       "targetGraphs": [
         "net10.0",
@@ -2640,7 +2311,7 @@
       "code": "NU1902",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'MessagePack' 1.7.3.4 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-7q36-4xx7-xcxf",
+      "message": "Das Paket \"MessagePack\" 1.7.3.4 weist eine bekannte Moderat Schweregrad-Sicherheitsanfälligkeit auf, https://github.com/advisories/GHSA-7q36-4xx7-xcxf.",
       "libraryId": "MessagePack",
       "targetGraphs": [
         "net10.0",
@@ -2651,7 +2322,7 @@
       "code": "NU1902",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'MessagePack' 1.7.3.4 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-cj9g-3mj2-g8vv",
+      "message": "Das Paket \"MessagePack\" 1.7.3.4 weist eine bekannte Moderat Schweregrad-Sicherheitsanfälligkeit auf, https://github.com/advisories/GHSA-cj9g-3mj2-g8vv.",
       "libraryId": "MessagePack",
       "targetGraphs": [
         "net10.0",
@@ -2662,7 +2333,7 @@
       "code": "NU1902",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'MessagePack' 1.7.3.4 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-cxmj-83gh-fp49",
+      "message": "Das Paket \"MessagePack\" 1.7.3.4 weist eine bekannte Moderat Schweregrad-Sicherheitsanfälligkeit auf, https://github.com/advisories/GHSA-cxmj-83gh-fp49.",
       "libraryId": "MessagePack",
       "targetGraphs": [
         "net10.0",
@@ -2673,7 +2344,7 @@
       "code": "NU1903",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'MessagePack' 1.7.3.4 has a known high severity vulnerability, https://github.com/advisories/GHSA-hv8m-jj95-wg3x",
+      "message": "Das Paket \"MessagePack\" 1.7.3.4 weist eine bekannte hoch Schweregrad-Sicherheitsanfälligkeit auf, https://github.com/advisories/GHSA-hv8m-jj95-wg3x.",
       "libraryId": "MessagePack",
       "targetGraphs": [
         "net10.0",
@@ -2684,7 +2355,7 @@
       "code": "NU1902",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'MessagePack' 1.7.3.4 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-q2h6-ghwm-5qm8",
+      "message": "Das Paket \"MessagePack\" 1.7.3.4 weist eine bekannte Moderat Schweregrad-Sicherheitsanfälligkeit auf, https://github.com/advisories/GHSA-q2h6-ghwm-5qm8.",
       "libraryId": "MessagePack",
       "targetGraphs": [
         "net10.0",
@@ -2695,7 +2366,7 @@
       "code": "NU1902",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'MessagePack' 1.7.3.4 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-qhmf-xw27-6rqr",
+      "message": "Das Paket \"MessagePack\" 1.7.3.4 weist eine bekannte Moderat Schweregrad-Sicherheitsanfälligkeit auf, https://github.com/advisories/GHSA-qhmf-xw27-6rqr.",
       "libraryId": "MessagePack",
       "targetGraphs": [
         "net10.0",
@@ -2706,7 +2377,7 @@
       "code": "NU1902",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'MessagePack' 1.7.3.4 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-v72x-2h86-7f8m",
+      "message": "Das Paket \"MessagePack\" 1.7.3.4 weist eine bekannte Moderat Schweregrad-Sicherheitsanfälligkeit auf, https://github.com/advisories/GHSA-v72x-2h86-7f8m.",
       "libraryId": "MessagePack",
       "targetGraphs": [
         "net10.0",
@@ -2717,7 +2388,7 @@
       "code": "NU1903",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'MessagePack' 1.7.3.4 has a known high severity vulnerability, https://github.com/advisories/GHSA-vh6j-jc39-fggf",
+      "message": "Das Paket \"MessagePack\" 1.7.3.4 weist eine bekannte hoch Schweregrad-Sicherheitsanfälligkeit auf, https://github.com/advisories/GHSA-vh6j-jc39-fggf.",
       "libraryId": "MessagePack",
       "targetGraphs": [
         "net10.0",
@@ -2728,7 +2399,7 @@
       "code": "NU1902",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'MessagePack' 1.7.3.4 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-w567-gjr2-hm5j",
+      "message": "Das Paket \"MessagePack\" 1.7.3.4 weist eine bekannte Moderat Schweregrad-Sicherheitsanfälligkeit auf, https://github.com/advisories/GHSA-w567-gjr2-hm5j.",
       "libraryId": "MessagePack",
       "targetGraphs": [
         "net10.0",
@@ -2739,7 +2410,7 @@
       "code": "NU1902",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'MessagePack' 1.7.3.4 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-wfr3-xj75-pfwh",
+      "message": "Das Paket \"MessagePack\" 1.7.3.4 weist eine bekannte Moderat Schweregrad-Sicherheitsanfälligkeit auf, https://github.com/advisories/GHSA-wfr3-xj75-pfwh.",
       "libraryId": "MessagePack",
       "targetGraphs": [
         "net10.0",

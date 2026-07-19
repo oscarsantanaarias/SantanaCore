@@ -23,16 +23,6 @@
         "runtime": {
           "lib/netcoreapp2.0/_._": {}
         }
-      },
-      "SantanaLib/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "compile": {
-          "bin/placeholder/SantanaLib.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SantanaLib.dll": {}
-        }
       }
     },
     "net8.0": {
@@ -56,16 +46,6 @@
         },
         "runtime": {
           "lib/netcoreapp2.0/_._": {}
-        }
-      },
-      "SantanaLib/1.0.0": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "compile": {
-          "bin/placeholder/SantanaLib.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/SantanaLib.dll": {}
         }
       }
     }
@@ -138,45 +118,35 @@
         "useSharedDesignerContext.txt",
         "version.txt"
       ]
-    },
-    "SantanaLib/1.0.0": {
-      "type": "project",
-      "path": "../SantanaLib/SantanaLib.csproj",
-      "msbuildProject": "../SantanaLib/SantanaLib.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net10.0": [
+      "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib\\SantanaLib.csproj",
       "Portable.BouncyCastle >= 1.8.2",
-      "SantanaLib >= 1.0.0",
       "System.Numerics.Vectors >= 4.5.0"
     ],
     "net8.0": [
+      "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib\\SantanaLib.csproj",
       "Portable.BouncyCastle >= 1.8.2",
-      "SantanaLib >= 1.0.0",
       "System.Numerics.Vectors >= 4.5.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\sneo\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\theam\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\emulador_cs\\emuladorAnticheat\\src\\Santana.Resource\\Santana.Resource.csproj",
+      "projectUniqueName": "C:\\Users\\theam\\Desktop\\S4src\\src\\Santana.Resource\\Santana.Resource.csproj",
       "projectName": "Santana.Resource",
-      "projectPath": "C:\\emulador_cs\\emuladorAnticheat\\src\\Santana.Resource\\Santana.Resource.csproj",
-      "packagesPath": "C:\\Users\\sneo\\.nuget\\packages\\",
-      "outputPath": "C:\\emulador_cs\\emuladorAnticheat\\src\\Santana.Resource\\obj\\",
+      "projectPath": "C:\\Users\\theam\\Desktop\\S4src\\src\\Santana.Resource\\Santana.Resource.csproj",
+      "packagesPath": "C:\\Users\\theam\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\theam\\Desktop\\S4src\\src\\Santana.Resource\\obj\\",
       "projectStyle": "PackageReference",
       "crossTargeting": true,
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\sneo\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\theam\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -193,8 +163,8 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "projectReferences": {
-            "C:\\emulador_cs\\emuladorAnticheat\\src\\SantanaLib\\SantanaLib.csproj": {
-              "projectPath": "C:\\emulador_cs\\emuladorAnticheat\\src\\SantanaLib\\SantanaLib.csproj"
+            "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib\\SantanaLib.csproj": {
+              "projectPath": "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib\\SantanaLib.csproj"
             }
           }
         },
@@ -202,8 +172,8 @@
           "framework": "net8.0",
           "targetAlias": "net8.0",
           "projectReferences": {
-            "C:\\emulador_cs\\emuladorAnticheat\\src\\SantanaLib\\SantanaLib.csproj": {
-              "projectPath": "C:\\emulador_cs\\emuladorAnticheat\\src\\SantanaLib\\SantanaLib.csproj"
+            "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib\\SantanaLib.csproj": {
+              "projectPath": "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib\\SantanaLib.csproj"
             }
           }
         }
@@ -846,11 +816,21 @@
       "code": "NU1510",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "PackageReference System.Numerics.Vectors will not be pruned. Consider removing this package from your dependencies, as it is likely unnecessary.",
+      "message": "PackageReference System.Numerics.Vectors wird nicht gekürzt. Dieses Paket ist automatisch verfügbar und muss nicht explizit referenziert werden. Entfernen Sie das PackageReference-Element.",
       "libraryId": "System.Numerics.Vectors",
       "targetGraphs": [
         "net8.0",
         "net10.0"
+      ]
+    },
+    {
+      "code": "NU1105",
+      "level": "Error",
+      "message": "Projektinformationen für \"C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib\\SantanaLib.csproj\" wurden nicht gefunden. Wenn Sie Visual Studio verwenden, wurde das Projekt möglicherweise entladen oder gehört nicht zur aktuellen Projektmappe. Führen Sie daher eine Wiederherstellung über die Befehlszeile aus. Andernfalls ist die Projektdatei möglicherweise ungültig, oder es fehlen Ziele, die für die Wiederherstellung erforderlich sind.",
+      "libraryId": "C:\\Users\\theam\\Desktop\\S4src\\src\\SantanaLib\\SantanaLib.csproj",
+      "targetGraphs": [
+        "net10.0",
+        "net8.0"
       ]
     }
   ]
