@@ -1,0 +1,129 @@
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Bb]in/
+[Oo]bj/
+out/
+
+# Publish folder
+publish/
+*/publish/
+
+# Rider
+.idea/
+*.sln.iml
+*.idea/
+
+# ReSharper
+_ReSharper*/
+*.DotSettings.user
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+.nuget/packages/
+.nuget/*
+
+# MSTest test results
+TestResults/
+*.trx
+
+# Visual Studio test run files
+*.TestResults/
+
+# Logs
+*.log
+*.tlog
+
+# Local user-specific files
+*.suo
+*.user
+*.userprefs
+*.local
+
+# IIS Express
+/.vs/*/appsettings.Development.json
+/.vs/*/applicationhost.config
+/.vs/*/Browse.VC.db
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# DotCover
+*.dotCover
+
+# Coverage
+coverage*.xml
+*.coverage
+*.coveragexml
+
+# Rider
+.idea/
+*.sln.iml
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Node (if any frontend tooling sneaks in)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local env and secrets
+local.settings.json
+appsettings.*.Development.json
+appsettings.Local.json
+secrets.json
+secrets.*.json
+.env
+.env.*
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+
+# Package and lock files that are usually generated
+project.lock.json
+project.fragment.lock.json
+
+# Coverage and profiling
+*.prof
+*.coverage
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
+# Other common
+.vscode/
+.packages
+
+# Ensure all bin/ and obj/ folders are ignored recursively
+**/bin/
+**/obj/
+
+# Ignore compiled native binaries
+*.exe
+*.dll
+*.so
+*.dylib
+*.pdb
+
+# Ignore NuGet fallback folders
+.nuget/
+
+# Keep the repo clean: do not track build artifacts, IDE settings or local secrets
