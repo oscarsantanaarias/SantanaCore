@@ -78,10 +78,15 @@ namespace Santana.Game.GameRules
 
         public IEnumerable<Player> PlayersHunted => PlayersAlive.Keys.Where(x => x != Chaser);
 
+        public readonly ConcurrentDictionary<Player, bool> PendingStart = new ConcurrentDictionary<Player, bool>();
+
         public override void OnBeforeIntrudeSpawn(Player plr)
         {
-            plr.RoomInfo.State = PlayerState.Dead;
+            plr.RoomInfo.State = PlayerState.Spectating;
             PlayersAlive.TryRemove(plr, out _);
+            PendingStart.TryAdd(plr, true);
+            plr.RoomInfo.Mode = PlayerGameMode.Spectate;
+            Room.Broadcast(new RoomPlayModeChangeAckMessage(plr.Account.Id, PlayerGameMode.Spectate));
             if (ValidPlayer(Chaser))
                 plr.SendAsync(new SlaughterChangeSlaughterAckMessage(Chaser.Account.Id,
                     PlayersHunted.Where(x => x != plr).Select(x => x.Account.Id).ToArray()));
@@ -91,7 +96,8 @@ namespace Santana.Game.GameRules
 
         public override void OnIntrudeCompleted(Player plr)
         {
-            plr.RoomInfo.State = PlayerState.Dead;
+            if (plr.RoomInfo.Mode != PlayerGameMode.Spectate)
+                plr.RoomInfo.State = PlayerState.Dead;
             PlayersAlive.TryRemove(plr, out _);
         }
 
@@ -398,6 +404,15 @@ namespace Santana.Game.GameRules
             var remaining = Room.Options.TimeLimit - RoundTime;
             if (remaining <= TimeSpan.FromSeconds(10))
                 return;
+
+            foreach (var pending in PendingStart.Keys)
+            {
+                pending.RoomInfo.Mode = PlayerGameMode.Normal;
+                Room.Broadcast(new RoomPlayModeChangeAckMessage(pending.Account.Id, PlayerGameMode.Normal));
+                pending.Session?.SendAsync(new RoomGameStartAckMessage());
+                PendingStart.TryRemove(pending, out _);
+            }
+
 
             _huntDuration = Room.TeamManager.PlayersPlaying.Count() < 7
                 ? TimeSpan.FromSeconds(60)

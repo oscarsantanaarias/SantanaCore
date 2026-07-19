@@ -135,7 +135,7 @@ namespace ProudNetSrc
 
             try
             {
-                var n = PacketLog.Enabled ? (message?.GetType().Name ?? "null") : null;
+                var n = false ? (message?.GetType().Name ?? "null") : null;
                 if (n != null &&
                     n.IndexOf("TimeSync", StringComparison.Ordinal) < 0 &&
                     n.IndexOf("Pong", StringComparison.Ordinal) < 0 &&
@@ -193,6 +193,11 @@ namespace ProudNetSrc
             return (_disposed || !IsConnected || !Channel.IsWritable || UdpSocket == null || UdpEndPoint == null)
                 ? Task.CompletedTask
                 : UdpSocket.SendAsync(message, UdpEndPoint);
+        }
+
+        public Task SendP2PRelay(uint sourceHostId, byte[] data)
+        {
+            return SendUdpIfAvailableAsync(new Serialization.Messages.Core.UnreliableRelay2Message(sourceHostId, data));
         }
 
         protected virtual Task CloseInternalAsync()

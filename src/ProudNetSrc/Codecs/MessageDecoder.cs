@@ -48,7 +48,7 @@ namespace ProudNetSrc.Codecs
           }
 
           message.Message = factory.GetMessage(opCode, r);
-          if (PacketLog.Enabled)
+          if (PacketLog.Enabled && opCode != 11 && opCode != 64019 && opCode != 64001)
             System.Console.WriteLine($"<< inbound rmi #{opCode} decoded as {message.Message.GetType().Name}");
           output.Add(message);
         }

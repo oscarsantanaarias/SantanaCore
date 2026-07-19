@@ -32,7 +32,7 @@ namespace ProudNetSrc.Codecs
         throw new ProudException($"No {nameof(MessageFactory)} found for message {type.FullName}");
 
       var opCode = factory.GetOpCode(type);
-      if (PacketLog.Enabled)
+      if (PacketLog.Enabled && opCode != 1020 && opCode != 64508 && opCode != 1092 && opCode != 16023)
         Console.WriteLine($">> outbound rmi #{opCode} encoded from {type.Name}");
       var buffer = context.Allocator.Buffer(2);
       using (var w = new WriteOnlyByteBufferStream(buffer, false).ToBinaryWriter(false))
