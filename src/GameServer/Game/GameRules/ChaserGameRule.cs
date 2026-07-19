@@ -86,8 +86,7 @@ namespace Santana.Game.GameRules
             if (ValidPlayer(Chaser))
                 plr.SendAsync(new SlaughterChangeSlaughterAckMessage(Chaser.Account.Id,
                     PlayersHunted.Where(x => x != plr).Select(x => x.Account.Id).ToArray()));
-            if (ValidPlayer(ChaserTarget))
-                plr.SendAsync(new SlaughterChangeBonusTargetAckMessage(ChaserTarget.Account.Id));
+            // El bonus-target ack al entrar dispara el "has been dominated" en el cliente.
 
             if (!Config.Instance.Game.ChaserIntruderOnKill)
             {
@@ -119,14 +118,17 @@ namespace Santana.Game.GameRules
             _scriptedDeaths[intruder] = true;
             Task.Run(async () =>
             {
-                await Task.Delay(2000);
+                await Task.Yield();
                 System.Console.WriteLine($"[KILL-INTRUDER] check acc={intruder.Account.Id} playing={ScoreIsPlaying()} sameRoom={intruder.Room == Room} state={intruder.RoomInfo.State} chaserValido={ValidPlayer(Chaser)} vivos={PlayersAlive.Count}");
                 if (!ScoreIsPlaying() || intruder.Room != Room)
                 {
                     System.Console.WriteLine("[KILL-INTRUDER] abortado: no esta jugando o cambio de sala");
                     return;
                 }
-                var source = (ValidPlayer(Chaser) && Chaser != intruder) ? Chaser : PlayersAlive.Keys.FirstOrDefault(p => p != intruder);
+                // El cliente muestra "has been dominated" si el killer es el chaser, asi que el golpe
+                // sale de cualquier otro jugador vivo; el chaser es el ultimo recurso.
+                var source = PlayersAlive.Keys.FirstOrDefault(p => p != intruder && p != Chaser)
+                             ?? ((ValidPlayer(Chaser) && Chaser != intruder) ? Chaser : null);
                 if (source == null)
                 {
                     System.Console.WriteLine("[KILL-INTRUDER] abortado: no hay chaser ni otro jugador vivo como source");
@@ -424,10 +426,13 @@ namespace Santana.Game.GameRules
             {
                 var candidate = PlayersAlive.Where(plr => plr.Key != Chaser).OrderBy(x => GetRecord(x.Key).HighScore).FirstOrDefault().Key;
 
-                if (ChaserTarget == null)
+                // Solo se llega aca cuando el target actual dejo de ser valido: hay que
+                // reemplazarlo, no re-broadcastear el viejo (cada broadcast = "has been dominated").
+                var previous = ChaserTarget;
+                if (candidate != null)
                     ChaserTarget = candidate;
 
-                if (ChaserTarget != null)
+                if (ChaserTarget != null && ChaserTarget != previous)
                     Room.Broadcast(new SlaughterChangeBonusTargetAckMessage(ChaserTarget.Account.Id));
             }
         }

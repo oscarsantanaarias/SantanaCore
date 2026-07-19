@@ -138,7 +138,7 @@ namespace Santana
         public GameSettings()
         {
             EnableTutorial = true;
-            ChaserIntruderOnKill = true;
+            ChaserIntruderOnKill = false;
             MaxLevel = 100;
             StartLevel = 0;
             StartPEN = 10000;

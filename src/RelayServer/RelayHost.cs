@@ -49,6 +49,7 @@ namespace Santana.Relay
 
         protected override void OnDisconnected(ProudSession session)
         {
+            ProudNetSrc.RelayFrameTracker.Forget(session.HostId);
             try
             {
                 if (session is RelaySession relay && relay.Player != null)

@@ -33,6 +33,17 @@ namespace ProudNetSrc
         public static ushort PeerOf(uint hostId, ushort fallback) =>
             Peers.TryGetValue(hostId, out var p) ? p : fallback;
 
+        // Los HostId se reasignan al reconectar; sin esto devolvemos el peer del inquilino anterior.
+        public static void Forget(uint hostId)
+        {
+            Peers.TryRemove(hostId, out _);
+            foreach (var key in Last.Keys)
+            {
+                if (key.From == hostId || key.To == hostId)
+                    Last.TryRemove(key, out _);
+            }
+        }
+
         public static uint GameTimeNow(uint fallback) =>
             _gameTime == 0 ? fallback : _gameTime + (uint)(System.Environment.TickCount - _gameTimeTick);
     }
