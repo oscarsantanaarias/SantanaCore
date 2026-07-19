@@ -82,7 +82,6 @@ namespace Santana.Game.GameRules
 
         public override void OnBeforeIntrudeSpawn(Player plr)
         {
-            System.Console.WriteLine($"[CHASER-INTRUDE] before-spawn acc={plr.Account.Id} state={plr.RoomInfo.State} peer={(ulong)plr.RoomInfo.PeerId} chaser={Chaser?.Account.Id}");
             plr.RoomInfo.State = PlayerState.Spectating;
             PlayersAlive.TryRemove(plr, out _);
             PendingStart.TryAdd(plr, true);
@@ -97,10 +96,7 @@ namespace Santana.Game.GameRules
 
         public override void OnIntrudeCompleted(Player plr)
         {
-            System.Console.WriteLine($"[CHASER-INTRUDE] complete acc={plr.Account.Id} state={plr.RoomInfo.State} mode={plr.RoomInfo.Mode} peer={(ulong)plr.RoomInfo.PeerId}");
-            if (plr.RoomInfo.Mode == PlayerGameMode.Spectate)
-                plr.RoomInfo.State = PlayerState.Spectating;
-            else
+            if (plr.RoomInfo.Mode != PlayerGameMode.Spectate)
                 plr.RoomInfo.State = PlayerState.Dead;
             PlayersAlive.TryRemove(plr, out _);
         }
@@ -411,12 +407,12 @@ namespace Santana.Game.GameRules
 
             foreach (var pending in PendingStart.Keys)
             {
-                System.Console.WriteLine($"[CHASER-INTRUDE] next-round start acc={pending.Account.Id}");
                 pending.RoomInfo.Mode = PlayerGameMode.Normal;
                 Room.Broadcast(new RoomPlayModeChangeAckMessage(pending.Account.Id, PlayerGameMode.Normal));
                 pending.Session?.SendAsync(new RoomGameStartAckMessage());
                 PendingStart.TryRemove(pending, out _);
             }
+
 
             _huntDuration = Room.TeamManager.PlayersPlaying.Count() < 7
                 ? TimeSpan.FromSeconds(60)

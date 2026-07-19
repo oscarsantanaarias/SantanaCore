@@ -607,7 +607,6 @@ namespace Santana.Network.Services
                 ? PlayerState.Spectating
                 : PlayerState.Alive;
 
-            System.Console.WriteLine($"[CHASER-INTRUDE] loading-done acc={gamer.Account.Id} phase={phase} gamestate={gamer.Room.GameState} rule={gamer.Room.GameRuleManager.GameRule.GameRule} mode={gamer.RoomInfo.Mode} state={gamer.RoomInfo.State}");
             if (phase == GameState.Playing)
             {
                 gamer.Room.GameRuleManager.GameRule.OnBeforeIntrudeSpawn(gamer);
@@ -763,12 +762,7 @@ namespace Santana.Network.Services
             var gamer = session.Player;
             if (gamer.Room == null)
                 return;
-            System.Console.WriteLine($"[CHASER-EVENT] acc={gamer.Account.Id} event={message.Event}({(int)message.Event}) state={gamer.RoomInfo.State} rule={gamer.Room.GameRuleManager.GameRule.GameRule} value={message.Value}");
             if (message.Event > GameEventMessage.ChaserIn)
-                return;
-            if (message.Event == GameEventMessage.StartGame &&
-                gamer.Room.GameRuleManager.GameRule.GameRule == GameRule.Chaser &&
-                gamer.RoomInfo.State == PlayerState.Dead)
                 return;
             gamer.Room.Broadcast(new GameEventMessageAckMessage(message.Event, message.AccountId, message.Unk1,
                 message.Value, ""));
