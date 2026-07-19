@@ -333,7 +333,14 @@ namespace Santana.Game.GameRules
             // el killfeed no le acredite el kill al chaser. Solo aplica en modo kill.
             if (Config.Instance.Game.ChaserIntruderOnKill && target != null && _scriptedDeaths.TryRemove(target, out _))
             {
-                OnScoreSuicide(target, target.RoomInfo.PeerId, AttackAttribute.KillOneSelf);
+                // Solo lo visual: nada de scoring, o el chaser cobra un kill (o BonusKills) por
+                // cada vez que el intruder entra.
+                PlayersAlive.TryRemove(target, out _);
+                target.RoomInfo.State = PlayerState.Dead;
+                Respawn(target);
+                Room.Broadcast(new ScoreSuicideAckMessage(target.RoomInfo.PeerId, AttackAttribute.KillOneSelf));
+                // No se toca ChaserTarget: limpiarlo obliga a NextTarget a elegir otro y ese
+                // broadcast es el que dispara "has been dominated" en el cliente.
                 return;
             }
 
