@@ -235,6 +235,7 @@ namespace Santana.Game.GameRules
                         PickupID = flag
                     });
                     site.PlayerWhoCapturedForUpKeep.RoomInfo.Team.Score++;
+                    GetRecord(site.PlayerWhoCapturedForUpKeep).CapturePoints++;
                 }
                 siteId++;
             }
@@ -485,9 +486,13 @@ namespace Santana.Game.GameRules
             w.Write(0);
             w.Write(0);
             w.Write(0);
-            w.Write(CapturePoints);
-            w.Write(CaptureAssists);
-            w.Write(ObtainedItems);
+            // El cliente ACUMULA lo que viene en el briefing en vez de reemplazarlo (verificado:
+            // mandando 1000 y con 6 briefings enviados, en pantalla se ven 6000). Como ademas
+            // arma estos contadores con los acks en vivo, mandarlos a mitad de partida los suma
+            // de nuevo a todos. Solo van con valor en el briefing de resultado final.
+            w.Write(isResult ? CapturePoints : 0);
+            w.Write(isResult ? CaptureAssists : 0);
+            w.Write(isResult ? ObtainedItems : 0);
         }
         public override void Reset()
         {
