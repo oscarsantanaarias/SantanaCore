@@ -17,11 +17,6 @@ namespace Santana.Game
 
         public GameRuleBase GameRule { get; }
 
-        // El cliente SUMA lo que llega en el briefing en vez de reemplazarlo, asi que los
-        // contadores acumulados solo pueden mandarse UNA vez por jugador (su primer briefing).
-        // Room lo pone en true justo antes de serializar para el que todavia no fue sembrado.
-        public bool IncludeTotals { get; set; }
-
         public virtual PlayerTeam GetWinnerTeam()
         {
             var topScore = GameRule.Room.TeamManager.Values.Max(t => t.Score);

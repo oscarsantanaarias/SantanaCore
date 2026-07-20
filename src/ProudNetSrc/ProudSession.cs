@@ -133,25 +133,6 @@ namespace ProudNetSrc
             {
             }
 
-            try
-            {
-                var n = message?.GetType().Name;
-                if (n != null &&
-                    n.IndexOf("TimeSync", StringComparison.Ordinal) < 0 &&
-                    n.IndexOf("Pong", StringComparison.Ordinal) < 0 &&
-                    n.IndexOf("Ping", StringComparison.Ordinal) < 0 &&
-                    n.IndexOf("Relay2", StringComparison.Ordinal) < 0 &&
-                    n.IndexOf("Holepunch", StringComparison.Ordinal) < 0 &&
-                    n.IndexOf("P2P", StringComparison.Ordinal) < 0 &&
-                    n.IndexOf("RecycleComplete", StringComparison.Ordinal) < 0)
-                {
-                    Console.WriteLine($"[PKT] {n} -> peer {HostId}");
-                }
-            }
-            catch
-            {
-            }
-
             Logger?.Verbose("Handing {MessageType} to the pipeline under delivery flags {@Options}", message.GetType().Name, options);
             return (_disposed || !IsConnected || !Channel.IsWritable)
                 ? Task.CompletedTask

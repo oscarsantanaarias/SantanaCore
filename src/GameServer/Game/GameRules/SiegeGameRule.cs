@@ -137,6 +137,40 @@ namespace Santana.Game.GameRules
             }
             if (_liveDrops.Count > 0)
                 plr.SendAsync(new SeizeDropBuffItemAckMessage { Pickups = _liveDrops.ToArray() });
+
+            // El marcador de equipos y la columna Capture se arman SUMANDO el Unk1 de cada
+            // SeizeUpdateInfoAck en vivo. El que entra tarde se los perdio todos y ningun otro
+            // mensaje se los manda (el ByIntrude solo lleva dueño y % de las bases), asi que
+            // arranca en 0-0. Le reproducimos el acumulado, uno por jugador con puntos.
+            var seedInfos = new List<SeizeUpdateInfoDto>();
+            foreach (var other in Room.TeamManager.Players)
+            {
+                var record = GetRecord(other);
+                if (record == null || record.CapturePoints == 0)
+                    continue;
+                // Base tiene que ser una base VALIDA (1..3) o el cliente descarta el DTO entero
+                // y la siembra no aplica. Mandamos la 1 con su estado REAL, asi el paquete es
+                // valido y a la vez no mueve ninguna bandera.
+                // Se imita un paquete de captura REAL (IsCaptured = equipo, Percentage al tope):
+                // con IsCaptured = 0 el cliente ignora el Unk1 y el marcador seguia en 0.
+                seedInfos.Add(new SeizeUpdateInfoDto
+                {
+                    Base = 1,
+                    IsCaptured = (uint)other.RoomInfo.Team.Team,
+                    CurrentCaptureTeam = (byte)other.RoomInfo.Team.Team,
+                    BaseOwner = (byte)_sites[0].Owner,
+                    Percentage = 30000,
+                    PercentageGoal = 30000,
+                    CapturePoints = 0,
+                    AssistPoints = 0,
+                    Unk1 = (int)record.CapturePoints,
+                    Player = other.Account.Id,
+                    Assists = Array.Empty<ulong>(),
+                    Points = 0
+                });
+            }
+            if (seedInfos.Count > 0)
+                plr.SendAsync(new SeizeUpdateInfoAckMessage { Infos = seedInfos.ToArray() });
         }
         public override void Update(TimeSpan delta)
         {
@@ -344,13 +378,23 @@ namespace Santana.Game.GameRules
                                           BaseOwner = (byte)plr.RoomInfo.Team.Team,
                                           Percentage = (ushort)pct,
                                           PercentageGoal = 30000,
+                                          // MEDIDO con sonda (1000/2000/3000/4000): cada campo
+                                          // pinta un sitio distinto en el cliente ->
+                                          //   CapturePoints -> contador "Capture Point"
+                                          //   AssistPoints  -> contador "Capture Assist"
+                                          //   Unk1          -> score del equipo + Total + Capture
+                                          //   Points        -> contador de arriba a la derecha
+                                          // Unk1 iba en 0: por eso el +5 no se veia en vivo.
                                           CapturePoints = _captureScore,
                                           AssistPoints = _assistScore,
+                                          Unk1 = (int)_captureScore,
                                           Player = plr.Account.Id,
                                           Assists = assistIds,
                                           Points = (ushort)_captureScore
                                       }
                             };
+                            if (_captureScore > 0)
+                                System.Console.WriteLine($"[CAPTURA] base={_base} acc={plr.Account.Id} team={plr.RoomInfo.Team.Team} Unk1={_captureScore} -> teamScore={plr.RoomInfo.Team.Score}");
                             Room.Broadcast(new SeizeUpdateInfoAckMessage { Infos = updateInfo.ToArray() });
                             await Task.Delay(TimeSpan.FromSeconds(2));
                         }
@@ -410,13 +454,23 @@ namespace Santana.Game.GameRules
                                           BaseOwner = pct < 0 ? (byte)site.Owner : (byte) plr.RoomInfo.Team.Team,
                                           Percentage = (ushort)pct,
                                           PercentageGoal = 30000,
+                                          // MEDIDO con sonda (1000/2000/3000/4000): cada campo
+                                          // pinta un sitio distinto en el cliente ->
+                                          //   CapturePoints -> contador "Capture Point"
+                                          //   AssistPoints  -> contador "Capture Assist"
+                                          //   Unk1          -> score del equipo + Total + Capture
+                                          //   Points        -> contador de arriba a la derecha
+                                          // Unk1 iba en 0: por eso el +5 no se veia en vivo.
                                           CapturePoints = _captureScore,
                                           AssistPoints = _assistScore,
+                                          Unk1 = (int)_captureScore,
                                           Player = plr.Account.Id,
                                           Assists = assistIds,
                                           Points = (ushort)_captureScore
                                       }
                             };
+                            if (_captureScore > 0)
+                                System.Console.WriteLine($"[CAPTURA] base={_base} acc={plr.Account.Id} team={plr.RoomInfo.Team.Team} Unk1={_captureScore} -> teamScore={plr.RoomInfo.Team.Score}");
                             Room.Broadcast(new SeizeUpdateInfoAckMessage { Infos = updateInfo.ToArray() });
                             await Task.Delay(TimeSpan.FromSeconds(2));
                         }
@@ -524,16 +578,18 @@ namespace Santana.Game.GameRules
             w.Write(0);
             w.Write(0);
             w.Write(0);
+            // MEDIDO: este 4to relleno es la columna Battle (sonda 777 aparecio ahi).
+            w.Write((int)(Kills * 2 + KillAssists));
+            // Estas tres las SUMA el cliente y ademas las arma con los SeizeUpdateInfoAck en
+            // vivo, asi que a mitad de partida van en 0 o se duplican. Al que entra tarde se le
+            // reproducen esos acks en OnIntrudeCompleted, no por aca.
+            // MEDIDO: la columna Capture SUMA estos tres (sonda 888+999+1111 = 2998 en
+            // pantalla). Por eso las fichas y las asistencias inflaban Capture. Solo el
+            // primero lleva el valor; los otros dos tienen sus contadores aparte, que el
+            // cliente arma con los acks en vivo.
+            w.Write(CapturePoints);
             w.Write(0);
-            // El cliente ACUMULA lo que viene en el briefing en vez de reemplazarlo (verificado:
-            // mandando 1000 y con 6 briefings enviados, en pantalla se ven 6000). Como ademas
-            // arma estos contadores con los acks en vivo, mandarlos a mitad de partida los suma
-            // de nuevo a todos. Solo van con valor en el briefing de resultado final.
-            var brief = Player?.Room?.GameRuleManager?.GameRule?.Briefing;
-            var totals = isResult || (brief != null && brief.IncludeTotals);
-            w.Write(totals ? CapturePoints : 0);
-            w.Write(totals ? CaptureAssists : 0);
-            w.Write(totals ? ObtainedItems : 0);
+            w.Write(0);
         }
         public override void Reset()
         {
