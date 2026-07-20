@@ -59,6 +59,10 @@ namespace Santana.Game.GameRules
         public virtual void OnRoomJoinCompleted(Player plr)
         {
         }
+
+        public virtual TimeSpan IntrudeRefreshTime => Room.RoundTime;
+        public virtual GameTimeState IntrudeTimeState => Room.SubGameState;
+
         public virtual void OnIntrudeCompleted(Player plr)
         {
         }
@@ -169,7 +173,7 @@ namespace Santana.Game.GameRules
             {
                 foreach (var active in Room.TeamManager.PlayersPlaying)
                 {
-                    EventCoinDrop(delta);
+                   // EventCoinDrop(delta);
                     active.RoomInfo.PlayTime += delta;
                     active.RoomInfo.CharacterPlayTime[active.CharacterManager.CurrentSlot] += delta;
                     if (active.Room.Options.Ping > 0 && active.Room.Options.Ping < 1000)

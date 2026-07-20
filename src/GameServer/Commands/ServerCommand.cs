@@ -119,9 +119,9 @@ namespace Santana.Commands
                     return true;
                 }
 
-                var amount = new Random().Next(100, 50000);
-                plr.Room.Broadcast(new Network.Message.Game.PromotionCoinEventDropCoinAckMessage { Ammo = 10, Unk = 1000, Posions = (uint)amount });
-                plr.Room.Broadcast(new NoticeAdminMessageAckMessage($"Coins have been spawned by {plr.Account.Nickname}"));
+               // var amount = new Random().Next(100, 50000);
+              //  plr.Room.Broadcast(new Network.Message.Game.PromotionCoinEventDropCoinAckMessage { Ammo = 10, Unk = 1000, Posions = (uint)amount });
+              //  plr.Room.Broadcast(new NoticeAdminMessageAckMessage($"Coins have been spawned by {plr.Account.Nickname}"));
                 return true;
             }
 

@@ -591,14 +591,14 @@ namespace Santana.Network.Services
             }
             gamer.RoomInfo.HasLoaded = true;
             gamer.RoomInfo.State = PlayerState.Waiting;
-            gamer.Room.Broadcast(new RoomGameEndLoadingAckMessage(gamer.Account.Id));
+           // gamer.Room.Broadcast(new RoomGameEndLoadingAckMessage(gamer.Account.Id));
             if (gamer.Room.GameRuleManager.GameRule.GameRule == GameRule.Arcade)
             {
                 gamer.Room.Broadcast(new ArcadeSucceedLoadingAckMessage { AccountId = session.Player.Account.Id });
             }
             foreach (var loaded in gamer.Room.Players.Where(x => x.Value.RoomInfo.HasLoaded))
             {
-                gamer.SendAsync(new RoomGameEndLoadingAckMessage(loaded.Value.Account.Id));
+               // gamer.SendAsync(new RoomGameEndLoadingAckMessage(loaded.Value.Account.Id));
                 if (gamer.Room.GameRuleManager.GameRule.GameRule == GameRule.Arcade)
                 {
                     gamer.SendAsync(new ArcadeSucceedLoadingAckMessage { AccountId = loaded.Value.Account.Id });
@@ -612,8 +612,10 @@ namespace Santana.Network.Services
             {
                 gamer.Room.GameRuleManager.GameRule.OnBeforeIntrudeSpawn(gamer);
                 session.SendAsync(new RoomGameStartAckMessage());
-                session.SendAsync(new GameRefreshGameRuleInfoAckMessage(gamer.Room.GameState, gamer.Room.SubGameState,
-                    gamer.Room.RoundTime));
+                session.SendAsync(new GameChangeStateAckMessage(gamer.Room.GameState));
+                session.SendAsync(new GameRefreshGameRuleInfoAckMessage(gamer.Room.GameState,
+                    gamer.Room.GameRuleManager.GameRule.IntrudeTimeState,
+                    gamer.Room.GameRuleManager.GameRule.IntrudeRefreshTime));
             }
             gamer.Room.GameRuleManager.GameRule.IntrudeCompleted(gamer);
         }
@@ -765,8 +767,10 @@ namespace Santana.Network.Services
                 return;
             if (message.Event > GameEventMessage.ChaserIn)
                 return;
+
             gamer.Room.Broadcast(new GameEventMessageAckMessage(message.Event, message.AccountId, message.Unk1,
                 message.Value, ""));
+
             if (!gamer.Room.GameRuleManager.GameRule.StateMachine.IsInState(GameRuleState.Playing))
                 return;
             if (gamer.RoomInfo.State != PlayerState.Lobby)

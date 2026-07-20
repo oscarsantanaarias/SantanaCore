@@ -27,6 +27,9 @@ namespace Santana.Game.GameRules
         private TimeSpan _sinceRoundEnded = TimeSpan.Zero;
 
         private TimeSpan _sinceRoundStarted = TimeSpan.Zero;
+        private DateTimeOffset _roundStartTime;
+        private TimeSpan CaptainRoundTime =>
+            _roundStartTime == default ? TimeSpan.Zero : DateTimeOffset.Now - _roundStartTime;
 
         private bool _betweenRounds = true;
 
@@ -110,10 +113,13 @@ namespace Santana.Game.GameRules
             base.ResetAfterSurrender();
         }
 
+        public override TimeSpan IntrudeRefreshTime => CaptainRoundTime;
+        public override GameTimeState IntrudeTimeState => GameTimeState.FirstHalf;
+
         public override void OnIntrudeCompleted(Player plr)
         {
             GetRecord(plr).IsCaptain = false;
-            plr.Session.SendAsync(new CaptainCurrentRoundInfoAckMessage(CurrentRound, RoundTime));
+            plr.Session.SendAsync(new CaptainCurrentRoundInfoAckMessage(CurrentRound, CaptainRoundTime));
         }
 
         public bool ValidPlayer(Player plr)
@@ -204,6 +210,7 @@ namespace Santana.Game.GameRules
             }
 
             CurrentRound++;
+            _roundStartTime = DateTimeOffset.Now;
 
             AlphaHealth = 500;
             BetaHealth = 500;
@@ -230,7 +237,7 @@ namespace Santana.Game.GameRules
 
             Room.Broadcast(new CaptainRoundCaptainLifeInfoAckMessage(Room.TeamManager.PlayersPlaying.Select(plr => new CaptainLifeDto(plr.Account.Id, plr.RoomInfo.Team.Team == Team.Alpha ? AlphaHealth : BetaHealth)).ToArray()));
             Room.Broadcast(new GameEventMessageAckMessage(GameEventMessage.ResetRound, 0, 0, 0, ""));
-            Room.Broadcast(new CaptainCurrentRoundInfoAckMessage(CurrentRound, RoundTime));
+            Room.Broadcast(new CaptainCurrentRoundInfoAckMessage(CurrentRound, CaptainRoundTime));
             _betweenRounds = false;
         }
 

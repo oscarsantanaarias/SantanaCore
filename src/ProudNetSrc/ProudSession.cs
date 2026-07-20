@@ -119,20 +119,6 @@ namespace ProudNetSrc
 
         public Task SendAsync(object message, SendOptions options)
         {
-            try
-            {
-                var typeName = message?.GetType().Name ?? "null";
-                if (typeName.IndexOf("Ack", StringComparison.OrdinalIgnoreCase) >= 0)
-                {
-                    var stack = new StackTrace(false).ToString();
-                    if (stack.IndexOf("ClubService", StringComparison.Ordinal) >= 0)
-                        Console.WriteLine($"~ club reply path: via {GetType().Name}, peer {HostId}, payload {typeName}, channel accepting writes: {Channel?.IsWritable ?? false}");
-                }
-            }
-            catch
-            {
-            }
-
             Logger?.Verbose("Handing {MessageType} to the pipeline under delivery flags {@Options}", message.GetType().Name, options);
             return (_disposed || !IsConnected || !Channel.IsWritable)
                 ? Task.CompletedTask

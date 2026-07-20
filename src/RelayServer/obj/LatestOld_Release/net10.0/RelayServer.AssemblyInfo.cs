@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RelayServer")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("LatestOld_Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("2026.7.7.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+80d3d2a695bd23dff0862a68d712d5ce9691e3ad")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5f282b3f9eb64d43333438598b8825bf55ad3216")]
 [assembly: System.Reflection.AssemblyProductAttribute("RelayServer")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RelayServer")]
 [assembly: System.Reflection.AssemblyVersionAttribute("2026.7.7.0")]
