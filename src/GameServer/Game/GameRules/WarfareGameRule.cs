@@ -89,12 +89,13 @@ namespace Santana.Game.GameRules
                     StateMachine.IsInState(GameRuleState.Result) ||
                     RoundTime < TimeSpan.FromSeconds(5))
                     return;
-                var fewestActive = teams.Values.Min(team =>
-                    team.Keys.Count(member =>
-                        member.RoomInfo.State != PlayerState.Lobby &&
-                        member.RoomInfo.State != PlayerState.Spectating));
+                var fewestActive = teams.Values.Min(team => team.PlayersPlaying.Count());
                 if (fewestActive == 0 && !Room.Options.IsFriendly)
-                    StateMachine.Fire(GameRuleStateTrigger.StartResult);
+                {
+                    if (StateMachine.CanFire(GameRuleStateTrigger.StartResult))
+                        StateMachine.Fire(GameRuleStateTrigger.StartResult);
+                    return;
+                }
                 var inFirstHalf = StateMachine.IsInState(GameRuleState.FirstHalf);
                 var inSecondHalf = StateMachine.IsInState(GameRuleState.SecondHalf);
                 if (inFirstHalf || inSecondHalf)

@@ -33,7 +33,28 @@ namespace Santana.Game.GameRules
             Room = room;
             StateMachine = new StateMachine<GameRuleState, GameRuleStateTrigger>(GameRuleState.Waiting);
             StateMachine.OnTransitioned(HandleTransition);
+            Room.PlayerLeft += OnRoomPlayerLeft;
             Reload();
+        }
+
+        public virtual bool HasEnoughPlayers()
+        {
+            if (Room.Options.IsFriendly)
+                return Room.TeamManager.PlayersPlaying.Any();
+            return Room.TeamManager.Values.All(team => team.PlayersPlaying.Any());
+        }
+
+        private void OnRoomPlayerLeft(object sender, RoomPlayerEventArgs e)
+        {
+            if (Room.GameState != GameState.Playing ||
+                StateMachine.IsInState(GameRuleState.EnteringResult) ||
+                StateMachine.IsInState(GameRuleState.Result) ||
+                HasEnoughPlayers())
+                return;
+            if (StateMachine.CanFire(GameRuleStateTrigger.StartResult))
+                StateMachine.Fire(GameRuleStateTrigger.StartResult);
+            if (Room.Options.IsFriendly && StateMachine.CanFire(GameRuleStateTrigger.StartResult))
+                StateMachine.Fire(GameRuleStateTrigger.StartResult);
         }
         public abstract GameRule GameRule { get; }
         public abstract bool CountMatch { get; }
@@ -52,6 +73,7 @@ namespace Santana.Game.GameRules
         }
         public virtual void Cleanup()
         {
+            Room.PlayerLeft -= OnRoomPlayerLeft;
         }
         public virtual void Reload()
         {
@@ -333,6 +355,9 @@ namespace Santana.Game.GameRules
                         }
                         Room.SubGameState = GameTimeState.SecondHalf;
                         Room.Broadcast(new GameChangeSubStateAckMessage(Room.SubGameState));
+                        break;
+                    case GameRuleState.EnteringResult:
+                        Room.GameState = GameState.Result;
                         break;
                     case GameRuleState.Result:
                         var winnerList = new List<Player>();

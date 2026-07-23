@@ -589,10 +589,7 @@ namespace Santana
             if (Disposed || plr.Room != this || GameState == GameState.Waiting)
                 return;
             if (GameState == GameState.Result || GameRuleState == GameRuleState.EnteringResult)
-            {
-                plr.SendAsync(new GameEventMessageAckMessage(GameEventMessage.RoomModeIsChanging, 0, 0, 0, ""));
                 return;
-            }
             if (IsPreparing || !HasStarted)
             {
                 plr.SendAsync(new GameEventMessageAckMessage(GameEventMessage.CantStartGame, 0, 0, 0, ""));
