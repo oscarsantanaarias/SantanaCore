@@ -60,8 +60,7 @@ namespace Santana.Game.GameRules
 
         private static readonly ConcurrentDictionary<ulong, ArcadeScoreSyncReqDto> _scoreByAccount = new ConcurrentDictionary<ulong, ArcadeScoreSyncReqDto>();
         private byte _stage = 1;
-        private const byte FinalStage = 8;
-        private DateTime _lastStageClear = DateTime.MinValue;
+        private int _scoreCheck = 0;
         private readonly System.Collections.Generic.HashSet<ulong> _failedPlayers = new System.Collections.Generic.HashSet<ulong>();
 
         public override GameRule GameRule => GameRule.Arcade;
@@ -155,17 +154,11 @@ namespace Santana.Game.GameRules
 
         public void ArcadeStageClear(ArcadeScoreSyncDto[] score)
         {
-            if ((DateTime.Now - _lastStageClear).TotalSeconds < 3)
-                return;
-            _lastStageClear = DateTime.Now;
-            if (_stage >= FinalStage)
-            {
-                if (StateMachine.CanFire(GameRuleStateTrigger.StartResult))
-                    Room.GameRuleManager.GameRule.StateMachine.Fire(GameRuleStateTrigger.StartResult);
-                return;
-            }
-            _stage++;
-            Room.Broadcast(new ArcadeChangeStageAckMessage { Stage = _stage });
+            foreach (var scoreItem in score)
+                _scoreCheck += scoreItem.KilledMonster;
+
+            if (_scoreCheck > 10 && StateMachine.CanFire(GameRuleStateTrigger.StartResult))
+                Room.GameRuleManager.GameRule.StateMachine.Fire(GameRuleStateTrigger.StartResult);
         }
 
         public void OnPlayerFailed(Player plr)
@@ -193,7 +186,7 @@ namespace Santana.Game.GameRules
             synced.Unk3 = ownScore.KilledMonster;
             synced.Unk4 = ownScore.MaxMonster > 0 ? (int)(0.5f + ((100f * ownScore.KilledMonster) / ownScore.MaxMonster)) : 0;
 
-            GetRecord(plr).KilledMonster = Math.Max(GetRecord(plr).KilledMonster, (uint)ownScore.KilledMonster);
+            GetRecord(plr).KilledMonster = (uint)ownScore.KilledMonster;
 
             if (_scoreByAccount.ContainsKey(plr.Account.Id))
             {
@@ -227,9 +220,6 @@ namespace Santana.Game.GameRules
 
             if (!ScoreIsPlaying())
                 return;
-
-            if (killer != null && scoreTarget.PeerId.Category != PlayerCategory.Player)
-                GetRecord(killer).KilledMonster++;
         }
 
         public override void OnScoreSuicide(Player target, LongPeerId scoreTarget, AttackAttribute icon)
