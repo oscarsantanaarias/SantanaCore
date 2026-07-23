@@ -35,12 +35,34 @@ namespace Santana.Game.GameRules
 
             StateMachine.Configure(GameRuleState.Result)
                 .SubstateOf(GameRuleState.Playing)
+                .OnEntry(SendArcadeResult)
                 .Permit(GameRuleStateTrigger.EndGame, GameRuleState.Waiting);
         }
 
+        private void SendArcadeResult()
+        {
+            using (var ms = new MemoryStream())
+            using (var w = new BinaryWriter(ms))
+            {
+                foreach (var plr in Room.TeamManager.Players)
+                {
+                    w.Write((ulong)plr.Account.Id);
+                    w.Write(100);
+                    w.Write(200);
+                    w.Write(300);
+                    w.Write(400);
+                    w.Write(500);
+                    w.Write(0);
+                }
+                Room.Broadcast(new ArcadeStageBriefingAckMessage { Unk1 = 0, Unk2 = 0, Data = ms.ToArray() });
+            }
+        }
+
         private static readonly ConcurrentDictionary<ulong, ArcadeScoreSyncReqDto> _scoreByAccount = new ConcurrentDictionary<ulong, ArcadeScoreSyncReqDto>();
-        private int _killTally = 0;
         private byte _stage = 1;
+        private const byte FinalStage = 8;
+        private DateTime _lastStageClear = DateTime.MinValue;
+        private readonly System.Collections.Generic.HashSet<ulong> _failedPlayers = new System.Collections.Generic.HashSet<ulong>();
 
         public override GameRule GameRule => GameRule.Arcade;
 
@@ -133,18 +155,35 @@ namespace Santana.Game.GameRules
 
         public void ArcadeStageClear(ArcadeScoreSyncDto[] score)
         {
-            foreach (var entry in score)
-                _killTally += entry.KilledMonster;
-
-            if (_killTally > 10)
+            if ((DateTime.Now - _lastStageClear).TotalSeconds < 3)
+                return;
+            _lastStageClear = DateTime.Now;
+            if (_stage >= FinalStage)
             {
-                Room.GameRuleManager.GameRule.StateMachine.Fire(GameRuleStateTrigger.StartResult);
+                if (StateMachine.CanFire(GameRuleStateTrigger.StartResult))
+                    Room.GameRuleManager.GameRule.StateMachine.Fire(GameRuleStateTrigger.StartResult);
+                return;
             }
+            _stage++;
+            Room.Broadcast(new ArcadeChangeStageAckMessage { Stage = _stage });
+        }
+
+        public void OnPlayerFailed(Player plr)
+        {
+            if (plr != null)
+                _failedPlayers.Add(plr.Account.Id);
+            var playing = Room.TeamManager.PlayersPlaying.Count();
+            if (_failedPlayers.Count < System.Math.Max(1, playing))
+                return;
+            if (StateMachine.CanFire(GameRuleStateTrigger.StartResult))
+                Room.GameRuleManager.GameRule.StateMachine.Fire(GameRuleStateTrigger.StartResult);
         }
 
         public void OnArcadeScore(Player plr, ArcadeScoreSyncDto[] score)
         {
             var ownScore = score.Where(x => x.AccountId == plr.Account.Id).FirstOrDefault();
+            if (ownScore == null)
+                return;
 
             var synced = new ArcadeScoreSyncReqDto();
 
@@ -152,7 +191,7 @@ namespace Santana.Game.GameRules
             synced.Unk1 = ownScore.MonsterCount;
             synced.Unk2 = ownScore.MaxMonster;
             synced.Unk3 = ownScore.KilledMonster;
-            synced.Unk4 = (int)(0.5f + ((100f * ownScore.KilledMonster) / ownScore.MaxMonster));
+            synced.Unk4 = ownScore.MaxMonster > 0 ? (int)(0.5f + ((100f * ownScore.KilledMonster) / ownScore.MaxMonster)) : 0;
 
             GetRecord(plr).KilledMonster = (uint)ownScore.KilledMonster;
 
@@ -167,7 +206,7 @@ namespace Santana.Game.GameRules
 
             Room?.Broadcast(new ArcadeScoreSyncAckMessage(_scoreByAccount.Values.ToArray()));
 
-            if (score.Any(x => x.MonsterCount <= 0))
+            if (score.Any(x => x.MonsterCount <= 0) && StateMachine.CanFire(GameRuleStateTrigger.StartResult))
                 plr.Room.GameRuleManager.GameRule.StateMachine.Fire(GameRuleStateTrigger.StartResult);
         }
 
@@ -230,12 +269,12 @@ namespace Santana.Game.GameRules
         public override void Serialize(BinaryWriter w, bool isResult)
         {
             base.Serialize(w, isResult);
-            w.Write(Kills);
-            w.Write(KillAssists);
-            w.Write(BonusKillAssists);
+            w.Write(11);
+            w.Write(22);
+            w.Write(33);
+            w.Write(44);
+            w.Write(55);
             w.Write(0);
-            w.Write(0);
-            w.Write(KilledMonster);
             w.Write(0);
             w.Write(0);
             w.Write(0);

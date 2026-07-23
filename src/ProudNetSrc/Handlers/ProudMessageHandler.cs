@@ -12,10 +12,6 @@ namespace ProudNetSrc.Handlers
     {
       try
       {
-        var _mt = ((message as RecvContext)?.Message ?? message)?.GetType().Name ?? "";
-        if (_mt != "RmiMessage" && _mt != "UnreliablePingMessage" && _mt != "ReliableRelay2Message" &&
-            _mt != "UnreliableRelay2Message" && _mt != "ReliablePingMessage" && !_mt.Contains("Move") && !_mt.Contains("P2P"))
-          Serilog.Log.Information("[IN] {MessageType}", _mt);
         return await base.OnMessageReceived(context, message);
       }
       catch (Exception e)

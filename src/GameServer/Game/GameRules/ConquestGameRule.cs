@@ -96,22 +96,6 @@ namespace Santana.Game.GameRules
       return true;
     }
 
-    public void OnConquestScore(Player plr, ArcadeScoreSyncDto[] score)
-    {
-      var own = score.FirstOrDefault(x => x.AccountId == plr.Account.Id);
-      if (own == null)
-        return;
-      Serilog.Log.Information("[CONQUEST] OnConquestScore acc={Acc} monsterCount={M} max={Mx} killed={K}", plr.Account.Id, own.MonsterCount, own.MaxMonster, own.KilledMonster);
-      if ((uint)own.KilledMonster > GetRecord(plr).KilledMonster)
-        GetRecord(plr).KilledMonster = (uint)own.KilledMonster;
-    }
-
-    public void OnMonsterKill(Player plr)
-    {
-      GetRecord(plr).KilledMonster++;
-      Serilog.Log.Information("[CONQUEST] OnMonsterKill acc={Acc} total={K}", plr.Account.Id, GetRecord(plr).KilledMonster);
-    }
-
     public override void OnScoreKill(Player killer, Player assist, Player target, AttackAttribute attackAttribute,
         LongPeerId scoreTarget, LongPeerId scoreKiller, LongPeerId scoreAssist)
     {
@@ -119,7 +103,6 @@ namespace Santana.Game.GameRules
       if (killer == null || scoreTarget.PeerId.Category == PlayerCategory.Player)
         return;
       GetRecord(killer).KilledMonster++;
-      Serilog.Log.Information("[CONQUEST] monster kill acc={Acc} total={K} cat={Cat}", killer.Account.Id, GetRecord(killer).KilledMonster, scoreTarget.PeerId.Category);
     }
   }
 

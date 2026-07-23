@@ -152,6 +152,63 @@ namespace ProudNetSrc.Handlers
         RelayFrameTracker.ObservePeer(session.HostId, BitConverter.ToUInt16(data, innerIdx + 3));
     }
 
+    private static readonly System.Collections.Generic.HashSet<int> _seenP2P = new System.Collections.Generic.HashSet<int>();
+    private static void LogArcadeP2P(ProudSession session, byte[] data)
+    {
+      try
+      {
+        if (data == null || data.Length < 6)
+          return;
+        if (data[0] != 0x13 || data[1] != 0x57)
+          return;
+        var prefix = data[2];
+        if (prefix != 1 && prefix != 2 && prefix != 4)
+          return;
+        var core = 3 + prefix;
+        if (core + 2 >= data.Length || data[core] != 1)
+          return;
+        var userOp = data[core + 1] | (data[core + 2] << 8);
+        var zi = -1;
+        for (var i = core + 3; i < data.Length - 1 && i < core + 14; i++)
+        {
+          if (data[i] == 0x78 && (data[i + 1] == 0xDA || data[i + 1] == 0x9C || data[i + 1] == 0x01))
+          {
+            zi = i;
+            break;
+          }
+        }
+        int op = -1;
+        string bodyHead = "(raw)";
+        if (zi >= 0)
+        {
+          using (var input = new System.IO.MemoryStream(data, zi, data.Length - zi))
+          using (var zlib = new System.IO.Compression.ZLibStream(input, System.IO.Compression.CompressionMode.Decompress))
+          using (var output = new System.IO.MemoryStream())
+          {
+            zlib.CopyTo(output);
+            var body = output.ToArray();
+            if (body.Length > 0)
+            {
+              op = body[0];
+              bodyHead = System.BitConverter.ToString(body, 0, System.Math.Min(24, body.Length));
+            }
+          }
+        }
+        else if (core + 6 < data.Length)
+        {
+          op = data[core + 6];
+        }
+        var key = ((userOp & 0xFFFF) << 8) | (op & 0xFF);
+        lock (_seenP2P)
+        {
+          if (!_seenP2P.Add(key))
+            return;
+        }
+        Serilog.Log.Information("[P2P-NEW] host={H} userOp=0x{U:X4} zlib={Z} bodyOp=0x{Op:X2} body={B} len={L}", session.HostId, userOp, zi >= 0, op < 0 ? 0 : op, bodyHead, data.Length);
+      }
+      catch { }
+    }
+
     public static bool RewriteMonsterOwners = true;
 
     private static void WriteLe(byte[] buf, int off, int count, int value)
@@ -244,6 +301,7 @@ namespace ProudNetSrc.Handlers
         return;
 
       LogGameP2P(session, message.Data);
+      LogArcadeP2P(session, message.Data);
       var patched = RepointDeadMonsterOwners(session, message.Data);
       if (patched != null)
         message.Data = patched;
@@ -264,6 +322,7 @@ namespace ProudNetSrc.Handlers
     [MessageHandler(typeof(UnreliableRelay1Message))]
     public void UnreliableRelayHandler(ProudSession session, UnreliableRelay1Message message)
     {
+      LogArcadeP2P(session, message.Data);
       foreach (var destination in message.Destination.Where(id => id != session.HostId))
       {
         if (session.P2PGroup == null)
