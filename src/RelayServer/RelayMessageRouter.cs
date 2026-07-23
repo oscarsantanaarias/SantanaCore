@@ -54,17 +54,6 @@ namespace Santana.Relay
 
             var inner = message is RecvContext wrapper ? wrapper.Message : message;
 
-            try
-            {
-                var _relayData = inner.GetType().GetProperty("Data")?.GetValue(inner) as byte[];
-                if (_relayData != null)
-                    Log_.Information("[RELAY-IN] {Msg} len={L} head={H}", inner.GetType().Name, _relayData.Length,
-                        BitConverter.ToString(_relayData, 0, Math.Min(20, _relayData.Length)));
-                else
-                    Log_.Information("[RELAY-IN] {Msg}", inner.GetType().Name);
-            }
-            catch { Log_.Information("[RELAY-IN] {Msg}", inner.GetType().Name); }
-
             if (_rules.TryGetValue(inner.GetType(), out var rules) && rules.Any(rule => !rule(session)))
             {
                 Log_.Debug("Gate rules rejected {msg} originating from {ep}", inner.GetType().Name,

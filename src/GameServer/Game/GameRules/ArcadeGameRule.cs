@@ -47,11 +47,11 @@ namespace Santana.Game.GameRules
                 foreach (var plr in Room.TeamManager.Players)
                 {
                     w.Write((ulong)plr.Account.Id);
-                    w.Write(100);
-                    w.Write(200);
-                    w.Write(300);
-                    w.Write(400);
-                    w.Write(500);
+                    w.Write(0);
+                    w.Write(0);
+                    w.Write(0);
+                    w.Write(0);
+                    w.Write(0);
                     w.Write(0);
                 }
                 Room.Broadcast(new ArcadeStageBriefingAckMessage { Unk1 = 0, Unk2 = 0, Data = ms.ToArray() });
@@ -193,7 +193,7 @@ namespace Santana.Game.GameRules
             synced.Unk3 = ownScore.KilledMonster;
             synced.Unk4 = ownScore.MaxMonster > 0 ? (int)(0.5f + ((100f * ownScore.KilledMonster) / ownScore.MaxMonster)) : 0;
 
-            GetRecord(plr).KilledMonster = (uint)ownScore.KilledMonster;
+            GetRecord(plr).KilledMonster = Math.Max(GetRecord(plr).KilledMonster, (uint)ownScore.KilledMonster);
 
             if (_scoreByAccount.ContainsKey(plr.Account.Id))
             {
@@ -227,6 +227,9 @@ namespace Santana.Game.GameRules
 
             if (!ScoreIsPlaying())
                 return;
+
+            if (killer != null && scoreTarget.PeerId.Category != PlayerCategory.Player)
+                GetRecord(killer).KilledMonster++;
         }
 
         public override void OnScoreSuicide(Player target, LongPeerId scoreTarget, AttackAttribute icon)
@@ -269,9 +272,9 @@ namespace Santana.Game.GameRules
         public override void Serialize(BinaryWriter w, bool isResult)
         {
             base.Serialize(w, isResult);
-            w.Write(100);
+            w.Write(Math.Min(100, Math.Max(0, Player.RoomInfo.ArcadeRespawnCount * 10)));
             w.Write((int)KilledMonster);
-            w.Write(100);
+            w.Write((int)Player.RoomInfo.PlayTime.TotalSeconds);
             w.Write(0);
             w.Write(0);
             w.Write(0);
