@@ -654,7 +654,7 @@ namespace Santana
             Logger.ForAccount(plr).Information("Room {roomId}: relay duty reassigned, latency {ping} ms, forced {f}", Id,
                 plr.Session.UnreliablePing, force.ToString());
             Host = plr;
-            //Broadcast(new RoomChangeRefereeAckMessage(Host.Account.Id));
+            Broadcast(new RoomChangeRefereeAckMessage(Host.Account.Id));
             Network.Services.IpcService.NotifyWarfareReferee(Host.Account.Id, (ushort)Host.RoomInfo.PeerId.PeerId);
             return true;
         }
