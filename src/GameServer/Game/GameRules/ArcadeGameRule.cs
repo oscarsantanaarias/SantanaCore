@@ -269,11 +269,11 @@ namespace Santana.Game.GameRules
         public override void Serialize(BinaryWriter w, bool isResult)
         {
             base.Serialize(w, isResult);
-            w.Write(11);
-            w.Write(22);
-            w.Write(33);
-            w.Write(44);
-            w.Write(55);
+            w.Write(100);
+            w.Write((int)KilledMonster);
+            w.Write(100);
+            w.Write(0);
+            w.Write(0);
             w.Write(0);
             w.Write(0);
             w.Write(0);
