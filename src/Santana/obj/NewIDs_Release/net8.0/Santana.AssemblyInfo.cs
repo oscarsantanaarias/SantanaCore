@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Santana")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("NewIDs_Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("2026.7.7.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2a510573e9596a2bc80d888eb48f1cf16ca1fad1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+265bcd42607d05c72e702a92c626a97c0ec032f5")]
 [assembly: System.Reflection.AssemblyProductAttribute("Santana")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Santana")]
 [assembly: System.Reflection.AssemblyVersionAttribute("2026.7.7.0")]

@@ -10,3 +10,4 @@ C:\emulador_cs\emuladorAnticheat\src\Santana\obj\NewIDs_Release\net10.0\Santana.
 C:\emulador_cs\emuladorAnticheat\src\Santana\obj\NewIDs_Release\net10.0\refint\Santana.dll
 C:\emulador_cs\emuladorAnticheat\src\Santana\obj\NewIDs_Release\net10.0\Santana.pdb
 C:\emulador_cs\emuladorAnticheat\src\Santana\obj\NewIDs_Release\net10.0\ref\Santana.dll
+C:\emulador_cs\emuladorAnticheat\src\Santana\obj\NewIDs_Release\net10.0\Santana.csproj.AssemblyReference.cache

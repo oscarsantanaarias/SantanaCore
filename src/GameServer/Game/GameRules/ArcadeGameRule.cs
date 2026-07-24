@@ -140,7 +140,7 @@ namespace Santana.Game.GameRules
 
             plr.Room.Broadcast(new ArcadeBeginRoundAckMessage
             {
-                Unk1 = 1,
+                Unk1 = (byte)Math.Max(2, Room.TeamManager.NoSpectatorPlayers.Count()),
                 Unk2 = _stage,
                 Unk3 = 0x0A
             });

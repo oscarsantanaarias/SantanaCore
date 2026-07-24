@@ -6,23 +6,39 @@ using Santana.Network.Data.Game;
 using ProudNetSrc.Serialization;
 namespace Santana.Network.Message.Game
 {
+#if LATESTS4
     [Packet(3, PacketType.Game)]
+#else
+    [Packet(2, PacketType.Game)]
+#endif
     public class CharacterCreateReqMessage
     {
         public byte Slot { get; set; }
         public CharacterStyle Style { get; set; }
     }
+#if LATESTS4
     [Packet(4, PacketType.Game)]
+#else
+    [Packet(3, PacketType.Game)]
+#endif
     public class CharacterSelectReqMessage
     {
         public byte Slot { get; set; }
     }
+#if LATESTS4
     [Packet(5, PacketType.Game)]
+#else
+    [Packet(4, PacketType.Game)]
+#endif
     public class CharacterDeleteReqMessage
     {
         public byte Slot { get; set; }
     }
+#if LATESTS4
     [Packet(2, PacketType.Game)]
+#else
+    [Packet(5, PacketType.Game)]
+#endif
     public class LoginRequestReqMessage
     {
         public uint Unk1 { get; set; }

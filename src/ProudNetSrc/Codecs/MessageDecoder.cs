@@ -63,6 +63,8 @@ namespace ProudNetSrc.Codecs
           }
           if (PacketLog.Enabled && opCode != 11 && opCode != 64019 && opCode != 64001)
             System.Console.WriteLine($"<< inbound rmi #{opCode} decoded as {message.Message.GetType().Name}");
+          if (opCode != 11)
+            Serilog.Log.Information("[IN] op={Op} {T}", opCode, message.Message.GetType().Name);
           output.Add(message);
         }
       }
