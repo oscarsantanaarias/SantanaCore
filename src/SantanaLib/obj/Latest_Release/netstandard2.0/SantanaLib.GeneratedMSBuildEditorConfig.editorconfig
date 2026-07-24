@@ -1,8 +1,0 @@
-is_global = true
-build_property.RootNamespace = SantanaLib
-build_property.ProjectDir = C:\emulador cs\emuladorAnticheat\src\SantanaLib\
-build_property.EnableComHosting = 
-build_property.EnableGeneratedComInterfaceComImportInterop = 
-build_property.CsWinRTUseWindowsUIXamlProjections = false
-build_property.EffectiveAnalysisLevelStyle = 
-build_property.EnableCodeStyleSeverity = 
