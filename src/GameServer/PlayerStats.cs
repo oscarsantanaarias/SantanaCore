@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Dapper.FastCrud;
@@ -23,6 +24,7 @@ namespace Santana
             Captain = new CPTStats(_owner, playerDto);
             Siege = new SiegeStats(_owner, playerDto);
             Arena = new ArenaStats(_owner, playerDto);
+            Arcade = new ArcadeStats(_owner, playerDto);
         }
         public DMStats DeathMatch { get; }
         public TDStats TouchDown { get; }
@@ -31,6 +33,7 @@ namespace Santana
         public CPTStats Captain { get; }
         public SiegeStats Siege { get; }
         public ArenaStats Arena { get; }
+        public ArcadeStats Arcade { get; }
         public ulong Won
         {
             get => _active?.Won ?? 0;
@@ -178,6 +181,10 @@ namespace Santana
         {
             return Arena;
         }
+        public ArcadeStats GetArcadeStats()
+        {
+            return Arcade;
+        }
         public void Save(IDbConnection db)
         {
             DeathMatch.Save(db);
@@ -187,6 +194,7 @@ namespace Santana
             Captain.Save(db);
             Siege.Save(db);
             Arena.Save(db);
+            Arcade.Save(db);
         }
     }
     internal abstract class BaseStats
@@ -1204,6 +1212,55 @@ namespace Santana
         public float GetUserDataScore()
         {
             return AveragePerMatch(TotalScore, 0.0f);
+        }
+    }
+    internal class ArcadeStats : BaseStats
+    {
+        private readonly HashSet<byte> _cleared = new HashSet<byte>();
+        private readonly HashSet<byte> _persisted = new HashSet<byte>();
+        private bool _dirty;
+        public ArcadeStats(Player player)
+            : base(player)
+        { }
+        public ArcadeStats(Player player, PlayerDto playerDto)
+            : base(player)
+        {
+            foreach (var row in playerDto.ArcadeInfo)
+            {
+                var stage = (byte)row.ClearedStages;
+                if (stage < 1 || stage > 8)
+                    continue;
+                _cleared.Add(stage);
+                _persisted.Add(stage);
+            }
+        }
+        public bool IsStageCleared(byte stage)
+        {
+            return _cleared.Contains(stage);
+        }
+        public void MarkStageCleared(byte stage)
+        {
+            if (stage < 1 || stage > 8)
+                return;
+            if (_cleared.Add(stage))
+                _dirty = true;
+        }
+        public override void Save(IDbConnection db)
+        {
+            if (!_dirty)
+                return;
+            foreach (var stage in _cleared)
+            {
+                if (_persisted.Contains(stage))
+                    continue;
+                DbUtil.Insert(db, new PlayerArcadeDto
+                {
+                    PlayerId = (int)Player.Account.Id,
+                    ClearedStages = stage
+                });
+                _persisted.Add(stage);
+            }
+            _dirty = false;
         }
     }
 }

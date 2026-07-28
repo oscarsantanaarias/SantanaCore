@@ -354,6 +354,7 @@ namespace Santana.Network.Services
                     var extraStatsRow = (await DbUtil.FindAsync<PlayerDto>(gameDb, statement => statement
                             .Include<PlayerSiegeDto>(join => join.LeftOuterJoin())
                             .Include<PlayerArenaDto>(join => join.LeftOuterJoin())
+                            .Include<PlayerArcadeDto>(join => join.LeftOuterJoin())
                             .Where($"{nameof(PlayerDto.Id):C} = @Id")
                             .WithParameters(new { Id = message.AccountId })))
                         .FirstOrDefault();
@@ -412,6 +413,7 @@ namespace Santana.Network.Services
                     {
                         playerRow.SiegeInfo = extraStatsRow.SiegeInfo;
                         playerRow.ArenaInfo = extraStatsRow.ArenaInfo;
+                        playerRow.ArcadeInfo = extraStatsRow.ArcadeInfo;
                     }
                     session.Player = new Player(session, accountModel, playerRow);
                 }
@@ -616,21 +618,8 @@ namespace Santana.Network.Services
                 catch
                 {
                 }
-                plr?.SendAsync(new PlayeArcadeMapInfoAckMessage());
-                plr?.SendAsync(new PlayerArcadeStageInfoAckMessage
-                {
-                    Infos = new[]
-                    {
-                        new Santana.Network.Data.Game.ArcadeStageInfoDto { Unk1 = 1, Unk2 = 1 },
-                        new Santana.Network.Data.Game.ArcadeStageInfoDto { Unk1 = 2, Unk3 = 1 },
-                        new Santana.Network.Data.Game.ArcadeStageInfoDto { Unk1 = 3, Unk4 = 1 },
-                        new Santana.Network.Data.Game.ArcadeStageInfoDto { Unk1 = 4, Unk5 = 1 },
-                        new Santana.Network.Data.Game.ArcadeStageInfoDto { Unk1 = 5, Unk6 = 1 },
-                        new Santana.Network.Data.Game.ArcadeStageInfoDto { Unk1 = 6, Unk7 = 1 },
-                        new Santana.Network.Data.Game.ArcadeStageInfoDto { Unk1 = 7, Unk8 = 1 },
-                        new Santana.Network.Data.Game.ArcadeStageInfoDto { Unk1 = 8, Unk9 = 1 },
-                    }
-                });
+                if (plr != null)
+                    Santana.Game.GameRules.ArcadeGameRule.SendArcadeRefresh(plr);
                 ShopService.RefreshCollectBookRuntimeState(plr);
                 plr.CharacterManager.Boosts.PlayerNameTag();
                 plr?.SendAsync(new ClubMyInfoAckMessage(plr.Map<Player, ClubMyInfoDto>()));

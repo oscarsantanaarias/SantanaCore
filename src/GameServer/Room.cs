@@ -315,7 +315,10 @@ namespace Santana
                       Club.SendAllLivePresenceTo(plr, "ROOM.JOIN.SNAPSHOT");
                       Club.BroadcastLivePresence(plr, "ROOM.JOIN.BROADCAST");
                 if (plr.Room.Options.GameRule == GameRule.Arcade)
+                {
+                    Santana.Game.GameRules.ArcadeGameRule.SendArcadeRefresh(plr);
                     plr.Session.SendAsync(new ArcadeStageSelectAckMessage { Unk1 = 1, Unk2 = 1 });
+                }
                 var joinedRoom = this;
                 _ = Task.Run(async () =>
                 {

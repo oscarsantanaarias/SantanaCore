@@ -34,6 +34,7 @@ namespace Santana.Database.Game
         public IList<PlayerCaptainDto> CaptainInfo { get; set; } = new List<PlayerCaptainDto>();
         public IList<PlayerSiegeDto> SiegeInfo { get; set; } = new List<PlayerSiegeDto>();
         public IList<PlayerArenaDto> ArenaInfo { get; set; } = new List<PlayerArenaDto>();
+        public IList<PlayerArcadeDto> ArcadeInfo { get; set; } = new List<PlayerArcadeDto>();
     }
     [Table("player_friends")]
     public class PlayerFriendDto
@@ -141,6 +142,16 @@ namespace Santana.Database.Game
         public ulong LeaderSelected { get; set; }
         public ulong LeaderKills { get; set; }
         public ulong TotalScore { get; set; }
+    }
+    [Table("player_info_arcade")]
+    public class PlayerArcadeDto
+    {
+        [Key]
+        [ForeignKey(nameof(Player))]
+        public int PlayerId { get; set; }
+        public PlayerDto Player { get; set; }
+        [Key]
+        public byte ClearedStages { get; set; }
     }
     [Table("player_characters")]
     public class PlayerCharacterDto

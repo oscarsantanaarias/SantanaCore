@@ -20,6 +20,7 @@ namespace Santana.Game.GameRules
             Briefing = new ArcadeBriefing(this);
 
             StateMachine.Configure(GameRuleState.Waiting)
+                .OnEntry(SendStageInfoToRoom)
                 .PermitIf(GameRuleStateTrigger.StartPrepare, GameRuleState.Preparing, CanStartGame);
 
             StateMachine.Configure(GameRuleState.Preparing)
@@ -39,9 +40,40 @@ namespace Santana.Game.GameRules
                 .Permit(GameRuleStateTrigger.EndGame, GameRuleState.Waiting);
         }
 
+        public static void SendArcadeRefresh(Player plr)
+        {
+            plr.SendAsync(new Santana.Network.Message.Game.PlayeArcadeMapInfoAckMessage());
+            plr.SendAsync(BuildStageInfoAck(plr));
+        }
+
+        public static Santana.Network.Message.Game.PlayerArcadeStageInfoAckMessage BuildStageInfoAck(Player plr)
+        {
+            var stats = plr.stats.GetArcadeStats();
+            return new Santana.Network.Message.Game.PlayerArcadeStageInfoAckMessage
+            {
+                Infos = (from stage in Enumerable.Range(1, 8)
+                         from mode in Enumerable.Range(0, 4)
+                         select new Santana.Network.Data.Game.ArcadeStageInfoDto
+                         {
+                             Unk1 = 50,
+                             Unk2 = (uint)stage,
+                             Unk3 = (uint)mode,
+                             Unk13 = (byte)(stats.IsStageCleared((byte)stage) ? 1 : 0)
+                         }).ToArray()
+            };
+        }
+
+        private void SendStageInfoToRoom()
+        {
+            foreach (var plr in Room.TeamManager.Players)
+                SendArcadeRefresh(plr);
+        }
+
         private void SendArcadeResult()
         {
             var players = Room.TeamManager.Players.ToList();
+            foreach (var receiver in players)
+                SendArcadeRefresh(receiver);
             foreach (var receiver in players)
             {
                 using (var ms = new MemoryStream())
@@ -166,6 +198,12 @@ namespace Santana.Game.GameRules
         {
             foreach (var scoreItem in score)
                 _scoreCheck += scoreItem.KilledMonster;
+
+            foreach (var plr in Room.TeamManager.PlayersPlaying)
+            {
+                plr.stats.GetArcadeStats().MarkStageCleared(_stage);
+                SendArcadeRefresh(plr);
+            }
 
             if (StateMachine.CanFire(GameRuleStateTrigger.StartResult))
                 Room.GameRuleManager.GameRule.StateMachine.Fire(GameRuleStateTrigger.StartResult);
