@@ -41,36 +41,26 @@ namespace Santana.Game.GameRules
 
         private void SendArcadeResult()
         {
-            var playing = Room.TeamManager.NoSpectatorPlayers.Count();
-            var solo = playing <= 1;
-            Console.WriteLine($"[ARCADE-RESULT] playing={playing} solo={solo} -> data={(solo ? "REAL" : "ZEROS")}");
-            using (var ms = new MemoryStream())
-            using (var w = new BinaryWriter(ms))
+            var players = Room.TeamManager.Players.ToList();
+            foreach (var receiver in players)
             {
-                foreach (var plr in Room.TeamManager.Players)
+                using (var ms = new MemoryStream())
+                using (var w = new BinaryWriter(ms))
                 {
-                    var rec = plr.RoomInfo.Stats as ArcadePlayerRecord;
-                    w.Write((ulong)plr.Account.Id);
-                    if (solo)
+                    foreach (var plr in players)
                     {
+                        var rec = plr.RoomInfo.Stats as ArcadePlayerRecord;
+                        var isMe = plr.Account.Id == receiver.Account.Id;
+                        w.Write(isMe ? (ulong)1 : (ulong)plr.Account.Id);
                         w.Write((int)(rec?.KilledMonster ?? 0));
                         w.Write(Math.Min(100, Math.Max(0, plr.RoomInfo.ArcadeRespawnCount * 10)));
                         w.Write((int)plr.RoomInfo.PlayTime.TotalSeconds);
-                        w.Write(0);
-                        w.Write(0);
-                        w.Write(0);
-                    }
-                    else
-                    {
-                        w.Write(0);
-                        w.Write(0);
-                        w.Write(0);
-                        w.Write(0);
+                        w.Write(isMe ? 1 : 0);
                         w.Write(0);
                         w.Write(0);
                     }
+                    receiver.SendAsync(new ArcadeStageBriefingAckMessage { Unk1 = 0, Unk2 = 0, Data = ms.ToArray() });
                 }
-                Room.Broadcast(new ArcadeStageBriefingAckMessage { Unk1 = 0, Unk2 = 0, Data = ms.ToArray() });
             }
         }
 
@@ -146,9 +136,6 @@ namespace Santana.Game.GameRules
         public void ArcadeStageBegin(GameSession session, byte unk)
         {
             var plr = session.Player;
-
-            _failedPlayers.Clear();
-            _downed.Clear();
 
             Console.WriteLine("Arcade: a client asked to begin the stage");
             Console.WriteLine($"Arcade right now: State={StateMachine.State}, CanStart={StateMachine.CanFire(GameRuleStateTrigger.StartPrepare)}, Players={Room.TeamManager.NoSpectatorPlayers.Count()}");

@@ -298,7 +298,7 @@ namespace Santana
                       {
                           plr.SendAsync(enterinfo.Map<RoomEnterRoomInfoAck2Message, RoomEnterRoomInfoAckMessage>());
                       }
-                    plr.SendAsync(new RoomCurrentCharacterSlotAckMessage(0, plr.RoomInfo.Slot));
+                    plr.SendAsync(new RoomCurrentCharacterSlotAckMessage((uint)plr.CharacterManager.CurrentSlot, plr.RoomInfo.Slot));
                      plr.SendAsync(new RoomPlayerInfoListForEnterPlayerAckMessage(Players.Values.Select(r => GetRoomPlrDto(r)).ToArray()));
                     BroadcastExcept(plr, CreateRoomEnterPlayerAck(plr));
                     foreach (var roomPlr in Players.Values)
