@@ -1,0 +1,869 @@
+<price_group_list version="20171116121051" size="62689">
+  <price_group group_name="AP_CP_1" shop_id="2">
+    <price period_type="USECNT" period="1" price="499" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="1438" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="2868" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="5812" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="11198" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="17083" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+  <price_group group_name="AP_CP_2" shop_id="2">
+    <price period_type="USECNT" period="1" price="299" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="862" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="1719" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="3483" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="6710" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="10236" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+  <price_group group_name="B_CCCP" shop_id="3">
+    <price period_type="NONE" period="0" price="899" refund="false" gauge="2400" shop_open="true" />
+    <price period_type="DAYS" period="1" price="109" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="7" price="209" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="30" price="489" refund="false" gauge="-1" shop_open="false" />
+  </price_group>
+  <price_group group_name="B_CGCS" shop_id="3">
+    <price period_type="NONE" period="0" price="399" refund="false" gauge="2400" shop_open="true" />
+    <price period_type="DAYS" period="1" price="59" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="7" price="129" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="30" price="269" refund="false" gauge="-1" shop_open="false" />
+  </price_group>
+  <price_group group_name="B_CHCF" shop_id="3">
+    <price period_type="NONE" period="0" price="399" refund="false" gauge="2400" shop_open="false" />
+    <price period_type="DAYS" period="1" price="59" refund="false" gauge="-1" shop_open="true" />
+    <price period_type="DAYS" period="7" price="129" refund="false" gauge="-1" shop_open="true" />
+    <price period_type="DAYS" period="30" price="269" refund="false" gauge="-1" shop_open="true" />
+  </price_group>
+  <price_group group_name="B_W" shop_id="3">
+    <price period_type="NONE" period="0" price="1999" refund="false" gauge="2400" shop_open="true" />
+    <price period_type="DAYS" period="1" price="129" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="3" price="1195" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="7" price="309" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="10" price="1590" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="15" price="3180" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="30" price="639" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="35" price="4100" refund="false" gauge="-1" shop_open="false" />
+  </price_group>
+  <price_group group_name="B_W_E" shop_id="3">
+    <price period_type="NONE" period="0" price="1999" refund="false" gauge="2400" shop_open="true" />
+    <price period_type="DAYS" period="1" price="129" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="3" price="1195" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="7" price="309" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="10" price="1590" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="15" price="3180" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="30" price="639" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="35" price="4100" refund="false" gauge="-1" shop_open="false" />
+  </price_group>
+  <price_group group_name="CELL" shop_id="1">
+    <price period_type="USECNT" period="1" price="10000" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="30000" refund="false" gauge="3" shop_open="true" />
+  </price_group>
+  <price_group group_name="CORE" shop_id="1">
+    <price period_type="USECNT" period="1" price="100000" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="300000" refund="false" gauge="3" shop_open="true" />
+  </price_group>
+  <price_group group_name="COUPON_1" shop_id="5">
+    <price period_type="USECNT" period="6" price="1" refund="false" gauge="6" shop_open="true" />
+  </price_group>
+  <price_group group_name="COUPON_100" shop_id="5">
+    <price period_type="NONE" period="0" price="100" refund="false" gauge="900" shop_open="true" />
+  </price_group>
+  <price_group group_name="COUPON_12" shop_id="5">
+    <price period_type="DAYS" period="1" price="12" refund="false" gauge="-1" shop_open="true" />
+  </price_group>
+  <price_group group_name="COUPON_135" shop_id="5">
+    <price period_type="NONE" period="0" price="135" refund="false" gauge="2400" shop_open="true" />
+  </price_group>
+  <price_group group_name="COUPON_150" shop_id="5">
+    <price period_type="DAYS" period="30" price="150" refund="false" gauge="-1" shop_open="true" />
+  </price_group>
+  <price_group group_name="COUPON_20" shop_id="5">
+    <price period_type="DAYS" period="1" price="20" refund="false" gauge="-1" shop_open="true" />
+  </price_group>
+  <price_group group_name="COUPON_200" shop_id="5">
+    <price period_type="NONE" period="0" price="200" refund="false" gauge="2400" shop_open="true" />
+  </price_group>
+  <price_group group_name="COUPON_250" shop_id="5">
+    <price period_type="NONE" period="0" price="250" refund="false" gauge="2400" shop_open="true" />
+  </price_group>
+  <price_group group_name="COUPON_30" shop_id="5">
+    <price period_type="HOURS" period="10" price="30" refund="false" gauge="36000" shop_open="true" />
+  </price_group>
+  <price_group group_name="COUPON_40" shop_id="5">
+    <price period_type="HOURS" period="10" price="40" refund="false" gauge="36000" shop_open="true" />
+  </price_group>
+  <price_group group_name="COUPON_6" shop_id="5">
+    <price period_type="DAYS" period="1" price="6" refund="false" gauge="-1" shop_open="true" />
+  </price_group>
+  <price_group group_name="CP_CAPSULE" shop_id="4">
+    <price period_type="USECNT" period="1" price="0" refund="false" gauge="1" shop_open="false" />
+  </price_group>
+  <price_group group_name="CP_ECEC" shop_id="4">
+    <price period_type="USECNT" period="1" price="0" refund="false" gauge="1" shop_open="false" />
+  </price_group>
+  <price_group group_name="CP_EXP" shop_id="4">
+    <price period_type="HOURS" period="10" price="700" refund="false" gauge="36000" shop_open="false" />
+  </price_group>
+  <price_group group_name="CP_FC_G" shop_id="4">
+    <price period_type="USECNT" period="1" price="895" refund="false" gauge="1" shop_open="false" />
+  </price_group>
+  <price_group group_name="CP_NICK_1" shop_id="4">
+    <price period_type="NONE" period="1" price="795" refund="false" gauge="-1" shop_open="false" />
+  </price_group>
+  <price_group group_name="CP_NICK_7" shop_id="4">
+    <price period_type="NONE" period="7" price="1695" refund="false" gauge="-1" shop_open="false" />
+  </price_group>
+  <price_group group_name="CP_PEN" shop_id="4">
+    <price period_type="HOURS" period="10" price="1960" refund="false" gauge="36000" shop_open="false" />
+  </price_group>
+  <price_group group_name="C_AP_PC_1" shop_id="2">
+    <price period_type="USECNT" period="1" price="99" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="285" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="569" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="1153" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="2222" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="3389" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+  <price_group group_name="C_AP_PC_2" shop_id="2">
+    <price period_type="USECNT" period="1" price="99" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="285" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="569" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="1153" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="2222" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="3389" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+  <price_group group_name="C_PC_2" shop_id="2">
+    <price period_type="USECNT" period="1" price="139" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="349" refund="false" gauge="3" shop_open="true" />
+  </price_group>
+  <price_group group_name="Coin_E" shop_id="2">
+    <price period_type="USECNT" period="10" price="990" refund="false" gauge="10" shop_open="true" />
+  </price_group>
+  <price_group group_name="Coin_R" shop_id="2">
+    <price period_type="USECNT" period="3" price="15" refund="false" gauge="3" shop_open="false" />
+    <price period_type="USECNT" period="10" price="50" refund="false" gauge="10" shop_open="false" />
+    <price period_type="USECNT" period="11" price="55" refund="false" gauge="11" shop_open="false" />
+    <price period_type="USECNT" period="30" price="150" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="35" price="175" refund="false" gauge="35" shop_open="false" />
+    <price period_type="USECNT" period="50" price="250" refund="false" gauge="50" shop_open="true" />
+    <price period_type="USECNT" period="55" price="275" refund="false" gauge="55" shop_open="false" />
+    <price period_type="USECNT" period="100" price="450" refund="false" gauge="100" shop_open="true" />
+    <price period_type="USECNT" period="105" price="470" refund="false" gauge="105" shop_open="false" />
+    <price period_type="USECNT" period="200" price="850" refund="false" gauge="200" shop_open="true" />
+  </price_group>
+  <price_group group_name="EN_EFFDEL" shop_id="2">
+    <price period_type="USECNT" period="1" price="89" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="10" price="819" refund="false" gauge="10" shop_open="true" />
+  </price_group>
+  <price_group group_name="EN_EspDel" shop_id="2">
+    <price period_type="USECNT" period="1" price="150" refund="false" gauge="1" shop_open="false" />
+    <price period_type="USECNT" period="3" price="300" refund="false" gauge="3" shop_open="false" />
+    <price period_type="USECNT" period="4" price="400" refund="false" gauge="4" shop_open="false" />
+  </price_group>
+  <price_group group_name="EN_GSUP" shop_id="2">
+    <price period_type="USECNT" period="1" price="109" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="2" price="1280" refund="false" gauge="2" shop_open="false" />
+    <price period_type="USECNT" period="3" price="279" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="609" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="1279" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="2429" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="3739" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+  <price_group group_name="EN_INSURANCE" shop_id="2">
+    <price period_type="USECNT" period="1" price="319" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="909" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="2029" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="3139" refund="false" gauge="15" shop_open="true" />
+  </price_group>
+  <price_group group_name="EN_RSDW_10" shop_id="2">
+    <price period_type="USECNT" period="1" price="59" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="149" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="339" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="719" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="1379" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="2129" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+  <price_group group_name="EN_RSDW_20" shop_id="2">
+    <price period_type="USECNT" period="1" price="695" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="1710" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="3740" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="7800" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="14830" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="22795" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+  <price_group group_name="EU_Enigma_1" shop_id="2">
+    <price period_type="USECNT" period="1" price="399" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="7" price="2489" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="30" price="9939" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="500" price="0" refund="false" gauge="500" shop_open="false" />
+  </price_group>
+  <price_group group_name="EU_Enigma_2" shop_id="2">
+    <price period_type="USECNT" period="1" price="349" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="7" price="2179" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="30" price="8689" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="500" price="0" refund="false" gauge="500" shop_open="false" />
+  </price_group>
+  <price_group group_name="EU_Enigma_3" shop_id="2">
+    <price period_type="USECNT" period="1" price="299" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="7" price="1859" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="30" price="7439" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="500" price="0" refund="false" gauge="500" shop_open="false" />
+  </price_group>
+  <price_group group_name="EU_Enigma_4" shop_id="2">
+    <price period_type="USECNT" period="1" price="139" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="7" price="869" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="30" price="3459" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="500" price="0" refund="false" gauge="500" shop_open="false" />
+  </price_group>
+  <price_group group_name="EU_Enigma_5" shop_id="2">
+    <price period_type="USECNT" period="1" price="149" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="7" price="929" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="30" price="3699" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="500" price="4439" refund="false" gauge="500" shop_open="false" />
+  </price_group>
+  <price_group group_name="EV_AP" shop_id="4">
+    <price period_type="NONE" period="0" price="2000" refund="true" gauge="900" shop_open="false" />
+  </price_group>
+  <price_group group_name="EV_C" shop_id="1">
+    <price period_type="NONE" period="0" price="13" refund="false" gauge="900" shop_open="false" />
+    <price period_type="DAYS" period="1" price="13" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="7" price="13" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="30" price="13" refund="false" gauge="-1" shop_open="false" />
+  </price_group>
+  <price_group group_name="EV_CP" shop_id="4">
+    <price period_type="NONE" period="0" price="5000" refund="true" gauge="900" shop_open="false" />
+  </price_group>
+  <price_group group_name="EXP_10_LR" shop_id="2">
+    <price period_type="DAYS" period="1" price="700" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="10" price="700" refund="false" gauge="36000" shop_open="false" />
+  </price_group>
+  <price_group group_name="EXP_20_LR" shop_id="2">
+    <price period_type="DAYS" period="1" price="700" refund="false" gauge="-1" shop_open="false" />
+  </price_group>
+  <price_group group_name="EXP_30" shop_id="2">
+    <price period_type="DAYS" period="1" price="700" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="10" price="109" refund="false" gauge="36000" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_1" shop_id="2">
+    <price period_type="USECNT" period="1" price="300" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="815" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="1795" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="3695" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="7195" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="10995" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_2" shop_id="2">
+    <price period_type="USECNT" period="1" price="800" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="2195" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="4795" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="9895" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="17995" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="27995" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_BEGIN3" shop_id="2">
+    <price period_type="USECNT" period="0" price="13" refund="false" gauge="1" shop_open="false" />
+  </price_group>
+  <price_group group_name="FC_BEGIN30" shop_id="2">
+    <price period_type="USECNT" period="0" price="319" refund="false" gauge="1" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_BEGIN7" shop_id="2">
+    <price period_type="USECNT" period="1" price="159" refund="false" gauge="1" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_BWC" shop_id="2">
+    <price period_type="USECNT" period="0" price="1695" refund="false" gauge="1" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_BWW" shop_id="2">
+    <price period_type="USECNT" period="0" price="2195" refund="false" gauge="1" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_CA_cap" shop_id="2">
+    <price period_type="USECNT" period="1" price="249" refund="false" gauge="1" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_CC" shop_id="2">
+    <price period_type="USECNT" period="1" price="39" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="2" price="39" refund="false" gauge="2" shop_open="false" />
+    <price period_type="USECNT" period="4" price="39" refund="false" gauge="4" shop_open="false" />
+    <price period_type="USECNT" period="10" price="349" refund="false" gauge="10" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_CCE" shop_id="2">
+    <price period_type="USECNT" period="1" price="89" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="10" price="799" refund="false" gauge="10" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_CP_1" shop_id="2">
+    <price period_type="USECNT" period="1" price="700" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="1780" refund="false" gauge="3" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_CP_2" shop_id="2">
+    <price period_type="USECNT" period="1" price="549" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="1399" refund="false" gauge="3" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_CP_3" shop_id="2">
+    <price period_type="USECNT" period="1" price="139" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="401" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="799" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="1619" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="3119" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="4759" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_CTST" shop_id="2">
+    <price period_type="USECNT" period="1" price="979" refund="false" gauge="1" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_DIP" shop_id="2">
+    <price period_type="USECNT" period="1" price="239" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="10" price="2390" refund="false" gauge="10" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_E" shop_id="1">
+    <price period_type="USECNT" period="1" price="8900" refund="false" gauge="1" shop_open="false" />
+    <price period_type="USECNT" period="1" price="8900" refund="false" gauge="1" shop_open="false" />
+  </price_group>
+  <price_group group_name="FC_EV" shop_id="2">
+    <price period_type="USECNT" period="1" price="895" refund="false" gauge="1" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_EVW" shop_id="2">
+    <price period_type="USECNT" period="0" price="795" refund="false" gauge="1" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_G" shop_id="2">
+    <price period_type="USECNT" period="1" price="139" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="2" price="1790" refund="false" gauge="2" shop_open="false" />
+    <price period_type="USECNT" period="3" price="359" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="5" price="3580" refund="false" gauge="5" shop_open="false" />
+    <price period_type="USECNT" period="7" price="799" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="8" price="4759" refund="false" gauge="8" shop_open="false" />
+    <price period_type="USECNT" period="15" price="1619" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="3119" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="4759" refund="false" gauge="50" shop_open="true" />
+    <price period_type="USECNT" period="500" price="47590" refund="false" gauge="500" shop_open="false" />
+  </price_group>
+  <price_group group_name="FC_GA" shop_id="2">
+    <price period_type="USECNT" period="1" price="69" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="179" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="5" price="1095" refund="false" gauge="5" shop_open="false" />
+    <price period_type="USECNT" period="7" price="389" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="819" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="1559" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="2399" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_GB" shop_id="2">
+    <price period_type="USECNT" period="1" price="259" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="679" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="5" price="7975" refund="false" gauge="5" shop_open="false" />
+    <price period_type="USECNT" period="7" price="1569" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="3339" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="5729" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="9169" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_GOP" shop_id="2">
+    <price period_type="USECNT" period="1" price="139" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="2" price="278" refund="false" gauge="2" shop_open="false" />
+    <price period_type="USECNT" period="10" price="1390" refund="false" gauge="10" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_G_Rare" shop_id="2">
+    <price period_type="USECNT" period="1" price="239" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="669" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="1479" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="3039" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="5539" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="8629" refund="false" gauge="50" shop_open="true" />
+    <price period_type="USECNT" period="500" price="86290" refund="false" gauge="500" shop_open="false" />
+  </price_group>
+  <price_group group_name="FC_I" shop_id="1">
+    <price period_type="USECNT" period="1" price="8900" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="26700" refund="false" gauge="3" shop_open="false" />
+    <price period_type="USECNT" period="5" price="37000" refund="false" gauge="5" shop_open="true" />
+    <price period_type="USECNT" period="10" price="71200" refund="false" gauge="10" shop_open="true" />
+    <price period_type="USECNT" period="15" price="93450" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="160000" refund="false" gauge="30" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_NP" shop_id="1">
+    <price period_type="USECNT" period="1" price="7500" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="5" price="31000" refund="false" gauge="5" shop_open="true" />
+    <price period_type="USECNT" period="10" price="59000" refund="false" gauge="10" shop_open="true" />
+    <price period_type="USECNT" period="15" price="78000" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="135000" refund="false" gauge="30" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_Normal_100" shop_id="2">
+    <price period_type="USECNT" period="1" price="29995" refund="false" gauge="1" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_OD" shop_id="2">
+    <price period_type="USECNT" period="0" price="485" refund="false" gauge="1" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_ODW" shop_id="2">
+    <price period_type="USECNT" period="0" price="555" refund="false" gauge="1" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_P" shop_id="1">
+    <price period_type="USECNT" period="1" price="9600" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="28800" refund="false" gauge="3" shop_open="false" />
+    <price period_type="USECNT" period="5" price="40800" refund="false" gauge="5" shop_open="true" />
+    <price period_type="USECNT" period="10" price="76800" refund="false" gauge="10" shop_open="true" />
+    <price period_type="USECNT" period="15" price="100800" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="172800" refund="false" gauge="30" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_Package_1" shop_id="2">
+    <price period_type="USECNT" period="1" price="1199" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="3050" refund="false" gauge="3" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_Package_2" shop_id="2">
+    <price period_type="USECNT" period="1" price="799" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="1999" refund="false" gauge="3" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_Package_3" shop_id="2">
+    <price period_type="USECNT" period="1" price="699" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="2015" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="4018" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="8142" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="15686" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="23930" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_Package_4" shop_id="2">
+    <price period_type="USECNT" period="1" price="699" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="2015" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="4018" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="8142" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="15686" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="23930" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_Package_5" shop_id="2">
+    <price period_type="USECNT" period="1" price="799" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="2303" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="4593" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="9306" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="17930" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="27354" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_Package_6" shop_id="2">
+    <price period_type="USECNT" period="1" price="599" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="1727" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="3443" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="6977" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="13442" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="20507" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_SIP" shop_id="2">
+    <price period_type="USECNT" period="1" price="79" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="10" price="790" refund="false" gauge="10" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_SP" shop_id="2">
+    <price period_type="USECNT" period="1" price="39" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="7" price="273" refund="false" gauge="7" shop_open="false" />
+    <price period_type="USECNT" period="10" price="390" refund="false" gauge="10" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_U" shop_id="2">
+    <price period_type="USECNT" period="1" price="209" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="519" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="1149" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="2399" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="4549" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="6979" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_UU" shop_id="2">
+    <price period_type="USECNT" period="1" price="100000" refund="false" gauge="1" shop_open="false" />
+    <price period_type="USECNT" period="2" price="200000" refund="false" gauge="2" shop_open="false" />
+    <price period_type="USECNT" period="3" price="300000" refund="false" gauge="3" shop_open="false" />
+    <price period_type="USECNT" period="5" price="500000" refund="false" gauge="5" shop_open="false" />
+    <price period_type="USECNT" period="8" price="500000" refund="false" gauge="8" shop_open="false" />
+  </price_group>
+  <price_group group_name="FC_UnionPet" shop_id="2">
+    <price period_type="DAYS" period="40" price="7500" refund="false" gauge="-1" shop_open="false" />
+  </price_group>
+  <price_group group_name="FC_Unique_100" shop_id="2">
+    <price period_type="USECNT" period="1" price="31900" refund="false" gauge="1" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_WPST" shop_id="2">
+    <price period_type="USECNT" period="1" price="1149" refund="false" gauge="1" shop_open="true" />
+  </price_group>
+  <price_group group_name="FC_ep_3set" shop_id="2">
+    <price period_type="USECNT" period="1" price="2500" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="5" price="8900" refund="false" gauge="5" shop_open="true" />
+    <price period_type="USECNT" period="10" price="16900" refund="false" gauge="10" shop_open="true" />
+  </price_group>
+  <price_group group_name="GEAR_1" shop_id="1">
+    <price period_type="USECNT" period="1" price="300" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="2" price="600" refund="false" gauge="2" shop_open="true" />
+    <price period_type="USECNT" period="3" price="900" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="5" price="900" refund="false" gauge="5" shop_open="false" />
+    <price period_type="USECNT" period="10" price="900" refund="false" gauge="10" shop_open="false" />
+    <price period_type="USECNT" period="20" price="900" refund="false" gauge="20" shop_open="false" />
+    <price period_type="USECNT" period="40" price="900" refund="false" gauge="40" shop_open="false" />
+  </price_group>
+  <price_group group_name="GEAR_2" shop_id="1">
+    <price period_type="USECNT" period="1" price="600" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="2" price="1200" refund="false" gauge="2" shop_open="true" />
+    <price period_type="USECNT" period="3" price="1800" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="20" price="1800" refund="false" gauge="20" shop_open="false" />
+  </price_group>
+  <price_group group_name="GEAR_3" shop_id="1">
+    <price period_type="USECNT" period="1" price="1000" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="2" price="2000" refund="false" gauge="2" shop_open="true" />
+    <price period_type="USECNT" period="3" price="3000" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="10" price="3000" refund="false" gauge="10" shop_open="false" />
+  </price_group>
+  <price_group group_name="GEAR_4" shop_id="1">
+    <price period_type="USECNT" period="1" price="1500" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="2" price="3000" refund="false" gauge="2" shop_open="true" />
+    <price period_type="USECNT" period="3" price="4500" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="5" price="4500" refund="false" gauge="5" shop_open="true" />
+  </price_group>
+  <price_group group_name="GEAR_5" shop_id="1">
+    <price period_type="USECNT" period="1" price="2100" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="2" price="4200" refund="false" gauge="2" shop_open="true" />
+    <price period_type="USECNT" period="3" price="6300" refund="false" gauge="3" shop_open="true" />
+  </price_group>
+  <price_group group_name="K/D" shop_id="2">
+    <price period_type="NONE" period="0" price="569" refund="false" gauge="1" shop_open="true" />
+  </price_group>
+  <price_group group_name="Level_Reward1" shop_id="2">
+    <price period_type="USECNT" period="1" price="8900" refund="false" gauge="1" shop_open="false" />
+    <price period_type="USECNT" period="2" price="8900" refund="false" gauge="2" shop_open="false" />
+    <price period_type="USECNT" period="3" price="8900" refund="false" gauge="3" shop_open="false" />
+    <price period_type="USECNT" period="8" price="8900" refund="false" gauge="8" shop_open="false" />
+  </price_group>
+  <price_group group_name="Level_Reward3" shop_id="2">
+    <price period_type="USECNT" period="3" price="8900" refund="false" gauge="3" shop_open="false" />
+  </price_group>
+  <price_group group_name="MP_FILLUP" shop_id="1">
+    <price period_type="USECNT" period="10" price="2000" refund="false" gauge="10" shop_open="true" />
+  </price_group>
+  <price_group group_name="MT_100" shop_id="2">
+    <price period_type="HOURS" period="10" price="980" refund="false" gauge="36000" shop_open="true" />
+  </price_group>
+  <price_group group_name="MT_50" shop_id="2">
+    <price period_type="HOURS" period="10" price="109" refund="false" gauge="36000" shop_open="true" />
+  </price_group>
+  <price_group group_name="NICK" shop_id="2">
+    <price period_type="NONE" period="0" price="1469" refund="false" gauge="1" shop_open="true" />
+  </price_group>
+  <price_group group_name="NICK_1" shop_id="2">
+    <price period_type="NONE" period="1" price="129" refund="false" gauge="-1" shop_open="true" />
+  </price_group>
+  <price_group group_name="NICK_3" shop_id="2">
+    <price period_type="NONE" period="3" price="795" refund="false" gauge="-1" shop_open="false" />
+  </price_group>
+  <price_group group_name="NICK_30" shop_id="2">
+    <price period_type="NONE" period="30" price="869" refund="false" gauge="-1" shop_open="true" />
+  </price_group>
+  <price_group group_name="NICK_7" shop_id="2">
+    <price period_type="NONE" period="7" price="269" refund="false" gauge="-1" shop_open="true" />
+  </price_group>
+  <price_group group_name="N_CA1" shop_id="2">
+    <price period_type="DAYS" period="7" price="559" refund="false" gauge="-1" shop_open="true" />
+  </price_group>
+  <price_group group_name="N_CA2" shop_id="2">
+    <price period_type="DAYS" period="7" price="1249" refund="false" gauge="-1" shop_open="true" />
+  </price_group>
+  <price_group group_name="N_CA3" shop_id="2">
+    <price period_type="DAYS" period="7" price="1879" refund="false" gauge="-1" shop_open="true" />
+  </price_group>
+  <price_group group_name="N_CCA" shop_id="2">
+    <price period_type="DAYS" period="1" price="79" refund="false" gauge="-1" shop_open="true" />
+    <price period_type="DAYS" period="7" price="159" refund="false" gauge="-1" shop_open="true" />
+    <price period_type="DAYS" period="30" price="369" refund="false" gauge="-1" shop_open="true" />
+  </price_group>
+  <price_group group_name="N_CCA2" shop_id="2">
+    <price period_type="DAYS" period="1" price="109" refund="false" gauge="-1" shop_open="true" />
+    <price period_type="DAYS" period="7" price="209" refund="false" gauge="-1" shop_open="true" />
+    <price period_type="DAYS" period="30" price="489" refund="false" gauge="-1" shop_open="true" />
+  </price_group>
+  <price_group group_name="N_CCCP" shop_id="2">
+    <price period_type="DAYS" period="1" price="495" refund="false" gauge="-1" shop_open="true" />
+    <price period_type="DAYS" period="7" price="995" refund="false" gauge="-1" shop_open="true" />
+    <price period_type="DAYS" period="30" price="2295" refund="false" gauge="-1" shop_open="true" />
+  </price_group>
+  <price_group group_name="N_CGCS" shop_id="2">
+    <price period_type="DAYS" period="1" price="295" refund="false" gauge="-1" shop_open="true" />
+    <price period_type="DAYS" period="7" price="595" refund="false" gauge="-1" shop_open="true" />
+    <price period_type="DAYS" period="30" price="1295" refund="false" gauge="-1" shop_open="true" />
+  </price_group>
+  <price_group group_name="N_W" shop_id="2">
+    <price period_type="DAYS" period="1" price="595" refund="false" gauge="-1" shop_open="true" />
+    <price period_type="DAYS" period="7" price="1395" refund="false" gauge="-1" shop_open="true" />
+    <price period_type="DAYS" period="15" price="2000" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="30" price="2995" refund="false" gauge="-1" shop_open="true" />
+  </price_group>
+  <price_group group_name="Nick_D" shop_id="2">
+    <price period_type="DAYS" period="1" price="13" refund="false" gauge="-1" shop_open="true" />
+  </price_group>
+  <price_group group_name="PC_1" shop_id="2">
+    <price period_type="USECNT" period="1" price="79" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="229" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="489" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="1009" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="1969" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="3019" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+  <price_group group_name="PC_2" shop_id="2">
+    <price period_type="USECNT" period="1" price="139" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="409" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="879" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="1839" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="3329" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="5179" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+  <price_group group_name="PC_3" shop_id="2">
+    <price period_type="USECNT" period="1" price="239" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="669" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="1479" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="3039" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="5539" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="8629" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+  <price_group group_name="PC_4" shop_id="2">
+    <price period_type="USECNT" period="1" price="39" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="109" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="239" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="499" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="979" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="1509" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+  <price_group group_name="PEN_10" shop_id="2">
+    <price period_type="DAYS" period="1" price="495" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="10" price="1960" refund="false" gauge="36000" shop_open="false" />
+  </price_group>
+  <price_group group_name="PEN_100" shop_id="2">
+    <price period_type="DAYS" period="1" price="495" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="10" price="319" refund="false" gauge="36000" shop_open="true" />
+  </price_group>
+  <price_group group_name="PEN_20" shop_id="2">
+    <price period_type="DAYS" period="1" price="495" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="10" price="1960" refund="false" gauge="36000" shop_open="false" />
+  </price_group>
+  <price_group group_name="PEN_30" shop_id="2">
+    <price period_type="DAYS" period="1" price="495" refund="false" gauge="-1" shop_open="false" />
+  </price_group>
+  <price_group group_name="PEN_40" shop_id="2">
+    <price period_type="DAYS" period="1" price="495" refund="false" gauge="-1" shop_open="false" />
+  </price_group>
+  <price_group group_name="PEN_50" shop_id="2">
+    <price period_type="DAYS" period="1" price="495" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="10" price="159" refund="false" gauge="36000" shop_open="true" />
+  </price_group>
+  <price_group group_name="PEN_60" shop_id="2">
+    <price period_type="DAYS" period="1" price="495" refund="false" gauge="-1" shop_open="false" />
+  </price_group>
+  <price_group group_name="PEN_70" shop_id="2">
+    <price period_type="DAYS" period="1" price="495" refund="false" gauge="-1" shop_open="false" />
+  </price_group>
+  <price_group group_name="PEN_80" shop_id="2">
+    <price period_type="DAYS" period="1" price="495" refund="false" gauge="-1" shop_open="false" />
+  </price_group>
+  <price_group group_name="PEN_90" shop_id="2">
+    <price period_type="DAYS" period="1" price="495" refund="false" gauge="-1" shop_open="false" />
+  </price_group>
+  <price_group group_name="P_A" shop_id="1">
+    <price period_type="NONE" period="0" price="30000" refund="true" gauge="2400" shop_open="false" />
+    <price period_type="DAYS" period="1" price="1700" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="3" price="1700" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="3" price="0" refund="false" gauge="10800" shop_open="false" />
+    <price period_type="HOURS" period="5" price="2695" refund="true" gauge="18000" shop_open="true" />
+    <price period_type="DAYS" period="7" price="4400" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="10" price="5295" refund="true" gauge="36000" shop_open="true" />
+    <price period_type="DAYS" period="15" price="8100" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="30" price="15795" refund="true" gauge="108000" shop_open="true" />
+    <price period_type="DAYS" period="30" price="8100" refund="false" gauge="-1" shop_open="false" />
+  </price_group>
+  <price_group group_name="P_C" shop_id="1">
+    <price period_type="USECNT" period="1" price="13" refund="false" gauge="1" shop_open="false" />
+    <price period_type="DAYS" period="1" price="0" refund="false" gauge="1" shop_open="false" />
+    <price period_type="USECNT" period="1" price="0" refund="false" gauge="1" shop_open="false" />
+    <price period_type="USECNT" period="2" price="13" refund="false" gauge="2" shop_open="false" />
+    <price period_type="USECNT" period="3" price="13" refund="false" gauge="3" shop_open="false" />
+    <price period_type="USECNT" period="4" price="13" refund="false" gauge="4" shop_open="false" />
+    <price period_type="USECNT" period="5" price="13" refund="false" gauge="5" shop_open="false" />
+    <price period_type="USECNT" period="6" price="13" refund="false" gauge="6" shop_open="false" />
+    <price period_type="USECNT" period="7" price="13" refund="false" gauge="7" shop_open="false" />
+    <price period_type="USECNT" period="8" price="13" refund="false" gauge="8" shop_open="false" />
+    <price period_type="USECNT" period="9" price="13" refund="false" gauge="9" shop_open="false" />
+    <price period_type="USECNT" period="10" price="13" refund="false" gauge="10" shop_open="false" />
+    <price period_type="USECNT" period="15" price="13" refund="false" gauge="15" shop_open="false" />
+    <price period_type="USECNT" period="20" price="13" refund="false" gauge="20" shop_open="false" />
+    <price period_type="USECNT" period="30" price="13" refund="false" gauge="30" shop_open="false" />
+    <price period_type="USECNT" period="30" price="0" refund="false" gauge="30" shop_open="false" />
+    <price period_type="USECNT" period="50" price="13" refund="false" gauge="50" shop_open="false" />
+    <price period_type="USECNT" period="100" price="0" refund="false" gauge="100" shop_open="false" />
+    <price period_type="USECNT" period="100" price="13" refund="false" gauge="100" shop_open="false" />
+  </price_group>
+  <price_group group_name="P_CA" shop_id="4">
+    <price period_type="USECNT" period="1" price="40" refund="false" gauge="1" shop_open="false" />
+  </price_group>
+  <price_group group_name="P_CCCP" shop_id="1">
+    <price period_type="NONE" period="0" price="5000" refund="true" gauge="900" shop_open="false" />
+    <price period_type="DAYS" period="1" price="2095" refund="true" gauge="-1" shop_open="true" />
+    <price period_type="HOURS" period="3" price="13" refund="false" gauge="10800" shop_open="false" />
+    <price period_type="DAYS" period="7" price="4195" refund="true" gauge="-1" shop_open="true" />
+    <price period_type="DAYS" period="30" price="8395" refund="true" gauge="-1" shop_open="true" />
+  </price_group>
+  <price_group group_name="P_CGCS" shop_id="1">
+    <price period_type="NONE" period="0" price="2000" refund="true" gauge="900" shop_open="false" />
+    <price period_type="DAYS" period="1" price="995" refund="true" gauge="-1" shop_open="true" />
+    <price period_type="HOURS" period="3" price="13" refund="false" gauge="10800" shop_open="false" />
+    <price period_type="DAYS" period="7" price="1995" refund="true" gauge="-1" shop_open="true" />
+    <price period_type="DAYS" period="30" price="3995" refund="true" gauge="-1" shop_open="true" />
+  </price_group>
+  <price_group group_name="P_CHCF" shop_id="1">
+    <price period_type="NONE" period="0" price="2000" refund="true" gauge="900" shop_open="false" />
+    <price period_type="DAYS" period="1" price="645" refund="true" gauge="-1" shop_open="true" />
+    <price period_type="HOURS" period="3" price="13" refund="false" gauge="10800" shop_open="false" />
+    <price period_type="DAYS" period="7" price="1295" refund="true" gauge="-1" shop_open="true" />
+    <price period_type="DAYS" period="15" price="2075" refund="true" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="30" price="2595" refund="true" gauge="-1" shop_open="true" />
+  </price_group>
+  <price_group group_name="P_CP_1" shop_id="1">
+    <price period_type="USECNT" period="1" price="30000" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="5" price="120000" refund="false" gauge="5" shop_open="true" />
+  </price_group>
+  <price_group group_name="P_EC" shop_id="1">
+    <price period_type="NONE" period="0" price="13" refund="false" gauge="1" shop_open="false" />
+    <price period_type="DAYS" period="1" price="13" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="1" price="13" refund="false" gauge="3600" shop_open="false" />
+    <price period_type="HOURS" period="3" price="13" refund="false" gauge="10800" shop_open="false" />
+    <price period_type="HOURS" period="5" price="13" refund="false" gauge="18000" shop_open="false" />
+    <price period_type="HOURS" period="7" price="13" refund="false" gauge="25200" shop_open="false" />
+    <price period_type="DAYS" period="7" price="13" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="10" price="13" refund="false" gauge="36000" shop_open="false" />
+    <price period_type="DAYS" period="30" price="13" refund="false" gauge="-1" shop_open="false" />
+  </price_group>
+  <price_group group_name="P_ECE" shop_id="1">
+    <price period_type="NONE" period="0" price="5000" refund="false" gauge="1" shop_open="true" />
+    <price period_type="HOURS" period="1" price="13" refund="false" gauge="3600" shop_open="false" />
+    <price period_type="DAYS" period="1" price="13" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="3" price="13" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="3" price="13" refund="false" gauge="10800" shop_open="false" />
+    <price period_type="HOURS" period="5" price="13" refund="false" gauge="18000" shop_open="false" />
+    <price period_type="DAYS" period="7" price="13" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="7" price="13" refund="false" gauge="25200" shop_open="false" />
+    <price period_type="HOURS" period="10" price="13" refund="false" gauge="36000" shop_open="false" />
+    <price period_type="DAYS" period="30" price="13" refund="false" gauge="-1" shop_open="false" />
+  </price_group>
+  <price_group group_name="P_ECEC" shop_id="1">
+    <price period_type="USECNT" period="1" price="0" refund="false" gauge="1" shop_open="false" />
+  </price_group>
+  <price_group group_name="P_ECE_event" shop_id="1">
+    <price period_type="NONE" period="0" price="3000" refund="false" gauge="1" shop_open="false" />
+  </price_group>
+  <price_group group_name="P_ESPER_100" shop_id="2">
+    <price period_type="USECNT" period="1" price="2499" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="4" price="7999" refund="false" gauge="4" shop_open="true" />
+    <price period_type="USECNT" period="500" price="9999999" refund="false" gauge="500" shop_open="false" />
+  </price_group>
+  <price_group group_name="P_ESPER_EXTRACT" shop_id="2">
+    <price period_type="USECNT" period="1" price="490" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="5" price="1960" refund="false" gauge="5" shop_open="true" />
+  </price_group>
+  <price_group group_name="P_ESPER_RESET" shop_id="2">
+    <price period_type="USECNT" period="1" price="209" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="599" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="1199" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="1999" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="500" price="9999999" refund="false" gauge="500" shop_open="false" />
+  </price_group>
+  <price_group group_name="P_EspDel" shop_id="1">
+    <price period_type="USECNT" period="1" price="300" refund="false" gauge="1" shop_open="true" />
+  </price_group>
+  <price_group group_name="P_HW" shop_id="1">
+    <price period_type="NONE" period="0" price="30000" refund="true" gauge="2400" shop_open="false" />
+    <price period_type="HOURS" period="3" price="395" refund="true" gauge="12000" shop_open="false" />
+    <price period_type="HOURS" period="5" price="595" refund="true" gauge="18000" shop_open="true" />
+    <price period_type="HOURS" period="10" price="1195" refund="true" gauge="36000" shop_open="true" />
+    <price period_type="HOURS" period="30" price="2295" refund="true" gauge="108000" shop_open="true" />
+  </price_group>
+  <price_group group_name="P_HWEV" shop_id="1">
+    <price period_type="USECNT" period="0" price="5900" refund="false" gauge="1" shop_open="true" />
+  </price_group>
+  <price_group group_name="P_MCCCP" shop_id="1">
+    <price period_type="NONE" period="0" price="4800" refund="true" gauge="900" shop_open="true" />
+  </price_group>
+  <price_group group_name="P_MCGCS" shop_id="1">
+    <price period_type="NONE" period="0" price="1800" refund="true" gauge="900" shop_open="true" />
+  </price_group>
+  <price_group group_name="P_S" shop_id="1">
+    <price period_type="NONE" period="0" price="0" refund="false" gauge="2400" shop_open="false" />
+    <price period_type="DAYS" period="1" price="0" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="1" price="0" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="1" price="0" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="3" price="0" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="3" price="0" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="3" price="0" refund="false" gauge="10800" shop_open="false" />
+    <price period_type="HOURS" period="5" price="0" refund="false" gauge="18000" shop_open="true" />
+    <price period_type="DAYS" period="7" price="0" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="10" price="0" refund="false" gauge="36000" shop_open="true" />
+    <price period_type="HOURS" period="30" price="0" refund="false" gauge="108000" shop_open="true" />
+    <price period_type="DAYS" period="30" price="0" refund="false" gauge="-1" shop_open="false" />
+  </price_group>
+  <price_group group_name="P_W" shop_id="1">
+    <price period_type="NONE" period="0" price="30000" refund="true" gauge="2400" shop_open="false" />
+    <price period_type="HOURS" period="3" price="13" refund="false" gauge="10800" shop_open="false" />
+    <price period_type="HOURS" period="5" price="595" refund="true" gauge="18000" shop_open="true" />
+    <price period_type="DAYS" period="10" price="13" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="10" price="1195" refund="true" gauge="36000" shop_open="true" />
+    <price period_type="HOURS" period="30" price="2295" refund="true" gauge="108000" shop_open="true" />
+  </price_group>
+  <price_group group_name="R_CTE" shop_id="4">
+    <price period_type="NONE" period="0" price="2000" refund="true" gauge="900" shop_open="false" />
+    <price period_type="HOURS" period="1" price="30" refund="true" gauge="3600" shop_open="false" />
+    <price period_type="DAYS" period="1" price="100" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="3" price="300" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="3" price="100" refund="true" gauge="10800" shop_open="false" />
+    <price period_type="HOURS" period="5" price="160" refund="true" gauge="18000" shop_open="false" />
+    <price period_type="DAYS" period="7" price="500" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="7" price="230" refund="true" gauge="25200" shop_open="false" />
+    <price period_type="HOURS" period="10" price="330" refund="true" gauge="36000" shop_open="false" />
+    <price period_type="DAYS" period="10" price="600" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="15" price="700" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="20" price="850" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="30" price="2000" refund="true" gauge="108000" shop_open="false" />
+    <price period_type="DAYS" period="30" price="1000" refund="false" gauge="-1" shop_open="false" />
+  </price_group>
+  <price_group group_name="R_CTM" shop_id="4">
+    <price period_type="NONE" period="0" price="5000" refund="true" gauge="900" shop_open="false" />
+    <price period_type="HOURS" period="1" price="30" refund="true" gauge="3600" shop_open="false" />
+    <price period_type="DAYS" period="1" price="100" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="3" price="300" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="3" price="100" refund="true" gauge="10800" shop_open="false" />
+    <price period_type="HOURS" period="5" price="160" refund="true" gauge="18000" shop_open="false" />
+    <price period_type="DAYS" period="7" price="500" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="7" price="230" refund="true" gauge="25200" shop_open="false" />
+    <price period_type="HOURS" period="10" price="330" refund="true" gauge="36000" shop_open="false" />
+    <price period_type="DAYS" period="10" price="600" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="15" price="700" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="20" price="850" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="30" price="5000" refund="true" gauge="108000" shop_open="false" />
+    <price period_type="DAYS" period="30" price="1000" refund="false" gauge="-1" shop_open="false" />
+  </price_group>
+  <price_group group_name="R_WP" shop_id="4">
+    <price period_type="NONE" period="0" price="30000" refund="true" gauge="2400" shop_open="false" />
+    <price period_type="HOURS" period="1" price="30" refund="true" gauge="3600" shop_open="false" />
+    <price period_type="DAYS" period="1" price="100" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="3" price="300" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="3" price="100" refund="true" gauge="10800" shop_open="false" />
+    <price period_type="HOURS" period="5" price="160" refund="true" gauge="18000" shop_open="false" />
+    <price period_type="DAYS" period="7" price="500" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="7" price="230" refund="true" gauge="25200" shop_open="false" />
+    <price period_type="DAYS" period="10" price="600" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="10" price="330" refund="true" gauge="36000" shop_open="false" />
+    <price period_type="DAYS" period="15" price="700" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="20" price="850" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="DAYS" period="30" price="1000" refund="false" gauge="-1" shop_open="false" />
+    <price period_type="HOURS" period="30" price="30000" refund="true" gauge="108000" shop_open="false" />
+  </price_group>
+  <price_group group_name="W_AP_C_1" shop_id="2">
+    <price period_type="USECNT" period="1" price="399" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="1150" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="2294" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="4647" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="8954" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="13660" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+  <price_group group_name="W_AP_C_2" shop_id="2">
+    <price period_type="USECNT" period="1" price="399" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="1150" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="2294" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="4647" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="8954" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="13660" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+  <price_group group_name="W_AP_C_3" shop_id="2">
+    <price period_type="USECNT" period="1" price="359" refund="false" gauge="1" shop_open="true" />
+    <price period_type="USECNT" period="3" price="1035" refund="false" gauge="3" shop_open="true" />
+    <price period_type="USECNT" period="7" price="2064" refund="false" gauge="7" shop_open="true" />
+    <price period_type="USECNT" period="15" price="4181" refund="false" gauge="15" shop_open="true" />
+    <price period_type="USECNT" period="30" price="8056" refund="false" gauge="30" shop_open="true" />
+    <price period_type="USECNT" period="50" price="12290" refund="false" gauge="50" shop_open="true" />
+  </price_group>
+</price_group_list>

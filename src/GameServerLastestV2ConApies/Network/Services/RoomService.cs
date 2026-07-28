@@ -742,8 +742,6 @@ namespace Santana.Network.Services
             if (gamer?.Room == null || (gamer.Room.GameRuleManager.GameRule.GameRule != GameRule.Arcade))
                 return;
             Console.WriteLine($"[ARCADE-2033] {gamer.Account.Nickname} respawn req, left={gamer.RoomInfo.ArcadeRespawnCount}");
-            if (!((ArcadeGameRule)gamer.Room.GameRuleManager.GameRule).RequestRevive(gamer))
-                return;
             if (gamer.RoomInfo.ArcadeRespawnCount <= 0 || gamer.PEN < 30)
             {
                 ((ArcadeGameRule)gamer.Room.GameRuleManager.GameRule).OnPlayerFailed(gamer);
@@ -752,7 +750,6 @@ namespace Santana.Network.Services
             gamer.PEN -= 30;
             gamer.RoomInfo.ArcadeRespawnCount--;
             session.Player.Room.GameRuleManager.GameRule.Respawn(session.Player);
-            ((ArcadeGameRule)gamer.Room.GameRuleManager.GameRule).MarkRevived(gamer);
             session.SendAsync(new ArcadeRespawnAckMessage { Unk = gamer.RoomInfo.ArcadeRespawnCount });
             session.SendAsync(new MoneyRefreshCashInfoAckMessage(gamer.PEN, gamer.AP));
         }

@@ -194,6 +194,8 @@ namespace Santana.Network.Message.GameRule
         public byte Unk1 { get; set; }
         public byte Unk2 { get; set; }
     }
+
+
     [Packet(2029, PacketType.GameRule)]
     public class ArcadeStageClearReqMessage
     {
@@ -203,6 +205,8 @@ namespace Santana.Network.Message.GameRule
         }
         public ArcadeScoreSyncDto[] Scores { get; set; }
     }
+
+
     [Packet(2030, PacketType.GameRule)]
     public class ArcadeStageFailedReqMessage
     {

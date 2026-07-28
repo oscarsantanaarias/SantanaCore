@@ -41,34 +41,18 @@ namespace Santana.Game.GameRules
 
         private void SendArcadeResult()
         {
-            var playing = Room.TeamManager.NoSpectatorPlayers.Count();
-            var solo = playing <= 1;
-            Console.WriteLine($"[ARCADE-RESULT] playing={playing} solo={solo} -> data={(solo ? "REAL" : "ZEROS")}");
             using (var ms = new MemoryStream())
             using (var w = new BinaryWriter(ms))
             {
                 foreach (var plr in Room.TeamManager.Players)
                 {
-                    var rec = plr.RoomInfo.Stats as ArcadePlayerRecord;
                     w.Write((ulong)plr.Account.Id);
-                    if (solo)
-                    {
-                        w.Write((int)(rec?.KilledMonster ?? 0));
-                        w.Write(Math.Min(100, Math.Max(0, plr.RoomInfo.ArcadeRespawnCount * 10)));
-                        w.Write((int)plr.RoomInfo.PlayTime.TotalSeconds);
-                        w.Write(0);
-                        w.Write(0);
-                        w.Write(0);
-                    }
-                    else
-                    {
-                        w.Write(0);
-                        w.Write(0);
-                        w.Write(0);
-                        w.Write(0);
-                        w.Write(0);
-                        w.Write(0);
-                    }
+                    w.Write(0);
+                    w.Write(0);
+                    w.Write(0);
+                    w.Write(0);
+                    w.Write(0);
+                    w.Write(0);
                 }
                 Room.Broadcast(new ArcadeStageBriefingAckMessage { Unk1 = 0, Unk2 = 0, Data = ms.ToArray() });
             }
@@ -78,7 +62,6 @@ namespace Santana.Game.GameRules
         private byte _stage = 1;
         private int _scoreCheck = 0;
         private readonly System.Collections.Generic.HashSet<ulong> _failedPlayers = new System.Collections.Generic.HashSet<ulong>();
-        private readonly System.Collections.Generic.HashSet<ulong> _downed = new System.Collections.Generic.HashSet<ulong>();
 
         public override GameRule GameRule => GameRule.Arcade;
 
@@ -147,9 +130,6 @@ namespace Santana.Game.GameRules
         {
             var plr = session.Player;
 
-            _failedPlayers.Clear();
-            _downed.Clear();
-
             Console.WriteLine("Arcade: a client asked to begin the stage");
             Console.WriteLine($"Arcade right now: State={StateMachine.State}, CanStart={StateMachine.CanFire(GameRuleStateTrigger.StartPrepare)}, Players={Room.TeamManager.NoSpectatorPlayers.Count()}");
 
@@ -194,35 +174,6 @@ namespace Santana.Game.GameRules
                 return;
             if (StateMachine.CanFire(GameRuleStateTrigger.StartResult))
                 Room.GameRuleManager.GameRule.StateMachine.Fire(GameRuleStateTrigger.StartResult);
-        }
-
-        public bool RequestRevive(Player plr)
-        {
-            _downed.Add(plr.Account.Id);
-
-            var others = Room.TeamManager.PlayersPlaying
-                .Where(p => p.Account.Id != plr.Account.Id)
-                .ToList();
-
-            if (others.Count == 0)
-                return true;
-
-            var aliveTeammate = others.Any(p =>
-                !_downed.Contains(p.Account.Id) &&
-                !_failedPlayers.Contains(p.Account.Id));
-            if (aliveTeammate)
-                return true;
-
-            foreach (var p in Room.TeamManager.PlayersPlaying)
-                _failedPlayers.Add(p.Account.Id);
-            if (StateMachine.CanFire(GameRuleStateTrigger.StartResult))
-                Room.GameRuleManager.GameRule.StateMachine.Fire(GameRuleStateTrigger.StartResult);
-            return false;
-        }
-
-        public void MarkRevived(Player plr)
-        {
-            _downed.Remove(plr.Account.Id);
         }
 
         public void OnArcadeScore(Player plr, ArcadeScoreSyncDto[] score)

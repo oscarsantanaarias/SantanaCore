@@ -1,0 +1,32 @@
+<unique_item_list version="20171116121051" size="4503">
+  <uniqueitem key="1000001" shopid="1" discount="0" periodtype="0" period="0" color="0" onoff="on" reward="0" start_date="" end_date="" refund="Y" />
+  <uniqueitem key="1000002" shopid="1" discount="0" periodtype="0" period="0" color="0" onoff="on" reward="0" start_date="" end_date="" refund="Y" />
+  <uniqueitem key="1000003" shopid="1" discount="0" periodtype="0" period="0" color="0" onoff="on" reward="0" start_date="" end_date="" refund="Y" />
+  <uniqueitem key="1000004" shopid="1" discount="0" periodtype="0" period="0" color="0" onoff="on" reward="0" start_date="" end_date="" refund="Y" />
+  <uniqueitem key="1000005" shopid="1" discount="0" periodtype="0" period="0" color="0" onoff="on" reward="0" start_date="" end_date="" refund="Y" />
+  <uniqueitem key="1000006" shopid="1" discount="0" periodtype="0" period="0" color="0" onoff="on" reward="0" start_date="" end_date="" refund="Y" />
+  <uniqueitem key="1000007" shopid="1" discount="0" periodtype="0" period="0" color="0" onoff="on" reward="0" start_date="" end_date="" refund="Y" />
+  <uniqueitem key="1000008" shopid="1" discount="0" periodtype="0" period="0" color="0" onoff="on" reward="0" start_date="" end_date="" refund="Y" />
+  <uniqueitem key="1000009" shopid="1" discount="0" periodtype="0" period="0" color="0" onoff="on" reward="0" start_date="" end_date="" refund="Y" />
+  <uniqueitem key="1000010" shopid="1" discount="0" periodtype="0" period="0" color="0" onoff="on" reward="0" start_date="" end_date="" refund="Y" />
+  <uniqueitem key="1000012" shopid="1" discount="0" periodtype="0" period="0" color="0" onoff="on" reward="0" start_date="" end_date="" refund="Y" />
+  <uniqueitem key="1000013" shopid="1" discount="0" periodtype="0" period="0" color="0" onoff="on" reward="0" start_date="" end_date="" refund="Y" />
+  <uniqueitem key="1000014" shopid="1" discount="0" periodtype="0" period="0" color="0" onoff="on" reward="0" start_date="" end_date="" refund="Y" />
+  <uniqueitem key="1000015" shopid="1" discount="0" periodtype="0" period="0" color="0" onoff="on" reward="0" start_date="" end_date="" refund="Y" />
+  <uniqueitem key="1000016" shopid="1" discount="0" periodtype="0" period="0" color="0" onoff="on" reward="0" start_date="" end_date="" refund="Y" />
+  <uniqueitem key="1000018" shopid="1" discount="0" periodtype="0" period="0" color="0" onoff="on" reward="0" start_date="" end_date="" refund="Y" />
+  <uniqueitem key="1060012" shopid="1" discount="0" periodtype="0" period="0" color="0" onoff="on" reward="0" start_date="" end_date="" refund="Y" />
+  <uniqueitem key="1060033" shopid="2" discount="0" periodtype="3" period="7" color="0" onoff="on" reward="24464" start_date="" end_date="" refund="N" />
+  <uniqueitem key="1060034" shopid="2" discount="0" periodtype="3" period="7" color="0" onoff="on" reward="18928" start_date="" end_date="" refund="N" />
+  <uniqueitem key="1060035" shopid="2" discount="0" periodtype="3" period="7" color="0" onoff="on" reward="-25536" start_date="" end_date="" refund="N" />
+  <uniqueitem key="1060036" shopid="2" discount="0" periodtype="3" period="7" color="0" onoff="on" reward="18928" start_date="" end_date="" refund="N" />
+  <uniqueitem key="1060037" shopid="2" discount="0" periodtype="3" period="7" color="0" onoff="on" reward="24464" start_date="" end_date="" refund="N" />
+  <uniqueitem key="1060038" shopid="2" discount="0" periodtype="3" period="7" color="0" onoff="on" reward="-25536" start_date="" end_date="" refund="N" />
+  <uniqueitem key="1061176" shopid="1" discount="0" periodtype="0" period="0" color="0" onoff="on" reward="0" start_date="" end_date="" refund="Y" />
+  <uniqueitem key="1061177" shopid="1" discount="0" periodtype="0" period="0" color="0" onoff="on" reward="0" start_date="" end_date="" refund="Y" />
+  <uniqueitem key="2000000" shopid="0" discount="0" periodtype="0" period="0" color="0" onoff="off" reward="0" start_date="" end_date="" refund="N" />
+  <uniqueitem key="2000016" shopid="0" discount="0" periodtype="0" period="0" color="0" onoff="off" reward="0" start_date="" end_date="" refund="N" />
+  <uniqueitem key="2010000" shopid="0" discount="0" periodtype="0" period="0" color="0" onoff="off" reward="0" start_date="" end_date="" refund="N" />
+  <uniqueitem key="2010025" shopid="0" discount="0" periodtype="0" period="0" color="0" onoff="off" reward="0" start_date="" end_date="" refund="N" />
+  <uniqueitem key="3000000" shopid="0" discount="0" periodtype="0" period="0" color="0" onoff="off" reward="0" start_date="" end_date="" refund="N" />
+</unique_item_list>
