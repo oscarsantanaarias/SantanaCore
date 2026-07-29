@@ -332,27 +332,21 @@ namespace Santana.Game.GameRules
 
         public void OnArcadeScore(Player plr, ArcadeScoreSyncDto[] score)
         {
-            var ownScore = score.Where(x => x.AccountId == plr.Account.Id).FirstOrDefault();
-            if (ownScore == null)
-                return;
-
-            var synced = new ArcadeScoreSyncReqDto();
-
-            synced.AccountId = plr.Account.Id;
-            synced.Unk1 = ownScore.MonsterCount;
-            synced.Unk2 = ownScore.MaxMonster;
-            synced.Unk3 = ownScore.KilledMonster;
-            synced.Unk4 = ownScore.MaxMonster > 0 ? System.Math.Max(0, System.Math.Min(100, (int)(0.5f + (100f * ownScore.KilledMonster / ownScore.MaxMonster)))) : 0;
-
-            GetRecord(plr).KilledMonster = (uint)ownScore.KilledMonster;
-
-            if (_scoreByAccount.ContainsKey(plr.Account.Id))
+            foreach (var entry in score)
             {
-                _scoreByAccount.TryUpdate(plr.Account.Id, synced, _scoreByAccount[plr.Account.Id]);
-            }
-            else
-            {
-                _scoreByAccount.TryAdd(plr.Account.Id, synced);
+                var target = Room.TeamManager.PlayersPlaying.FirstOrDefault(p => p.Account.Id == entry.AccountId);
+                if (target == null)
+                    continue;
+
+                var synced = new ArcadeScoreSyncReqDto();
+                synced.AccountId = entry.AccountId;
+                synced.Unk1 = entry.MonsterCount;
+                synced.Unk2 = entry.MaxMonster;
+                synced.Unk3 = entry.KilledMonster;
+                synced.Unk4 = entry.MaxMonster > 0 ? System.Math.Max(0, System.Math.Min(100, (int)(0.5f + (100f * entry.KilledMonster / entry.MaxMonster)))) : 0;
+
+                GetRecord(target).KilledMonster = (uint)entry.KilledMonster;
+                _scoreByAccount[entry.AccountId] = synced;
             }
 
             Room?.Broadcast(new ArcadeScoreSyncAckMessage(_scoreByAccount.Values.ToArray()));
