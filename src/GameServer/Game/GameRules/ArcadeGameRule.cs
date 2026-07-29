@@ -152,11 +152,10 @@ namespace Santana.Game.GameRules
                 {
                     foreach (var plr in players.OrderByDescending(p => p.Account.Id == receiver.Account.Id))
                     {
-                        var rec = plr.RoomInfo.Stats as ArcadePlayerRecord;
                         var isMe = plr.Account.Id == receiver.Account.Id;
                         w.Write(isMe ? (ulong)1 : (ulong)plr.Account.Id);
-                        w.Write((int)(rec?.KilledMonster ?? 0));
-                        w.Write(Math.Min(100, Math.Max(0, plr.RoomInfo.ArcadeRespawnCount * 10)));
+                        w.Write(0);
+                        w.Write(0);
                         w.Write((int)plr.RoomInfo.PlayTime.TotalSeconds);
                         w.Write(isMe ? 1 : 0);
                         w.Write(0);
@@ -280,6 +279,13 @@ namespace Santana.Game.GameRules
                     SendArcadeRefresh(plr);
             }
 
+            if (diff == 1)
+            {
+                foreach (var s in _scoreByAccount.Values)
+                    s.Unk4 = 100;
+                Room?.Broadcast(new ArcadeScoreSyncAckMessage(_scoreByAccount.Values.ToArray()));
+            }
+
             if (StateMachine.CanFire(GameRuleStateTrigger.StartResult))
                 Room.GameRuleManager.GameRule.StateMachine.Fire(GameRuleStateTrigger.StartResult);
         }
@@ -336,8 +342,7 @@ namespace Santana.Game.GameRules
             synced.Unk1 = ownScore.MonsterCount;
             synced.Unk2 = ownScore.MaxMonster;
             synced.Unk3 = ownScore.KilledMonster;
-            var totalKilled = score.Sum(x => x.KilledMonster);
-            synced.Unk4 = totalKilled > 0 ? System.Math.Max(0, System.Math.Min(100, (int)(0.5f + (100f * ownScore.KilledMonster / totalKilled)))) : 0;
+            synced.Unk4 = ownScore.MaxMonster > 0 ? System.Math.Max(0, System.Math.Min(100, (int)(0.5f + (100f * ownScore.KilledMonster / ownScore.MaxMonster)))) : 0;
 
             GetRecord(plr).KilledMonster = (uint)ownScore.KilledMonster;
 
