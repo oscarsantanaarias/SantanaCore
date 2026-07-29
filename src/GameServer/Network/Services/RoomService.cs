@@ -855,6 +855,9 @@ namespace Santana.Network.Services
             try
             {
                 session.Player.Room.ChangeRules(message.Settings);
+                if (gamer.Room.GameRuleManager.GameRule.GameRule == GameRule.Arcade)
+                    foreach (var plr in gamer.Room.TeamManager.Players)
+                        ArcadeGameRule.SendArcadeRefresh(plr);
             }
             catch (Exception)
             {

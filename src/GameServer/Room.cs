@@ -170,7 +170,7 @@ namespace Santana
                     }
                     foreach (var player in _players.Values)
                         player.RoomInfo.LastMapID = (byte)Options.MapId;
-                    if (_changingRulesTimer >= _changingRulesTime.Add(TimeSpan.FromSeconds(3)))
+                    if (_changingRulesTimer >= _changingRulesTime)
                     {
                         IsChangingRules = false;
                         IsChangingRulesCooldown = false;
@@ -670,6 +670,12 @@ namespace Santana
         }
         public void ChangeRules(ChangeRuleDto options)
         {
+            if (IsChangingRules)
+            {
+                Master?.SendAsync(new ServerResultAckMessage(ServerResult.RoomChangingRules));
+                Master?.SendAsync(new RoomChangeRuleNotifyAck2Message(Options.Map<RoomCreationOptions, ChangeRuleDto2>()));
+                return;
+            }
             if (options.GameRule == GameRule.Arcade)
             {
                 Options.ArcadeDifficulty = (byte)Math.Max(1, Math.Min(3, options.Unk1));
