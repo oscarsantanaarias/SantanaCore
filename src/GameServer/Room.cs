@@ -317,7 +317,14 @@ namespace Santana
                 if (plr.Room.Options.GameRule == GameRule.Arcade)
                 {
                     Santana.Game.GameRules.ArcadeGameRule.SendArcadeRefresh(plr);
-                    plr.Session.SendAsync(new ArcadeStageSelectAckMessage { Unk1 = 1, Unk2 = 1 });
+                    var rewardPlr = plr;
+                    var rewardRoom = this;
+                    _ = Task.Run(async () =>
+                    {
+                        await Task.Delay(2500);
+                        if (rewardPlr?.Room == rewardRoom)
+                            Santana.Game.GameRules.ArcadeGameRule.GiveAllClearReward(rewardPlr);
+                    });
                 }
                 var joinedRoom = this;
                 _ = Task.Run(async () =>
@@ -663,6 +670,12 @@ namespace Santana
         }
         public void ChangeRules(ChangeRuleDto options)
         {
+            if (options.GameRule == GameRule.Arcade)
+            {
+                Options.ArcadeDifficulty = (byte)Math.Max(1, Math.Min(3, options.Unk1));
+                foreach (var plr in TeamManager.Players)
+                    Santana.Game.GameRules.ArcadeGameRule.SendArcadeRefresh(plr);
+            }
             ChangeRules2(options.Map<ChangeRuleDto, ChangeRuleDto2>());
         }
         public void ChangeRules2(ChangeRuleDto2 options)

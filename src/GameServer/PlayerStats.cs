@@ -1216,8 +1216,10 @@ namespace Santana
     }
     internal class ArcadeStats : BaseStats
     {
-        private readonly HashSet<byte> _cleared = new HashSet<byte>();
-        private readonly HashSet<byte> _persisted = new HashSet<byte>();
+        // clave = (dificultad, stage) -> cada dificultad su propio tablero
+        private readonly HashSet<(byte diff, byte stage)> _cleared = new HashSet<(byte, byte)>();
+        private readonly HashSet<(byte diff, byte stage)> _persisted = new HashSet<(byte, byte)>();
+        private readonly HashSet<(byte diff, byte stage)> _toDelete = new HashSet<(byte, byte)>();
         private bool _dirty;
         public ArcadeStats(Player player)
             : base(player)
@@ -1228,37 +1230,56 @@ namespace Santana
             foreach (var row in playerDto.ArcadeInfo)
             {
                 var stage = (byte)row.ClearedStages;
+                var diff = (byte)row.Difficulty;
                 if (stage < 1 || stage > 8)
                     continue;
-                _cleared.Add(stage);
-                _persisted.Add(stage);
+                _cleared.Add((diff, stage));
+                _persisted.Add((diff, stage));
             }
         }
-        public bool IsStageCleared(byte stage)
+        public bool IsStageCleared(byte difficulty, byte stage)
         {
-            return _cleared.Contains(stage);
+            return _cleared.Contains((difficulty, stage));
         }
-        public void MarkStageCleared(byte stage)
+        public void MarkStageCleared(byte difficulty, byte stage)
         {
             if (stage < 1 || stage > 8)
                 return;
-            if (_cleared.Add(stage))
+            if (_cleared.Add((difficulty, stage)))
                 _dirty = true;
+        }
+        public void ResetClears(byte difficulty)
+        {
+            foreach (var key in _persisted)
+                if (key.diff == difficulty)
+                    _toDelete.Add(key);
+            _cleared.RemoveWhere(k => k.diff == difficulty);
+            _persisted.RemoveWhere(k => k.diff == difficulty);
+            _dirty = true;
         }
         public override void Save(IDbConnection db)
         {
             if (!_dirty)
                 return;
-            foreach (var stage in _cleared)
+            foreach (var key in _toDelete)
+                DbUtil.Delete(db, new PlayerArcadeDto
+                {
+                    PlayerId = (int)Player.Account.Id,
+                    ClearedStages = key.stage,
+                    Difficulty = key.diff
+                });
+            _toDelete.Clear();
+            foreach (var key in _cleared)
             {
-                if (_persisted.Contains(stage))
+                if (_persisted.Contains(key))
                     continue;
                 DbUtil.Insert(db, new PlayerArcadeDto
                 {
                     PlayerId = (int)Player.Account.Id,
-                    ClearedStages = stage
+                    ClearedStages = key.stage,
+                    Difficulty = key.diff
                 });
-                _persisted.Add(stage);
+                _persisted.Add(key);
             }
             _dirty = false;
         }

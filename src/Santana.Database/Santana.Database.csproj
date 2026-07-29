@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net8.0;net10.0</TargetFrameworks>
     <GenerateAssemblyInfo>True</GenerateAssemblyInfo>
-    <Configurations>OldIDs_Debug;NewIDs_Debug;NewIDs_Release;OldIDs_Release;Latest_Debug;Latest_Release</Configurations>
+    <Configurations>Debug;Release;OldIDs_Debug;NewIDs_Debug;NewIDs_Release;OldIDs_Release;Latest_Debug;Latest_Release;LatestOld_Release;LatestOld_Debug</Configurations>
     <AssemblyVersion>2026.7.7.0</AssemblyVersion>
     <FileVersion>2026.7.7.0</FileVersion>
   </PropertyGroup>

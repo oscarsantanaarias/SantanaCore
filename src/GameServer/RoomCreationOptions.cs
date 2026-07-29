@@ -21,6 +21,7 @@ namespace Santana
         public int SpectatorLimit { get; set; }
         public int Unk3 { get; set; }
         public int MapId { get; set; }
+        public byte ArcadeDifficulty { get; set; } = 1;
         public byte UniqueId { get; set; }
         public byte ChangeRuleId { get; set; }
         public bool IsBurning { get; set; }

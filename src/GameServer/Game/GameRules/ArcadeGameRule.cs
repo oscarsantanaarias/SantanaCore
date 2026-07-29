@@ -7,6 +7,7 @@ namespace Santana.Game.GameRules
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using Dapper;
     using Santana.Network.Data.GameRule;
     using Santana.Network.Message.GameRule;
     using Santana.Game;
@@ -46,19 +47,61 @@ namespace Santana.Game.GameRules
             plr.SendAsync(BuildStageInfoAck(plr));
         }
 
+        public static void GiveAllClearReward(Player plr)
+        {
+            var arcade = plr.stats.GetArcadeStats();
+            var diff = plr.Room?.Options?.ArcadeDifficulty ?? 1;
+            for (byte s = 1; s <= 8; s++)
+                if (!arcade.IsStageCleared(diff, s))
+                    return;
+
+            int dbCleared;
+            using (var conn = GameDatabase.Open())
+                dbCleared = conn.ExecuteScalar<int>(
+                    "SELECT COUNT(DISTINCT ClearedStages) FROM player_info_arcade " +
+                    "WHERE PlayerId = @id AND Difficulty = @diff AND ClearedStages BETWEEN 1 AND 8",
+                    new { id = (int)plr.Account.Id, diff = (int)diff });
+
+            if (dbCleared < 8)
+            {
+                Console.WriteLine($"[ARCADE] reward abortado: memoria=8 pero DB={dbCleared} diff={diff} -> {plr.Account.Nickname}");
+                return;
+            }
+
+            uint capsuleId = (uint)(4030022 + diff);
+            plr.Inventory.CreateUnits(new ItemNumber(capsuleId), 1);
+
+            plr.SendAsync(new Santana.Network.Message.Game.RequitalArcadeRewardAckMessage
+            {
+                Reward = new Santana.Network.Data.Game.ArcadeRewardDto
+                {
+                    Unk1 = capsuleId,
+                    Unk2 = 0,
+                    Unk3 = 0,
+                    Unk4 = 1,
+                    Unk5 = 0,
+                    Unk6 = 0
+                }
+            });
+            arcade.ResetClears(diff);
+            using (var conn = GameDatabase.Open())
+                arcade.Save(conn);
+            SendArcadeRefresh(plr);
+        }
+
         public static Santana.Network.Message.Game.PlayerArcadeStageInfoAckMessage BuildStageInfoAck(Player plr)
         {
             var stats = plr.stats.GetArcadeStats();
             return new Santana.Network.Message.Game.PlayerArcadeStageInfoAckMessage
             {
                 Infos = (from stage in Enumerable.Range(1, 8)
-                         from mode in Enumerable.Range(0, 4)
+                         from diff in Enumerable.Range(1, 3)
                          select new Santana.Network.Data.Game.ArcadeStageInfoDto
                          {
                              Unk1 = 50,
                              Unk2 = (uint)stage,
-                             Unk3 = (uint)mode,
-                             Unk13 = (byte)(stats.IsStageCleared((byte)stage) ? 1 : 0)
+                             Unk3 = (uint)(diff - 1),
+                             Unk13 = (byte)(stats.IsStageCleared((byte)diff, (byte)stage) ? 1 : 0)
                          }).ToArray()
             };
         }
@@ -66,12 +109,40 @@ namespace Santana.Game.GameRules
         private void SendStageInfoToRoom()
         {
             foreach (var plr in Room.TeamManager.Players)
+            {
                 SendArcadeRefresh(plr);
+                if (_rewardOnReturn)
+                    GiveAllClearReward(plr);
+            }
+            _rewardOnReturn = false;
         }
 
         private void SendArcadeResult()
         {
             var players = Room.TeamManager.Players.ToList();
+            if (Room.Options.ArcadeDifficulty != 1)
+            {
+                foreach (var receiver in players)
+                {
+                    using (var ms = new MemoryStream())
+                    using (var w = new BinaryWriter(ms))
+                    {
+                        foreach (var plr in players)
+                        {
+                            var isMe = plr.Account.Id == receiver.Account.Id;
+                            w.Write(isMe ? (ulong)1 : (ulong)plr.Account.Id);
+                            w.Write(0);
+                            w.Write(0);
+                            w.Write((int)plr.RoomInfo.PlayTime.TotalSeconds);
+                            w.Write(isMe ? 1 : 0);
+                            w.Write(0);
+                            w.Write(0);
+                        }
+                        receiver.SendAsync(new ArcadeStageBriefingAckMessage { Unk1 = 0, Unk2 = 0, Data = ms.ToArray() });
+                    }
+                }
+                return;
+            }
             foreach (var receiver in players)
                 SendArcadeRefresh(receiver);
             foreach (var receiver in players)
@@ -99,6 +170,7 @@ namespace Santana.Game.GameRules
         private static readonly ConcurrentDictionary<ulong, ArcadeScoreSyncReqDto> _scoreByAccount = new ConcurrentDictionary<ulong, ArcadeScoreSyncReqDto>();
         private byte _stage = 1;
         private int _scoreCheck = 0;
+        private bool _rewardOnReturn = false;
         private readonly System.Collections.Generic.HashSet<ulong> _failedPlayers = new System.Collections.Generic.HashSet<ulong>();
         private readonly System.Collections.Generic.HashSet<ulong> _downed = new System.Collections.Generic.HashSet<ulong>();
 
@@ -199,10 +271,13 @@ namespace Santana.Game.GameRules
             foreach (var scoreItem in score)
                 _scoreCheck += scoreItem.KilledMonster;
 
+            _rewardOnReturn = true;
+            var diff = Room.Options.ArcadeDifficulty;
             foreach (var plr in Room.TeamManager.PlayersPlaying)
             {
-                plr.stats.GetArcadeStats().MarkStageCleared(_stage);
-                SendArcadeRefresh(plr);
+                plr.stats.GetArcadeStats().MarkStageCleared(diff, _stage);
+                if (diff == 1)
+                    SendArcadeRefresh(plr);
             }
 
             if (StateMachine.CanFire(GameRuleStateTrigger.StartResult))
@@ -214,7 +289,6 @@ namespace Santana.Game.GameRules
             if (plr != null)
                 _failedPlayers.Add(plr.Account.Id);
             var playing = Room.TeamManager.PlayersPlaying.Count();
-            Console.WriteLine($"[ARCADE-FAIL] {plr?.Account.Nickname} failed={_failedPlayers.Count} playing={playing}");
             if (_failedPlayers.Count < System.Math.Max(1, playing))
                 return;
             if (StateMachine.CanFire(GameRuleStateTrigger.StartResult))

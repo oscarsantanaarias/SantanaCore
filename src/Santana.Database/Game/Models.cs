@@ -152,6 +152,8 @@ namespace Santana.Database.Game
         public PlayerDto Player { get; set; }
         [Key]
         public byte ClearedStages { get; set; }
+        [Key]
+        public byte Difficulty { get; set; }
     }
     [Table("player_characters")]
     public class PlayerCharacterDto
