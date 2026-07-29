@@ -127,7 +127,7 @@ namespace Santana.Game.GameRules
                     using (var ms = new MemoryStream())
                     using (var w = new BinaryWriter(ms))
                     {
-                        foreach (var plr in players)
+                        foreach (var plr in players.OrderByDescending(p => p.Account.Id == receiver.Account.Id))
                         {
                             var isMe = plr.Account.Id == receiver.Account.Id;
                             w.Write(isMe ? (ulong)1 : (ulong)plr.Account.Id);
@@ -150,7 +150,7 @@ namespace Santana.Game.GameRules
                 using (var ms = new MemoryStream())
                 using (var w = new BinaryWriter(ms))
                 {
-                    foreach (var plr in players)
+                    foreach (var plr in players.OrderByDescending(p => p.Account.Id == receiver.Account.Id))
                     {
                         var rec = plr.RoomInfo.Stats as ArcadePlayerRecord;
                         var isMe = plr.Account.Id == receiver.Account.Id;
