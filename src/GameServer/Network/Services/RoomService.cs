@@ -725,7 +725,7 @@ namespace Santana.Network.Services
             gamer.RoomInfo.ArcadeRespawnCount = 10;
             session.SendAsync(new ArcadeRespawnAckMessage { Unk = 10 });
             session.Player.Room.Options.TimeLimit = TimeSpan.FromMilliseconds(message.Unk2);
-            session.SendAsync(new ArcadeStageInfoAckMessage(message.Unk1, message.Unk2));
+            gamer.Room.Broadcast(new ArcadeStageInfoAckMessage(message.Unk1, message.Unk2));
         }
         [MessageHandler(typeof(ArcadeEnablePlayTimeReqMessage))]
         public void ArcadeEnablePlayTimeReqMessage(GameSession session, ArcadeEnablePlayTimeReqMessage message)
