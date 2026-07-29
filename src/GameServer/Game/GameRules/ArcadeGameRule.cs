@@ -262,7 +262,7 @@ namespace Santana.Game.GameRules
         public void ArcadeStageSelect(GameSession session, byte stage, byte unk)
         {
             _stage = stage;
-            session.SendAsync(new ArcadeStageSelectAckMessage { Unk1 = stage, Unk2 = unk });
+            Room.Broadcast(new ArcadeStageSelectAckMessage { Unk1 = stage, Unk2 = unk });
         }
 
         public void ArcadeStageClear(ArcadeScoreSyncDto[] score)
