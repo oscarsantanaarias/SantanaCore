@@ -673,6 +673,7 @@ namespace Santana
             if (options.GameRule == GameRule.Arcade)
             {
                 Options.ArcadeDifficulty = (byte)Math.Max(1, Math.Min(3, options.Unk1));
+                Console.WriteLine($"[ARCADE-DIFF] Unk1={options.Unk1} -> ArcadeDifficulty={Options.ArcadeDifficulty}");
                 foreach (var plr in TeamManager.Players)
                     Santana.Game.GameRules.ArcadeGameRule.SendArcadeRefresh(plr);
             }
