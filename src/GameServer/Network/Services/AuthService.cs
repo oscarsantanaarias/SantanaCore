@@ -523,7 +523,7 @@ namespace Santana.Network.Services
                         PlayerId = session.Player.Account.Id,
                         Map = mapChoice,
                         MaxProgress = 1,
-                        Progress = 1,
+                        Progress = 0,
                         Reward = firstReward,
                         Reward2 = secondReward,
                         Reward3 = thirdReward,

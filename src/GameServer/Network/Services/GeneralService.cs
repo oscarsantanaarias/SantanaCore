@@ -824,6 +824,8 @@ namespace Santana.Network.Services
                     await session.SendAsync(new MoneyRefreshCashInfoAckMessage(session.Player.PEN, session.Player.AP));
                     int rolledMap = rng.Next(0, 13);
                     missionRow.Map = rolledMap;
+                    missionRow.Progress = 0;
+                    missionRow.IsRewarded = false;
                     DbUtil.Update(db, missionRow);
                     await session.Player?.SendAsync(new DailyMission_NoticeMessage { Unk = 2, GameMode = 0, Map = rolledMap, MaxProgress = missionRow.MaxProgress, Progress = 0, Unk5 = 5, Unk6 = new int[] { missionRow.Reward, missionRow.Reward2, missionRow.Reward3 } });
                 }

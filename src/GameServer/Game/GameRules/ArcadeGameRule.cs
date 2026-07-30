@@ -338,6 +338,8 @@ namespace Santana.Game.GameRules
 
         public bool RequestRevive(Player plr)
         {
+            if (!_reviveAt.ContainsKey(plr.Account.Id))
+                return false;
             _downed.Add(plr.Account.Id);
             return true;
         }
@@ -398,6 +400,7 @@ namespace Santana.Game.GameRules
             base.OnScoreKill(killer, assist, target, attackAttribute, scoreTarget, scoreKiller, scoreAssist);
 
             var died = target != null && scoreTarget != null && scoreTarget.IsPlayer();
+            Console.WriteLine($"[REVIVE-DBG] killer={killer?.Account.Nickname ?? "null"} target={target?.Account.Nickname ?? "null"} scoreTgtPlayer={scoreTarget?.IsPlayer()} died={died} state={(target != null ? target.RoomInfo.State.ToString() : "-")} players={Room.TeamManager.PlayersPlaying.Count()}");
             if (died && !_reviveAt.ContainsKey(target.Account.Id))
             {
                 if (target.RoomInfo.State != PlayerState.Dead)
