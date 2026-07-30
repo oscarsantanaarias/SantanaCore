@@ -399,10 +399,13 @@ namespace Santana.Game.GameRules
 
             var died = target != null && scoreTarget != null && scoreTarget.IsPlayer();
             if (died && !_reviveAt.ContainsKey(target.Account.Id))
+            {
+                if (target.RoomInfo.State != PlayerState.Dead)
+                    Respawn(target);
                 _reviveAt[target.Account.Id] = RoundTime + TimeSpan.FromSeconds(20);
+            }
 
             var playing = Room.TeamManager.PlayersPlaying.ToList();
-            Console.WriteLine($"[REVIVE-DBG] killer={killer?.Account.Nickname ?? "null"} target={target?.Account.Nickname ?? "null"} scoreTargetPlayer={scoreTarget?.IsPlayer()} died={died} playing={playing.Count} down={_reviveAt.Count}");
             if (died && playing.Count >= 2 && playing.All(p => _reviveAt.ContainsKey(p.Account.Id)))
             {
                 _reviveAt.Clear();
