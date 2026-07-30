@@ -173,6 +173,7 @@ namespace Santana.Game.GameRules
         private readonly System.Collections.Generic.HashSet<ulong> _failedPlayers = new System.Collections.Generic.HashSet<ulong>();
         private readonly System.Collections.Generic.HashSet<ulong> _downed = new System.Collections.Generic.HashSet<ulong>();
         private readonly System.Collections.Generic.Dictionary<ulong, int> _killedByAccount = new System.Collections.Generic.Dictionary<ulong, int>();
+        private readonly System.Collections.Generic.Dictionary<ulong, TimeSpan> _reviveAt = new System.Collections.Generic.Dictionary<ulong, TimeSpan>();
 
         public override GameRule GameRule => GameRule.Arcade;
 
@@ -196,6 +197,8 @@ namespace Santana.Game.GameRules
 
         public override void Cleanup()
         {
+            _killedByAccount.Clear();
+            _scoreByAccount.Clear();
             Room.TeamManager.Remove(Team.Alpha);
             base.Cleanup();
         }
@@ -227,6 +230,33 @@ namespace Santana.Game.GameRules
                     RoundTime < TimeSpan.FromSeconds(5))
                     return;
 
+                if (_reviveAt.Count > 0)
+                {
+                    foreach (var kv in _reviveAt.ToList())
+                    {
+                        if (RoundTime < kv.Value)
+                            continue;
+                        var plr = Room.TeamManager.Players.FirstOrDefault(p => p.Account.Id == kv.Key);
+                        if (plr == null)
+                        {
+                            _reviveAt.Remove(kv.Key);
+                            continue;
+                        }
+                        if (plr.RoomInfo.ArcadeRespawnCount <= 0 || plr.PEN < 30)
+                        {
+                            _reviveAt.Remove(kv.Key);
+                            OnPlayerFailed(plr);
+                            continue;
+                        }
+                        plr.PEN -= 30;
+                        plr.RoomInfo.ArcadeRespawnCount--;
+                        Respawn(plr);
+                        MarkRevived(plr);
+                        plr.SendAsync(new ArcadeRespawnAckMessage { Unk = plr.RoomInfo.ArcadeRespawnCount });
+                        plr.SendAsync(new Santana.Network.Message.Game.MoneyRefreshCashInfoAckMessage(plr.PEN, plr.AP));
+                    }
+                }
+
                 var timeCap = TimeSpan.FromMilliseconds(Room.Options.TimeLimit.TotalMilliseconds);
                 if (RoundTime >= timeCap)
                     StateMachine.Fire(GameRuleStateTrigger.StartResult);
@@ -239,6 +269,9 @@ namespace Santana.Game.GameRules
 
         public void ArcadeStageBegin(GameSession session, byte unk)
         {
+            _downed.Clear();
+            _failedPlayers.Clear();
+            _reviveAt.Clear();
             var plr = session.Player;
 
             Console.WriteLine("Arcade: a client asked to begin the stage");
@@ -306,30 +339,13 @@ namespace Santana.Game.GameRules
         public bool RequestRevive(Player plr)
         {
             _downed.Add(plr.Account.Id);
-
-            var others = Room.TeamManager.PlayersPlaying
-                .Where(p => p.Account.Id != plr.Account.Id)
-                .ToList();
-
-            if (others.Count == 0)
-                return true;
-
-            var aliveTeammate = others.Any(p =>
-                !_downed.Contains(p.Account.Id) &&
-                !_failedPlayers.Contains(p.Account.Id));
-            if (aliveTeammate)
-                return true;
-
-            foreach (var p in Room.TeamManager.PlayersPlaying)
-                _failedPlayers.Add(p.Account.Id);
-            if (StateMachine.CanFire(GameRuleStateTrigger.StartResult))
-                Room.GameRuleManager.GameRule.StateMachine.Fire(GameRuleStateTrigger.StartResult);
-            return false;
+            return true;
         }
 
         public void MarkRevived(Player plr)
         {
             _downed.Remove(plr.Account.Id);
+            _reviveAt.Remove(plr.Account.Id);
         }
 
         public void OnArcadeScore(Player plr, ArcadeScoreSyncDto[] score)
@@ -380,6 +396,19 @@ namespace Santana.Game.GameRules
             LongPeerId scoreTarget, LongPeerId scoreKiller, LongPeerId scoreAssist)
         {
             base.OnScoreKill(killer, assist, target, attackAttribute, scoreTarget, scoreKiller, scoreAssist);
+
+            var died = target != null && scoreTarget != null && scoreTarget.IsPlayer();
+            if (died && !_reviveAt.ContainsKey(target.Account.Id))
+                _reviveAt[target.Account.Id] = RoundTime + TimeSpan.FromSeconds(20);
+
+            var playing = Room.TeamManager.PlayersPlaying.ToList();
+            Console.WriteLine($"[REVIVE-DBG] killer={killer?.Account.Nickname ?? "null"} target={target?.Account.Nickname ?? "null"} scoreTargetPlayer={scoreTarget?.IsPlayer()} died={died} playing={playing.Count} down={_reviveAt.Count}");
+            if (died && playing.Count >= 2 && playing.All(p => _reviveAt.ContainsKey(p.Account.Id)))
+            {
+                _reviveAt.Clear();
+                if (StateMachine.CanFire(GameRuleStateTrigger.StartResult))
+                    StateMachine.Fire(GameRuleStateTrigger.StartResult);
+            }
 
             if (!ScoreIsPlaying())
                 return;
