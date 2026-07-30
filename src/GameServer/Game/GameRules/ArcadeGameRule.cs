@@ -172,6 +172,7 @@ namespace Santana.Game.GameRules
         private bool _rewardOnReturn = false;
         private readonly System.Collections.Generic.HashSet<ulong> _failedPlayers = new System.Collections.Generic.HashSet<ulong>();
         private readonly System.Collections.Generic.HashSet<ulong> _downed = new System.Collections.Generic.HashSet<ulong>();
+        private readonly System.Collections.Generic.Dictionary<ulong, int> _killedByAccount = new System.Collections.Generic.Dictionary<ulong, int>();
 
         public override GameRule GameRule => GameRule.Arcade;
 
@@ -262,6 +263,7 @@ namespace Santana.Game.GameRules
         public void ArcadeStageSelect(GameSession session, byte stage, byte unk)
         {
             _stage = stage;
+            _killedByAccount.Clear();
             Room.Broadcast(new ArcadeStageSelectAckMessage { Unk1 = stage, Unk2 = unk });
         }
 
@@ -334,16 +336,28 @@ namespace Santana.Game.GameRules
         {
             foreach (var entry in score)
             {
+                var prev = _killedByAccount.TryGetValue(entry.AccountId, out var stored) ? stored : 0;
+                _killedByAccount[entry.AccountId] = System.Math.Max(prev, System.Math.Max(0, entry.KilledMonster));
+            }
+
+            long totalKilled = 0;
+            foreach (var kv in _killedByAccount)
+                totalKilled += kv.Value;
+
+            foreach (var entry in score)
+            {
                 var target = Room.TeamManager.PlayersPlaying.FirstOrDefault(p => p.Account.Id == entry.AccountId);
                 if (target == null)
                     continue;
+
+                var mine = _killedByAccount.TryGetValue(entry.AccountId, out var m) ? m : 0;
 
                 var synced = new ArcadeScoreSyncReqDto();
                 synced.AccountId = entry.AccountId;
                 synced.Unk1 = entry.MonsterCount;
                 synced.Unk2 = entry.MaxMonster;
                 synced.Unk3 = entry.KilledMonster;
-                synced.Unk4 = entry.MaxMonster > 0 ? System.Math.Max(0, System.Math.Min(100, (int)(0.5f + (100f * entry.KilledMonster / entry.MaxMonster)))) : 0;
+                synced.Unk4 = totalKilled > 0 ? (int)System.Math.Max(0, System.Math.Min(100, 0.5 + 100.0 * mine / totalKilled)) : 0;
 
                 GetRecord(target).KilledMonster = (uint)entry.KilledMonster;
                 _scoreByAccount[entry.AccountId] = synced;
