@@ -288,6 +288,15 @@ namespace Santana.Game.GameRules
                             {
                                 Journal.Information("[ARENA] Score {s} reached half {h} -> half-time", topScore, SwapPoint);
                                 StateMachine.Fire(GameRuleStateTrigger.StartHalfTime);
+                                var halfLeader = Room.TeamManager.Values.OrderByDescending(x => x.Score).FirstOrDefault();
+                                var halfTeam = halfLeader != null ? halfLeader.Team : Team.Alpha;
+                                Trace($"BROADCAST Arena_HalfTime_Status(3105) TimeState=HalfTime TeamId={halfTeam} RoundTime={RoundTime}");
+                                Room.Broadcast(new ArenaHalfTimeStatusMessage
+                                {
+                                    TimeState = GameTimeState.HalfTime,
+                                    TeamId = halfTeam,
+                                    RoundTime = RoundTime
+                                });
                                 _stage = RoundStage.Setup;
                                 break;
                             }

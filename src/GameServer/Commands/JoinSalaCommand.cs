@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Santana.Network;
+using Santana.Network.Message.Game;
+using Santana.Network.Services;
 
 namespace Santana.Commands
 {
@@ -21,12 +23,12 @@ namespace Santana.Commands
         public SecurityLevel Permission { get; }
         public IReadOnlyList<ICommand> SubCommands { get; }
 
-        public ValueTask<bool> Execute(GameServer server, Player plr, string[] args)
+        public async ValueTask<bool> Execute(GameServer server, Player plr, string[] args)
         {
             if (args.Length < 1 || !uint.TryParse(args[0], out var roomId))
             {
                 CommandManager.Logger.Information(Help());
-                return ValueTask.FromResult(true);
+                return true;
             }
 
             Room target = null;
@@ -42,10 +44,12 @@ namespace Santana.Commands
             if (target == null)
             {
                 CommandManager.Logger.Information($"[joinsala] no existe la sala {roomId}");
-                return ValueTask.FromResult(true);
+                return true;
             }
 
             var channel = target.RoomManager?.Channel;
+            var channelService = new ChannelService();
+            var roomService = new RoomService();
             var joined = 0;
 
             foreach (var candidate in server.Sessions.Values
@@ -55,15 +59,13 @@ namespace Santana.Commands
             {
                 try
                 {
-                    // Paso 1: al canal de la sala (mismo flujo que ChannelEnterReq).
+                    var session = (GameSession)candidate.Session;
                     if (channel != null && candidate.Channel != channel)
-                    {
-                        candidate.Channel?.Leave(candidate);
-                        channel.Join(candidate);
-                    }
+                        channelService.ChannelEnterReq(session,
+                            new ChannelEnterReqMessage { Channel = (uint)channel.Id });
 
-                    // Paso 2: a la sala.
-                    target.Join(candidate);
+                    await roomService.CGameRoomEnterReq(session,
+                        new RoomEnterReqMessage { RoomId = roomId, Password = string.Empty, Unk1 = 0, Unk2 = 0 });
                     joined++;
                 }
                 catch (Exception ex)
@@ -75,13 +77,13 @@ namespace Santana.Commands
 
             CommandManager.Logger.Information(
                 $"[joinsala] sala {roomId}: entraron {joined}, ahora hay {target.Players.Count}");
-            return ValueTask.FromResult(true);
+            return true;
         }
 
         public string Help()
         {
-            return "/joinsala <roomId> - mete a todos los que estan online y sin sala: primero al canal " +
-                   "de esa sala, despues a la sala";
+            return "/joinsala <roomId> - mete a todos los que estan online y sin sala pasando por los " +
+                   "handlers reales de ChannelEnterReq y RoomEnterReq, para que el relay los acepte";
         }
     }
 }

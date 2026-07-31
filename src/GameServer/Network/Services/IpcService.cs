@@ -39,10 +39,10 @@ namespace Santana.Network.Services
                 plr.Channel == null ||
                 plr.Room == null ||
                 request.ServerId != Config.Instance.Id ||
-                plr.Channel.Id != request.ChannelId ||
                 plr.Room.Id != request.RoomId)
             {
-                Logger.Warning("Handshake from relay denied; {acc} does not match a live channel/room binding", request.AccountId);
+                Logger.Warning("Handshake from relay denied; {acc} room={room} expected={exp} channel={ch} clientChannel={cch}",
+                    request.AccountId, plr?.Room?.Id, request.RoomId, plr?.Channel?.Id, request.ChannelId);
                 return Task.FromResult(new RelayLoginResponse(false, null));
             }
 
