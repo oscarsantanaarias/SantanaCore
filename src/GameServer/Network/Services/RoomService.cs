@@ -621,8 +621,8 @@ namespace Santana.Network.Services
                     gamer.Room.GameRuleManager.GameRule.IntrudeRefreshTime));
                 if (gamer.Room.Host != null)
                     gamer.Room.Broadcast(new RoomChangeRefereeAckMessage(gamer.Room.Host.Account.Id));
+                gamer.Room.GameRuleManager.GameRule.IntrudeCompleted(gamer);
             }
-            gamer.Room.GameRuleManager.GameRule.IntrudeCompleted(gamer);
         }
         [MessageHandler(typeof(RoomIntrudeRoundReq2Message))]
         public void CIntrudeRoundReq2(GameSession session)
@@ -1256,6 +1256,7 @@ namespace Santana.Network.Services
             var gamer = session.Player;
             if (gamer.Room == null || !gamer.Room.HasStarted)
                 return;
+            session.SendAsync(new InGamePlayerResponseOfDeathAckMessage());
             var gameRoom = gamer.Room;
             var victim = gameRoom.Players.GetValueOrDefault(message.Score.Target.AccountId);
             if (victim != null && victim.RoomInfo.PeerId.EqualSlot(message.Score.Target))
@@ -1274,6 +1275,7 @@ namespace Santana.Network.Services
                 return;
             if (message.Score == null || message.Score.Killer == null || message.Score.Assist == null)
                 return;
+            session.SendAsync(new InGamePlayerResponseOfDeathAckMessage());
             var gameRoom = gamer.Room;
             var victim = gameRoom.Players.GetValueOrDefault(message.Score.Target.AccountId);
             if (victim != null && victim.RoomInfo.PeerId.EqualSlot(message.Score.Target))
@@ -1449,6 +1451,7 @@ namespace Santana.Network.Services
             }
             if (!gamer.Room.HasStarted)
                 return;
+            session.SendAsync(new InGamePlayerResponseOfDeathAckMessage());
             var gameRoom = gamer.Room;
             var victim = gameRoom.Players.GetValueOrDefault(message.Id.AccountId);
             if (victim != null && victim.RoomInfo.PeerId.EqualSlot(message.Id))

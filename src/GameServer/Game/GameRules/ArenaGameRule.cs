@@ -161,12 +161,21 @@ namespace Santana.Game.GameRules
                 return;
             }
 
-            foreach (var p in Room.TeamManager.PlayersPlaying)
-            {
-                if (p == PlayerAlphaBattle || p == PlayerBetaBattle)
-                    continue;
-                SendBattleIndex(p);
-            }
+            SendFightersOnly(plr);
+        }
+        private void SendFightersOnly(Player plr)
+        {
+            if (plr?.Account == null)
+                return;
+            var a = ValidPlayer(PlayerAlphaBattle)
+                ? new[] { new ArenaSyncDto(0u, PlayerAlphaBattle.Account.Id) } : Array.Empty<ArenaSyncDto>();
+            var b = ValidPlayer(PlayerBetaBattle)
+                ? new[] { new ArenaSyncDto(0u, PlayerBetaBattle.Account.Id) } : Array.Empty<ArenaSyncDto>();
+            var aIds = Room.TeamManager[Team.Alpha].NoSpectatorPlayers.Where(x => x?.Account != null).Select(x => x.Account.Id).ToArray();
+            var bIds = Room.TeamManager[Team.Beta].NoSpectatorPlayers.Where(x => x?.Account != null).Select(x => x.Account.Id).ToArray();
+            Trace($"-> {plr.Account.Nickname} fighter-only 3098+3097 (intrude) alpha=[{string.Join(",", aIds)}] beta=[{string.Join(",", bIds)}]");
+            plr.SendAsync(new SyncFirstArenaBattleIdxMessage(aIds, bIds));
+            plr.SendAsync(new SyncArenaBattleIdxMessage(CurrentRound, a, b));
         }
         public override PlayerRecord GetPlayerRecord(Player plr)
         {
@@ -364,7 +373,6 @@ namespace Santana.Game.GameRules
             if (_roundWinner == null)
             {
 
-                BroadcastFightersOnly();
                 Room.TeamManager[Team.Alpha].Score++;
                 Room.TeamManager[Team.Beta].Score++;
                 RotateFighter(Team.Alpha);
@@ -381,7 +389,6 @@ namespace Santana.Game.GameRules
                 var champ = champTeam == Team.Alpha ? PlayerAlphaBattle : PlayerBetaBattle;
                 var beaten = beatenTeam == Team.Alpha ? PlayerAlphaBattle : PlayerBetaBattle;
 
-                BroadcastFightersOnly();
                 Room.TeamManager[champTeam].Score++;
                 if (ValidPlayer(champ))
                     Stats(champ).RoundsWon++;
@@ -666,7 +673,10 @@ namespace Santana.Game.GameRules
             if (fighter == null)
                 return Array.Empty<ArenaSyncDto>();
 
-            return new[] { new ArenaSyncDto(0u, fighter.Account.Id) };
+            var supporter = roster.Where(p => p != fighter).OrderByDescending(p => p.Level).FirstOrDefault();
+            return supporter != null
+                ? new[] { new ArenaSyncDto(0u, fighter.Account.Id), new ArenaSyncDto(1u, supporter.Account.Id) }
+                : new[] { new ArenaSyncDto(0u, fighter.Account.Id) };
         }
         private bool CanStartGame()
         {
