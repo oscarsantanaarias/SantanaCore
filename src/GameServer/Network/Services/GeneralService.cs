@@ -694,109 +694,116 @@ namespace Santana.Network.Services
             if (actor == null)
                 return;
             var target = actor.Inventory.Where(x => x.Id == message.ID).FirstOrDefault();
+            if (target == null)
+            {
+                await session.SendAsync(new AlchemyDecompositionAckMessage(0, 0, 0, 0, 0, 0));
+                return;
+            }
             var secureRng = new SecureRandom();
             if (target.PeriodType != ItemPeriodType.Days)
-                actor.Inventory.Remove(target);
-            else
-                actor.Inventory.RemoveOrDecreaseDays(target, (ushort)message.Days);
-            if (target.PeriodType != ItemPeriodType.Days)
             {
-                actor.Inventory.CreateUnits(6010003, 1);
-                actor.Inventory.CreateUnits(6010004, 1);
+                var drops = new List<ItemNumber> { 6010003, 6010004 };
                 if (secureRng.Next(1, 101) > 80)
-                    actor.Inventory.CreateUnits(6010101, 1);
+                    drops.Add(6010101);
                 else if (secureRng.Next(1, 101) > 35 && secureRng.Next(1, 101) < 60)
-                    actor.Inventory.CreateUnits(6010102, 1);
+                    drops.Add(6010102);
+                actor.Inventory.Remove(target);
+                foreach (var drop in drops)
+                    actor.Inventory.CreateUnits(drop, 1);
                 await session.SendAsync(new AlchemyDecompositionAckMessage(9, 48649, 1, 1, 6010004, 0));
             }
             else
             {
                 var gemResult = 0;
-                if (message.Days >= 30 && message.Days <= 40)
+                var drops = new List<ItemNumber>();
+                if (message.Days <= 40)
                 {
                     gemResult = 6010000;
-                    actor.Inventory.CreateUnits(6010000, 1);
+                    drops.Add(6010000);
                 }
-                else if (message.Days >= 40 && message.Days <= 61)
+                else if (message.Days <= 60)
                 {
                     gemResult = 6010001;
-                    actor.Inventory.CreateUnits(6010000, 1);
-                    actor.Inventory.CreateUnits(6010001, 1);
+                    drops.Add(6010000);
+                    drops.Add(6010001);
                 }
-                else if (message.Days >= 61 && message.Days <= 71)
+                else if (message.Days <= 70)
                 {
                     gemResult = 6010001;
-                    actor.Inventory.CreateUnits(6010001, 1);
+                    drops.Add(6010001);
                 }
-                else if (message.Days >= 71 && message.Days <= 80)
+                else if (message.Days <= 80)
                 {
                     gemResult = 6010002;
-                    actor.Inventory.CreateUnits(6010002, 1);
+                    drops.Add(6010002);
                 }
-                else if (message.Days >= 80 && message.Days <= 101)
+                else if (message.Days <= 101)
                 {
                     gemResult = 6010002;
-                    actor.Inventory.CreateUnits(6010000, 1);
-                    actor.Inventory.CreateUnits(6010002, 1);
+                    drops.Add(6010000);
+                    drops.Add(6010002);
                 }
-                else if (message.Days >= 102 && message.Days <= 131)
+                else if (message.Days <= 131)
                 {
                     gemResult = 6010002;
-                    actor.Inventory.CreateUnits(6010001, 1);
-                    actor.Inventory.CreateUnits(6010002, 1);
+                    drops.Add(6010001);
+                    drops.Add(6010002);
                 }
-                else if (message.Days >= 132 && message.Days <= 140)
+                else if (message.Days <= 140)
                 {
                     gemResult = 6010003;
-                    actor.Inventory.CreateUnits(6010003, 1);
+                    drops.Add(6010003);
                 }
-                else if (message.Days >= 141 && message.Days <= 161)
+                else if (message.Days <= 160)
                 {
                     gemResult = 6010003;
-                    actor.Inventory.CreateUnits(6010000, 1);
-                    actor.Inventory.CreateUnits(6010003, 1);
+                    drops.Add(6010000);
+                    drops.Add(6010003);
                 }
-                else if (message.Days >= 161 && message.Days <= 201)
+                else if (message.Days <= 201)
                 {
                     gemResult = 6010003;
-                    actor.Inventory.CreateUnits(6010001, 1);
-                    actor.Inventory.CreateUnits(6010003, 1);
+                    drops.Add(6010001);
+                    drops.Add(6010003);
                 }
-                else if (message.Days >= 202 && message.Days <= 210)
+                else if (message.Days <= 210)
                 {
                     gemResult = 6010003;
-                    actor.Inventory.CreateUnits(6010002, 1);
-                    actor.Inventory.CreateUnits(6010003, 1);
+                    drops.Add(6010002);
+                    drops.Add(6010003);
                 }
-                else if (message.Days >= 202 && message.Days <= 210)
+                else if (message.Days <= 220)
                 {
                     gemResult = 6010004;
-                    actor.Inventory.CreateUnits(6010004, 1);
+                    drops.Add(6010004);
                 }
-                else if (message.Days >= 221 && message.Days <= 241)
+                else if (message.Days <= 241)
                 {
                     gemResult = 6010004;
-                    actor.Inventory.CreateUnits(6010000, 1);
-                    actor.Inventory.CreateUnits(6010004, 1);
+                    drops.Add(6010000);
+                    drops.Add(6010004);
                 }
-                else if (message.Days >= 242 && message.Days <= 281)
+                else if (message.Days <= 281)
                 {
                     gemResult = 6010004;
-                    actor.Inventory.CreateUnits(6010001, 1);
-                    actor.Inventory.CreateUnits(6010004, 1);
+                    drops.Add(6010001);
+                    drops.Add(6010004);
                 }
-                else if (message.Days >= 282 && message.Days <= 341)
+                else if (message.Days <= 341)
                 {
                     gemResult = 6010004;
-                    actor.Inventory.CreateUnits(6010002, 1);
-                    actor.Inventory.CreateUnits(6010004, 1);
+                    drops.Add(6010002);
+                    drops.Add(6010004);
                 }
-                else if (message.Days >= 342)
+                else
                 {
                     gemResult = 6010004;
-                    actor.Inventory.CreateUnits(6010003, 1);
-                    actor.Inventory.CreateUnits(6010004, 1);
+                    drops.Add(6010003);
+                    drops.Add(6010004);
                 }
+                actor.Inventory.RemoveOrDecreaseDays(target, (ushort)message.Days);
+                foreach (var drop in drops)
+                    actor.Inventory.CreateUnits(drop, 1);
                 await session.SendAsync(new AlchemyDecompositionAckMessage(9, 48649, 1, 1, gemResult, 0));
             }
             await actor.SendAsync(new MoneyRefreshPenInfoAckMessage { Unk = actor.PEN });

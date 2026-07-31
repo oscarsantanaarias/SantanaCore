@@ -526,23 +526,21 @@ namespace Santana.Network.Services
                 session.SendAsync(new ServerResultAckMessage(ServerResult.DBError));
                 return;
             }
+            if (baseItem.ItemNumber.Category != ItemCategory.Weapon ||
+                baseItem.ItemNumber.SubCategory != (byte)WeaponCategory.Melee)
+            {
+                session.SendAsync(new ServerResultAckMessage(ServerResult.DBError));
+                return;
+            }
             var carriedEffects = baseItem.Effects.Where(eff => eff >= 3100800001).ToArray();
             int carriedLevel = baseItem.EnchantLvl;
             List<EffectNumber> keptEffects = new List<EffectNumber>();
-            keptEffects.AddRange(baseItem.Effects.Where(eff => eff <= 3100800001).ToArray());
+            keptEffects.AddRange(baseItem.Effects.Where(eff => eff < 3100800001).ToArray());
             baseItem.Effects = keptEffects.ToArray();
             owner.Inventory.Update(baseItem.Id);
             session.SendAsync(new ItemUpdateInventoryAckMessage(InventoryAction.Update, baseItem.Map<PlayerItem, ItemDto>()));
-            if (baseItem.ItemNumber.Category == ItemCategory.Weapon)
-            {
-                switch (baseItem.ItemNumber.SubCategory)
-                {
-                    case (byte)WeaponCategory.Melee:
-                        owner.Inventory.RemoveOrDecrease(chipItem);
-                        owner.Inventory.Create(4190001, 1, 0, carriedEffects, 1, carriedLevel, true);
-                        break;
-                }
-            }
+            owner.Inventory.RemoveOrDecrease(chipItem);
+            owner.Inventory.Create(4190001, 1, 0, carriedEffects, 1, carriedLevel, true);
         }
         [MessageHandler(typeof(MoveEnchantChipReqMessage))]
         public void MoveEnchantChipReq(GameSession session, MoveEnchantChipReqMessage message)
@@ -564,7 +562,7 @@ namespace Santana.Network.Services
                     case (byte)WeaponCategory.Melee:
                         owner.Inventory.Remove(chipItem);
                         List<EffectNumber> keptEffects = new List<EffectNumber>();
-                        keptEffects.AddRange(baseItem.Effects.Where(eff => eff <= 3100800001).ToArray());
+                        keptEffects.AddRange(baseItem.Effects.Where(eff => eff < 3100800001).ToArray());
                         baseItem.Effects = keptEffects.ToArray();
                         session.SendAsync(new ItemUpdateInventoryAckMessage(InventoryAction.Update, baseItem.Map<PlayerItem, ItemDto>()));
                         break;
@@ -579,7 +577,7 @@ namespace Santana.Network.Services
             if (owner == null)
                 return;
             var baseItem = owner.Inventory[(ulong)message.ItemId];
-            var boosterItemId = message.Unk2 == 0 ? message.Unk2 : 0;
+            var boosterItemId = message.Unk2;
             if (baseItem == null)
             {
                 session.SendAsync(new EnchantEnchantItemAckMessage(EnchantResult.ErrorItemEnchant));
@@ -588,10 +586,16 @@ namespace Santana.Network.Services
             var random = new SecureRandom();
             var enchantTable = GameServer.Instance.ResourceCache.GetItemEnchant();
             var matchingEnchants = enchantTable.Where(x => x.Value.Category == baseItem.ItemNumber.Category && x.Value.SubCategory == baseItem.ItemNumber.SubCategory).ToList();
+            if (matchingEnchants.Count == 0)
+            {
+                session.SendAsync(new EnchantEnchantItemAckMessage(EnchantResult.ErrorItemEnchant));
+                return;
+            }
             var passedEnchants = matchingEnchants.Where(x => Enumerable.Range(x.Value.Chance, 101)
                .Count(i => random.Next(x.Value.Chance, 101) <= x.Value.Chance) >= 4).OrderByDescending(e => e.Value.Level).ToList();
             var chosenEffects = passedEnchants.Count() != 0 ? passedEnchants[random.Next(0, passedEnchants.Count())].Value.Effects : matchingEnchants[0].Value.Effects;
-            var enchantPrice = new uint[] { 200, 200, 300, 300, 500, 500, 600, 600, 800, 800, 1100, 1100, 1300, 1500, 1800, 2300, 2900, 3500, 4200, 5200, 5200, 5200, 5200, 5200, 5200}[baseItem.EnchantLvl];
+            var priceTable = new uint[] { 200, 200, 300, 300, 500, 500, 600, 600, 800, 800, 1100, 1100, 1300, 1500, 1800, 2300, 2900, 3500, 4200, 5200, 5200, 5200, 5200, 5200, 5200};
+            var enchantPrice = priceTable[Math.Min(baseItem.EnchantLvl, priceTable.Length - 1)];
             if (owner.PEN < enchantPrice)
             {
                 session.SendAsync(new EnchantEnchantItemAckMessage(EnchantResult.NotEnoughMoney));
@@ -621,25 +625,22 @@ namespace Santana.Network.Services
                 successBase = 15;
             if (boosterItemId > 0)
             {
-                if (owner.Inventory[(ulong)boosterItemId].ItemNumber == 4080001)
+                var booster = owner.Inventory[(ulong)boosterItemId];
+                if (booster != null)
                 {
-                    successBase += (successBase * 10) / 100;
-                    owner.Inventory.RemoveOrDecrease(owner.Inventory[(ulong)boosterItemId]);
-                }
-                if (owner.Inventory[(ulong)boosterItemId].ItemNumber == 4080002)
-                {
-                    successBase += (successBase * 20) / 100;
-                    owner.Inventory.RemoveOrDecrease(owner.Inventory[(ulong)boosterItemId]);
-                }
-                if (owner.Inventory[(ulong)boosterItemId].ItemNumber == 4080003)
-                {
-                    successBase = 100;
-                    owner.Inventory.RemoveOrDecrease(owner.Inventory[(ulong)boosterItemId]);
-                }
-                if (owner.Inventory[(ulong)boosterItemId].ItemNumber == 4070001)
-                {
-                    jackpotBase = 20;
-                    owner.Inventory.RemoveOrDecrease(owner.Inventory[(ulong)boosterItemId]);
+                    var boosterUsed = true;
+                    if (booster.ItemNumber == 4080001)
+                        successBase += (successBase * 10) / 100;
+                    else if (booster.ItemNumber == 4080002)
+                        successBase += (successBase * 20) / 100;
+                    else if (booster.ItemNumber == 4080003)
+                        successBase = 100;
+                    else if (booster.ItemNumber == 4070001)
+                        jackpotBase = 20;
+                    else
+                        boosterUsed = false;
+                    if (boosterUsed)
+                        owner.Inventory.RemoveOrDecrease(booster);
                 }
             }
             var successRoll = Enumerable.Range(successBase, 101)

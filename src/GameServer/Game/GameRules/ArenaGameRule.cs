@@ -436,6 +436,7 @@ namespace Santana.Game.GameRules
                 CurrentRound, PlayerAlphaBattle?.Account.Nickname ?? "-",
                 PlayerBetaBattle?.Account.Nickname ?? "-");
             BroadcastBattleIndex();
+            GiveSupportKit();
             if (IsTeamLeader(PlayerAlphaBattle, Team.Alpha) && IsTeamLeader(PlayerBetaBattle, Team.Beta))
             {
 
@@ -587,15 +588,15 @@ namespace Santana.Game.GameRules
                 plr.SendAsync(new ArenaSpecialPointAckMessage(0, plr.Account.Id, 0));
                 return;
             }
-            const uint SupportChargeRate = 2;
+            const uint SupportChargeRate = 100;
             if (unk1 == 1 || unk1 == 2)
             {
                 _supportBarByTeam.TryGetValue(team.Team, out var have);
-                var spend = (uint)(unk1 == 1 ? 50 : 100);
+                var spend = 100u;
                 var leftover = have > spend ? have - spend : 0u;
                 _supportBarByTeam[team.Team] = leftover;
-                Trace($"BROADCAST(team) Arena_Special_Point_Ack(3101) USE u1={unk1} -> Point={leftover}");
-                foreach (var mate in team.NoSpectatorPlayers)
+                Trace($"BROADCAST(room) Arena_Special_Point_Ack(3101) USE u1={unk1} AccountId={plr.Account.Id} -> Point={leftover}");
+                foreach (var mate in Room.TeamManager.PlayersPlaying)
                     mate.SendAsync(new ArenaSpecialPointAckMessage(0, plr.Account.Id, leftover));
                 return;
             }
@@ -663,6 +664,26 @@ namespace Santana.Game.GameRules
                         DateTime.Now.ToString("HH:mm:ss.fff") + " " + line + Environment.NewLine);
             }
             catch { }
+        }
+        private void GiveSupportKit()
+        {
+            foreach (var team in Room.TeamManager.Values)
+            {
+                var fighter = team.Team == Team.Alpha ? PlayerAlphaBattle : PlayerBetaBattle;
+                var supporter = team.PlayersPlaying
+                    .Where(p => p != fighter)
+                    .OrderByDescending(p => p.Level)
+                    .FirstOrDefault();
+                if (supporter?.Account == null)
+                    continue;
+                _supportBarByTeam[team.Team] = 100;
+                Trace($"BROADCAST(team) Arena_Special_Point_Ack(3101) KIT AccountId={supporter.Account.Id} Point=0 -> 100");
+                foreach (var mate in team.NoSpectatorPlayers)
+                {
+                    mate.SendAsync(new ArenaSpecialPointAckMessage(0, supporter.Account.Id, 0));
+                    mate.SendAsync(new ArenaSpecialPointAckMessage(0, supporter.Account.Id, 100));
+                }
+            }
         }
         private ArenaSyncDto[] BuildSyncs(Team team, Player current)
         {
