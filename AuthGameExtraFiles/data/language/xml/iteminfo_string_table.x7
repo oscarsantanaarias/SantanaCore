@@ -8459,7 +8459,7 @@
 	<string key="N2000058" ger="Binary Sigma Blade" eng="Binary Sigma Blade" />
 	<string key="T2000058" ger="Glitch's White Twin Blade. {N}Das Siegel wurde durch den Ausbruch von Dead Pixel gebrochen und entfesselte ihre wahre Macht." eng="Glitch's White Twin Blade. {N}The seal was broken by the outbreak of Dead Pixel, and its true power was released." />
 	<string key="N2050012" ger="Kaboom!" eng="Kaboom!" />
-	<string key="T2050012" ger="Ein Spielzeug, kreiert von Dead Pixel, das dem Aussehen von Fumbi  nachempfunden ist. {N}Sieht wie ein Spielzeug aus., aber explodiert mit einen lauten Knall. Mit Vorsicht zu handhaben!" eng=" A toy made by Dead Pixel modelled after Fumbi.{N}Despite it's toy-like appearance, it detonates very loudly. Handle with caution." />
+	<string key="T2050012" ger="Ein Spielzeug, das dem Aussehen von Fumbi  nachempfunden ist. {N}Sieht wie ein Spielzeug aus., aber explodiert mit einen lauten Knall. Mit Vorsicht zu handhaben!" eng=" A toy modelled after Fumbi.{N}Despite it's toy-like appearance, it detonates very loudly. Handle with caution." />
 	<string key="N4035422" ger="Dead Pixel M Capsule" eng="Dead Pixel M Capsule" />
 	<string key="T4035422" ger="Eine Capsule, die ein Dead Pixel M Set enthält. {N}Enthält folgende Items:" eng="A capsule which contains a Dead Pixel M Set.{N}The box contains the following items at random:" />
 	<string key="N4035423" ger="Sweet Pixel W Capsule" eng="Sweet Pixel W Capsule" />
