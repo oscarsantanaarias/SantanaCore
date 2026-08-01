@@ -4,7 +4,7 @@
   <string key="APreward1" eng="3 AP" />
   <string key="APreward2" eng="5 AP" />
   <string key="APreward3" eng="10 AP" />
-  <string key="CardComment" eng="Card Gun ported and Edited! {N}By Matty!" />
+  <string key="CardComment" eng="Card Gun" />
   <string key="CardName" eng="Card Gun" />
   <string key="F_EXCAL" eng="Close Range Weapon" />
   <string key="F_TEXT_EA" eng="Sniping Weapon" />
@@ -7417,7 +7417,7 @@
   <string key="T2000104" eng="Monk used this Katana to fight new {N}S4League Players!" />
   <string key="T2000108" eng="Made for children but then official never released!" />
   <string key="T2000112" eng="This Sword is made by Lgndz! {N}Since he disappeared, it has become weaker!" />
-  <string key="T2000115" eng="Created by Matty!" />
+  <string key="T2000115" eng="" />
   <string key="T2000117" eng="Dr.Icey created this special Knife!" />
   <string key="T2000118" eng="Failed experiment. It's unstable, look out!" />
   <string key="T2000120" eng="Iron forged Knife!" />
@@ -7496,7 +7496,7 @@
   <string key="T2010061" eng="The star of this beautiful weapon is filled with luck!" />
   <string key="T2010062" eng="There is no description for this item yet." />
   <string key="T2010063" eng="There is no description for this item yet." />
-  <string key="T2010064" eng="This Neon painted gun was created by Lgndz!" />
+  <string key="T2010064" eng="This Neon painted gun." />
   <string key="T2010065" eng="An Assault Rifle with strange colors!" />
   <string key="T2010066" eng="There is no description for this item yet." />
   <string key="T2010067" eng="Dusk will eat you and Dawn will make you shine!" />
@@ -10846,7 +10846,7 @@
   <string key="T9010001" />
   <string key="T9020001" />
   <string key="T9030004" />
-  <string key="TIP_EA" eng="Custom 'Fate' Style Railgun.{N}Created by [GM]Saber" />
+  <string key="TIP_EA" eng="Custom 'Fate' Style Railgun." />
   <string key="TIP1" eng="Hair style giving vivid feeling through short cut and rolling perm." />
   <string key="TIP10" eng="A male hair style that emphasizes style by shortening the side hair and leaving the back and front hair long." />
   <string key="TIP100" eng="Pants that show the wild manly beauty of the western period." />

@@ -604,9 +604,10 @@ namespace Santana.Game.GameRules
                 var spend = 100u;
                 var leftover = have > spend ? have - spend : 0u;
                 _supportBarByTeam[team.Team] = leftover;
-                Trace($"BROADCAST(room) Arena_Special_Point_Ack(3101) USE u1={unk1} AccountId={plr.Account.Id} -> Point={leftover}");
+                var assist = unk1 == 1 ? 4 : 5;
+                Trace($"BROADCAST(room) Arena_Special_Point_Ack(3101) USE u1={unk1} assist={assist} AccountId={plr.Account.Id} -> Point={leftover}");
                 foreach (var mate in Room.TeamManager.PlayersPlaying)
-                    mate.SendAsync(new ArenaSpecialPointAckMessage(0, plr.Account.Id, leftover));
+                    mate.SendAsync(new ArenaSpecialPointAckMessage(assist, plr.Account.Id, leftover));
                 return;
             }
             _supportBarByTeam.TryGetValue(team.Team, out var have2);
@@ -715,8 +716,6 @@ namespace Santana.Game.GameRules
             var teams = Room.TeamManager.Values.ToArray();
             if (teams.Any(team => team.NoSpectatorPlayers.Count() == 0))
                 return false;
-            if (Room.Options.IsFriendly)
-                return true;
             return teams.All(team => team.Players.Any(plr => plr.RoomInfo.IsReady || Room.Master == plr));
         }
     }
