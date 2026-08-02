@@ -30,7 +30,6 @@ namespace Santana.Game.GameRules
         private bool _swapSidesNext;
         private readonly Dictionary<ulong, float> _reportedHp = new Dictionary<ulong, float>();
         private readonly Dictionary<Team, uint> _supportBarByTeam = new Dictionary<Team, uint>();
-        private ulong _skipSupportId;
         private bool _hpSnapshotSent;
         public int CurrentRound { get; set; }
         public Player PlayerAlphaBattle { get; set; }
@@ -411,7 +410,6 @@ namespace Santana.Game.GameRules
                 {
                     Journal.Information("[ARENA] {nick} won 3 in a row -> rotates out", champ.Account.Nickname);
                     Stats(champ).BattleWins = 0;
-                    _skipSupportId = champ.Account.Id;
                     RotateFighter(champTeam);
                 }
                 Journal.Information("[ARENA] {result} wins round. Score A={a} B={b}",
@@ -444,12 +442,11 @@ namespace Santana.Game.GameRules
             CurrentRound++;
             PickFighters();
             ReviveFighters();
-            var showdown = IsKillLeader(PlayerAlphaBattle) || IsKillLeader(PlayerBetaBattle);
+            var showdown = false && (IsKillLeader(PlayerAlphaBattle) || IsKillLeader(PlayerBetaBattle));
             Journal.Information("[ARENA] Ready round #{round} alpha={a} beta={b} showdown={sd}",
                 CurrentRound, PlayerAlphaBattle?.Account.Nickname ?? "-",
                 PlayerBetaBattle?.Account.Nickname ?? "-", showdown);
             BroadcastBattleIndex();
-            _skipSupportId = 0;
             if (showdown)
             {
                 Trace($"BROADCAST Arena_LeaderShowdwon(3103) round={CurrentRound} alpha={PlayerAlphaBattle?.Account.Id ?? 0} beta={PlayerBetaBattle?.Account.Id ?? 0}");
@@ -729,7 +726,7 @@ namespace Santana.Game.GameRules
             if (fighter == null)
                 return Array.Empty<ArenaSyncDto>();
 
-            var supporter = roster.Where(p => p != fighter && p.Account.Id != _skipSupportId).OrderByDescending(p => p.Level).FirstOrDefault();
+            var supporter = roster.Where(p => p != fighter).OrderByDescending(p => p.Level).FirstOrDefault();
             return supporter != null
                 ? new[] { new ArenaSyncDto(0u, fighter.Account.Id), new ArenaSyncDto(1u, supporter.Account.Id) }
                 : new[] { new ArenaSyncDto(0u, fighter.Account.Id) };
