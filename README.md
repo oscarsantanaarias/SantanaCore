@@ -1,43 +1,20 @@
-# santanaCore
+# S4 League Multi-Version Server Emulator
+SantanaCore is an open source S4 League Server Emulator project supporting multiple seasons/game versions.
 
-```text
-════════════════════════════════════════════════════════════════════
-                          s a n t a n a C o r e
-        S4 League private server · NetspherePirates lineage
-════════════════════════════════════════════════════════════════════
+Based off WTFBlub's original project & community efforts: https://gitlab.com/NetspherePirates/NetspherePirates
 
-  2025+ — santanaCore                          <>  Season 1 – Season 10
-          Server: Santana
-          Credits: Santana · Standing on the work of:
-                   wtfblub, CC, Buffele
+Currently Supports:
+* Season 8
+* Season 10
 
-  ── Heritage ─────────────────────────────────────────────────────
+Documentation is within the project's wiki:
+[SantanaCore Wiki](https://github.com/oscarsantanaarias/SantanaCore/wiki)
 
-  2017    — NetspherePirates                   <>  v1120, v1139 · Season 1
-            Server: S4Max, S4C, ...
-            Credits: wtfblub
+Requirements: 
+* [MySQL](https://www.mysql.com/)
+* [C++ 2015 Redist](https://www.microsoft.com/en-us/download/details.aspx?id=48145) for the game client
 
-  2017+   — NeoNetspherePirates / NeoNetsphere <>  v1140 – v1461
-            Season 1 → Patch 23.01.2020
-            Servers: HopelessLight, Remnants,
-                     Aincrad / Awakening,
-                     S4DarkForce, S4Egypt,
-                     Dynasty, Violet,
-                     Xero / Zerone (Evolved), ...
-            Credits: CC, Buffele, wtfblub,
-                     Denny9700, Official S4 ;D
-
-  2019    — NetspherePirates                   <>  v1267 · Season 8
-            Server: S4Max, ...
-            Credits: CC, wtfblub
-
-════════════════════════════════════════════════════════════════════
-```
-
-## Heritage
-
-This project is based on the long evolution of the **NetspherePirates** and **NeoNetsphere** projects.
-
-The complete historical lineage can be found here:
-
-https://github.com/enginelesscc/neonetsphere/blob/master/README.md
+Optional:
+* [AIO repack](https://github.com/abbodi1406/vcredist)
+* [Season 8 Game Client (EU v1267)](https://archive.org/download/s4lgameclientarchives/S4%20League%20Game%20Client%20Archive/Season%208%28EU%20v1267%29/FumbiClient_1267_S8.7z)
+* [Season 10 Game Client (EU v1465)](https://archive.org/download/s4lgameclientarchives/S4%20League%20Game%20Client%20Archive/Season%2010%28EU%201465%29%20%28Final%29.7z)
