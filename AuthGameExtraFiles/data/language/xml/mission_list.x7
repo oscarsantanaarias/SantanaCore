@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<mission_list>
-	<data id="55" scriptfilename="resources/script/exercise_mission_station1.lua" />
-	<data id="54" scriptfilename="resources/script/exercise_mission_station1.lua" />
-	<data id="53" scriptfilename="resources/script/exercise_mission_station1.lua" />
-	<data id="52" scriptfilename="resources/script/exercise_mission_station1.lua" />
-	<data id="51" scriptfilename="resources/script/exercise_mission_station1.lua" />
-</mission_list>

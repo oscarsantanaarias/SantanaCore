@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<WayPointList>
-	<Type Index="242" Description="데스매치 - 네덴" WayPointLua="Resources/Script/BTCAI_DeathMatch_Neden01_WayPoint.lua" SentryGunLua="Resources/Script/BTCAI_DeathMatch_Neden01_SentryGunPoint.lua"/>
-</WayPointList>

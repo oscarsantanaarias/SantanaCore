@@ -1,5 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
-<string_table>
-	<string key="MALE" kor="남성" ger="[MALE]" eng="[MALE]" fre="[MALE]" spa="[MALE]" ita="[MALE]" rus="[MALE]" ame="[MALE]" cns="[MALE]" />
-	<string key="FEMALE" kor="여성" ger="[FEMALE]" eng="[FEMALE]" fre="[FEMALE]" spa="[FEMALE]" ita="[FEMALE]" rus="[FEMALE]" ame="[FEMALE]" cns="[FEMALE]" />
-</string_table>

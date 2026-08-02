@@ -16,7 +16,7 @@ namespace Santana.Game.GameRules
             Log.ForContext(Constants.SourceContextPropertyName, nameof(ArenaGameRule));
         private static readonly TimeSpan HoldKillToResult = TimeSpan.FromSeconds(5);
         private static readonly TimeSpan HoldResultToReady = TimeSpan.FromSeconds(8);
-        private static readonly TimeSpan HoldReadyToGo = TimeSpan.FromSeconds(5);
+        private static readonly TimeSpan HoldReadyToGo = TimeSpan.FromSeconds(3);
         private static readonly TimeSpan LiveRoundLength = TimeSpan.FromSeconds(60);
         private static readonly TimeSpan FirstRoundGrace = TimeSpan.FromSeconds(2);
         private static readonly TimeSpan DrawHpTimeout = TimeSpan.FromSeconds(3);
@@ -59,6 +59,7 @@ namespace Santana.Game.GameRules
                 .Permit(GameRuleStateTrigger.StartResult, GameRuleState.EnteringResult);
             StateMachine.Configure(GameRuleState.EnteringResult)
                 .SubstateOf(GameRuleState.Playing)
+                .OnEntry(CleanSupportStates)
                 .Permit(GameRuleStateTrigger.StartResult, GameRuleState.Result);
             StateMachine.Configure(GameRuleState.Result)
                 .SubstateOf(GameRuleState.Playing)
@@ -309,7 +310,7 @@ namespace Santana.Game.GameRules
                         break;
                     case RoundStage.LeaderBanner:
                         if (_stageElapsed >= LeaderBannerHold)
-                            EnterCountdown();
+                            SendReadyAndCountdown();
                         break;
                 }
             }
@@ -388,7 +389,8 @@ namespace Santana.Game.GameRules
                 RotateFighter(Team.Beta);
                 Journal.Information("[ARENA] Round end -> DRAW (no points). Score A={a} B={b}",
                     Room.TeamManager[Team.Alpha].Score, Room.TeamManager[Team.Beta].Score);
-                Trace($"BROADCAST GameChangeSubState(GameTimeState=15)=DRAW  [Score A={Room.TeamManager[Team.Alpha].Score} B={Room.TeamManager[Team.Beta].Score}]");
+                Trace($"BROADCAST Score_Arena_DrawPlay(3099) + GameChangeSubState(GameTimeState=15)=DRAW  [Score A={Room.TeamManager[Team.Alpha].Score} B={Room.TeamManager[Team.Beta].Score}]");
+                Room.Broadcast(new ScoreArenaDrawPlayMessage());
                 Room.Broadcast(new GameChangeSubStateAckMessage((GameTimeState)15));
             }
             else
@@ -406,8 +408,7 @@ namespace Santana.Game.GameRules
                 RotateFighter(beatenTeam);
                 if (ValidPlayer(champ) && Stats(champ).BattleWins > 2)
                 {
-                    Journal.Information("[ARENA] {nick} won 3 in a row -> rotates out",
-                        champ.Account.Nickname);
+                    Journal.Information("[ARENA] {nick} won 3 in a row -> rotates out", champ.Account.Nickname);
                     Stats(champ).BattleWins = 0;
                     RotateFighter(champTeam);
                 }
@@ -441,21 +442,43 @@ namespace Santana.Game.GameRules
             CurrentRound++;
             PickFighters();
             ReviveFighters();
-            Journal.Information("[ARENA] Ready round #{round} alpha={a} beta={b}",
+            var showdown = IsKillLeader(PlayerAlphaBattle) || IsKillLeader(PlayerBetaBattle);
+            Journal.Information("[ARENA] Ready round #{round} alpha={a} beta={b} showdown={sd}",
                 CurrentRound, PlayerAlphaBattle?.Account.Nickname ?? "-",
-                PlayerBetaBattle?.Account.Nickname ?? "-");
+                PlayerBetaBattle?.Account.Nickname ?? "-", showdown);
             BroadcastBattleIndex();
             GiveSupportKit();
-            if (IsTeamLeader(PlayerAlphaBattle, Team.Alpha) && IsTeamLeader(PlayerBetaBattle, Team.Beta))
+            if (showdown)
             {
-
-                Trace("BROADCAST Arena_LeaderShowdwon(3103) (leader showdown banner)");
+                Trace($"BROADCAST Arena_LeaderShowdwon(3103) round={CurrentRound} alpha={PlayerAlphaBattle?.Account.Id ?? 0} beta={PlayerBetaBattle?.Account.Id ?? 0}");
                 Room.Broadcast(new ArenaLeaderShowdwonMessage());
+                _stage = RoundStage.LeaderBanner;
+                _stageElapsed = TimeSpan.Zero;
             }
+            else
+            {
+                SendReadyAndCountdown();
+            }
+        }
+        private bool IsKillLeader(Player fighter)
+        {
+            if (!ValidPlayer(fighter))
+                return false;
+            return Stats(fighter).BattleWins >= 2;
+        }
+        private void SendReadyAndCountdown()
+        {
             Trace($"BROADCAST GameChangeSubState(GameTimeState=14)=READY round={CurrentRound} alpha={PlayerAlphaBattle?.Account.Id ?? 0} beta={PlayerBetaBattle?.Account.Id ?? 0}");
             Room.Broadcast(new GameChangeSubStateAckMessage((GameTimeState)14));
             _stage = RoundStage.Countdown;
             _stageElapsed = TimeSpan.Zero;
+        }
+        private void CleanSupportStates()
+        {
+            _supportBarByTeam.Clear();
+            _stage = RoundStage.Setup;
+            Trace("BROADCAST GameChangeSubState(GameTimeState=16) support-cleanup (entering result)");
+            Room.Broadcast(new GameChangeSubStateAckMessage((GameTimeState)16));
         }
         private bool IsTeamLeader(Player plr, Team team)
         {

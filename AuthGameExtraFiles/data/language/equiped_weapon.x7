@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<weapon_costume>
-	<parent_item key="2000030">
-		<child_item key_1="1930001" key_2="1950001"/>
-	</parent_item>
-	<parent_item key="2000035">
-		<child_item key_1="1930002" key_2="1950002"/>
-	</parent_item>
-</weapon_costume>

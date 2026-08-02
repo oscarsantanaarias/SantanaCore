@@ -1,6 +1,0 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
- <!-- 클라이언트 / 서버 공통 설정 되는 설정에 사용 -->
- <!-- 하드코딩 제거를 위한 데이터 -->
-<info_table>
-	<CollectBook_ItemRegist_Limit_Size value="20"/> <!--Type int CollectBook_ItemRegist_Req 요청시 컬렉팅 북 등록 아이템 최대 사이즈-->
-</info_table>

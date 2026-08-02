@@ -1,4 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<reward_conquest>
-		<requital map_id="46" gift_type="item" item_key="4030167" shop_id="2" period_type="USECNT" period="1" color="0" effect_id="0" />
-</reward_conquest>
