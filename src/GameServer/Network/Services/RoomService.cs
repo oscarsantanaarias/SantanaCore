@@ -852,12 +852,20 @@ namespace Santana.Network.Services
                 session.SendAsync(new ServerResultAckMessage(ServerResult.FailedToRequestTask));
                 return;
             }
+            if (message.Settings.GameRule == GameRule.Arcade && message.Settings.Unk1 <= 1)
+            {
+                session.SendAsync(new RoomChangeRuleFailAckMessage { Result = 1 });
+                return;
+            }
             try
             {
                 session.Player.Room.ChangeRules(message.Settings);
                 if (gamer.Room.GameRuleManager.GameRule.GameRule == GameRule.Arcade)
+                {
+                    gamer.Room.Broadcast(new RoomChangeRuleAckMessage(gamer.Room.Options.Map<RoomCreationOptions, ChangeRuleDto2>()));
                     foreach (var plr in gamer.Room.TeamManager.Players)
                         ArcadeGameRule.SendArcadeRefresh(plr);
+                }
             }
             catch (Exception)
             {

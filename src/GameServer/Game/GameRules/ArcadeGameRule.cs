@@ -7,6 +7,7 @@ namespace Santana.Game.GameRules
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+    using ExpressMapper.Extensions;
     using Dapper;
     using Santana.Network.Data.GameRule;
     using Santana.Network.Message.GameRule;
@@ -267,6 +268,18 @@ namespace Santana.Game.GameRules
             }
         }
 
+        public override void OnRoomJoinCompleted(Player plr)
+        {
+            base.OnRoomJoinCompleted(plr);
+            if (Room.Options.ArcadeDifficulty <= 1)
+            {
+                Room.Options.ArcadeDifficulty = 2;
+                Room.ChangeRules2(Room.Options.Map<RoomCreationOptions, ChangeRuleDto2>());
+                Room.Broadcast(new RoomChangeRuleAckMessage(Room.Options.Map<RoomCreationOptions, ChangeRuleDto2>()));
+                foreach (var p in Room.TeamManager.Players)
+                    SendArcadeRefresh(p);
+            }
+        }
         public void ArcadeStageBegin(GameSession session, byte unk)
         {
             _downed.Clear();
