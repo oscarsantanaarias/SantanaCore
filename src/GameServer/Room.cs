@@ -979,6 +979,10 @@ namespace Santana
                 fmBurnMode = 0;
             return fmBurnMode;
         }
+        public void PushRoomInfo()
+        {
+            RoomManager.Channel.BroadcastCencored(new RoomChangeRoomInfoAck2Message(GetRoomInfo()));
+        }
         internal virtual RoomDto GetRoomInfo()
         {
             var roomDto = new RoomDto
