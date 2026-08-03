@@ -300,9 +300,24 @@ namespace Santana
                       }
                     plr.SendAsync(new RoomCurrentCharacterSlotAckMessage((uint)plr.CharacterManager.CurrentSlot, plr.RoomInfo.Slot));
                      plr.SendAsync(new RoomPlayerInfoListForEnterPlayerAckMessage(Players.Values.Select(r => GetRoomPlrDto(r)).ToArray()));
-                    BroadcastExcept(plr, CreateRoomEnterPlayerAck(plr));
                     foreach (var roomPlr in Players.Values)
                         plr.SendAsync(CreateRoomEnterPlayerAck(roomPlr));
+                    if (GameRuleManager.GameRule.GameRule == GameRule.Arena)
+                        foreach (var roomPlr in Players.Values)
+                        {
+                            if (roomPlr == plr || roomPlr.RoomInfo?.Team == null)
+                                continue;
+                            plr.SendAsync(new RoomEnterPlayerForBookNameTagsAckMessage
+                            {
+                                AccountId = roomPlr.Account.Id,
+                                Team = roomPlr.RoomInfo.Team.Team,
+                                PlayerGameMode = roomPlr.RoomInfo.Mode,
+                                Exp = roomPlr.TotalExperience,
+                                Nickname = roomPlr.Account.Nickname,
+                                Unk1 = roomPlr.NameTag,
+                                Unk2 = (byte)(roomPlr.NameTag > 0 ? 1 : 0)
+                            });
+                        }
                      RefreshClubInfoSnapshot();
                      plr.SendAsync(new ItemClearInvalidEquipItemAckMessage());
                      plr.SendAsync(new ItemClearEsperChipAckMessage());
