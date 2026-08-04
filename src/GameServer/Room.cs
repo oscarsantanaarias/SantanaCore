@@ -300,7 +300,6 @@ namespace Santana
                       }
                     plr.SendAsync(new RoomCurrentCharacterSlotAckMessage((uint)plr.CharacterManager.CurrentSlot, plr.RoomInfo.Slot));
                      plr.SendAsync(new RoomPlayerInfoListForEnterPlayerAckMessage(Players.Values.Select(r => GetRoomPlrDto(r)).ToArray()));
-                    BroadcastExcept(plr, CreateRoomEnterPlayerAck(plr));
                     foreach (var roomPlr in Players.Values)
                         plr.SendAsync(CreateRoomEnterPlayerAck(roomPlr));
                      RefreshClubInfoSnapshot();
