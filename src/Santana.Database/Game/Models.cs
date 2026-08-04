@@ -1,4 +1,4 @@
-using Santana.Database.Game;
+﻿using Santana.Database.Game;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -219,6 +219,7 @@ namespace Santana.Database.Game
         public int Count { get; set; }
         public uint EnchantMP { get; set; }
         public int EnchantLvl { get; set; }
+        public uint EsperChip { get; set; }
         public PlayerItemDto() { }
     }
     [Table("player_mails")]

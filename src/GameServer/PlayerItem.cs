@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -76,6 +76,7 @@ namespace Santana
                 _stackCount = 1;
             _enchantMana = dto.EnchantMP;
             _enchantLevel = dto.EnchantLvl;
+            EsperChip = dto.EsperChip;
             PurchaseDate = DateTimeOffset.FromUnixTimeSeconds(dto.PurchaseDate);
         }
         internal PlayerItem(Inventory inventory, ShopItemInfo itemInfo, ShopPrice price, byte color,
@@ -140,6 +141,7 @@ namespace Santana
                 NeedsToSave = true;
             }
         }
+        public uint EsperChip { get; set; }
         public int EnchantLvl
         {
             get => _enchantLevel;

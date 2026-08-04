@@ -723,6 +723,30 @@ namespace Santana.Network.Services
             var second = owner.Inventory[message.Unk2];
             Logger.Information("[ESPERCHIP] Unk1={U1} ({I1}) Unk2={U2} ({I2})",
                 message.Unk1, first?.ItemNumber.Id ?? 0, message.Unk2, second?.ItemNumber.Id ?? 0);
+            var chip = IsEsperChip(first) ? first : IsEsperChip(second) ? second : null;
+            var target = chip == first ? second : first;
+            if (chip == null || target == null)
+            {
+                session.SendAsync(new ItemUseEsperChipItemAckMessage { Unk1 = 1 });
+                return;
+            }
+            target.EsperChip = chip.ItemNumber.Id;
+            target.NeedsToSave = true;
+            owner.Inventory.RemoveOrDecreaseCount(chip, 1);
+            session.SendAsync(new ItemUseEsperChipItemAckMessage
+            {
+                Unk1 = 0,
+                Unk2 = (long)target.Id,
+                Unk3 = (int)chip.ItemNumber.Id
+            });
+            session.SendAsync(new ItemInventoryInfoAckMessage
+            {
+                Items = owner.Inventory.Select(i => i.Map<PlayerItem, ItemDto>()).ToArray()
+            });
+        }
+        private static bool IsEsperChip(PlayerItem item)
+        {
+            return item != null && item.ItemNumber.Id >= 7000000 && item.ItemNumber.Id <= 7099999;
         }
         [MessageHandler(typeof(EsperEnchantReqMessage))]
         public void EsperEnchant(GameSession session, EsperEnchantReqMessage message)
@@ -769,11 +793,12 @@ namespace Santana.Network.Services
                 owner.Inventory.CreateUnits(chipId + 1u, 1);
                 owner.Inventory.RemoveOrDecreaseCount(esperItem, 1);
                 var upgraded = owner.Inventory.FirstOrDefault(x => x.ItemNumber == chipId + 1u);
+                var upgradedEffect = upgraded?.Effects?.FirstOrDefault(x => x.Effect != 0).Effect ?? 0;
                 session.SendAsync(new EsperEnchantAckMessage
                 {
                     Result = 0,
                     ItemId = upgraded?.Id ?? message.EsperItemId,
-                    Effect = chipId + 1u
+                    Effect = upgradedEffect
                 });
             }
             else

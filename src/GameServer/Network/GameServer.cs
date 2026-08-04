@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Santana.Database.Auth;
 
 namespace Santana.Network
@@ -363,6 +363,7 @@ namespace Santana.Network
             Mapper.Register<PlayerItem, ItemDto>()
                 .Member(dest => dest.Id, src => src.Id)
                 .Member(dest => dest.EnchantLevel, src => src.EnchantLvl)
+                .Member(dest => dest.EsperID, src => src.EsperChip)
                 .Function(dest => dest.ExpireTime, src => src.CalculateExpireTime())
                 .Function(dest => dest.Durability, src =>
                 {

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -397,7 +397,8 @@ namespace Santana
                             Durability = item.Durability,
                             Count = (int)item.Count,
                             EnchantMP = item.EnchantMP,
-                            EnchantLvl = item.EnchantLvl
+                            EnchantLvl = item.EnchantLvl,
+                            EsperChip = item.EsperChip
                         });
                         item.ExistsInDatabase = true;
                         item.NeedsToSave = true;
@@ -420,7 +421,8 @@ namespace Santana
                             Durability = item.Durability,
                             Count = (int)item.Count,
                             EnchantMP = item.EnchantMP,
-                            EnchantLvl = item.EnchantLvl
+                            EnchantLvl = item.EnchantLvl,
+                            EsperChip = item.EsperChip
                         });
                         item.NeedsToSave = false;
                     }
