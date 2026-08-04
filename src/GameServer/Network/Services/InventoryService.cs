@@ -793,7 +793,7 @@ namespace Santana.Network.Services
                 owner.Inventory.CreateUnits(chipId + 1u, 1);
                 owner.Inventory.RemoveOrDecreaseCount(esperItem, 1);
                 var upgraded = owner.Inventory.FirstOrDefault(x => x.ItemNumber == chipId + 1u);
-                var upgradedEffect = upgraded?.Effects?.FirstOrDefault(x => x.Effect != 0).Effect ?? 0;
+                var upgradedEffect = upgraded?.Effects?.FirstOrDefault(x => x.Id != 0).Id ?? 0u;
                 session.SendAsync(new EsperEnchantAckMessage
                 {
                     Result = 0,
