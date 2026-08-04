@@ -656,7 +656,8 @@
                 plr?.SendAsync(new ItemClearInvalidEquipItemAckMessage());
                 plr?.SendAsync(new ItemClearEsperChipAckMessage
                 {
-                    Unk = plr.Inventory.Where(x => x.EsperChip != 0)
+                    Unk = plr.Inventory.Where(x => x.ItemNumber.Category == ItemCategory.Costume
+                            || x.ItemNumber.Category == ItemCategory.Weapon)
                         .Select(x => new ClearEsperChipDto { Unk1 = x.Id, Unk2 = (int)x.EsperChip })
                         .ToArray()
                 });

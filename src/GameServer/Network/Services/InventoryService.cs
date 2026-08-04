@@ -526,6 +526,26 @@ namespace Santana.Network.Services
                 session.SendAsync(new ServerResultAckMessage(ServerResult.DBError));
                 return;
             }
+            if (IsEsperChip(chipItem))
+            {
+                if (!MatchesEsperChipSlot(chipItem, baseItem))
+                {
+                    session.SendAsync(new ServerResultAckMessage(ServerResult.DBError));
+                    return;
+                }
+                var keptEsperEffects = baseItem.Effects
+                    .Where(x => x.Id != 0 && (x.Id < 2100000000 || x.Id > 2299999999))
+                    .ToList();
+                keptEsperEffects.AddRange(chipItem.Effects.Where(x => x.Id != 0));
+                baseItem.Effects = keptEsperEffects.ToArray();
+                baseItem.EsperChip = chipItem.ItemNumber.Id;
+                baseItem.NeedsToSave = true;
+                owner.Inventory.RemoveOrDecreaseCount(chipItem, 1);
+                session.SendAsync(new UseEnchantChipAckMessage());
+                session.SendAsync(new ItemUpdateInventoryAckMessage(InventoryAction.Update,
+                    baseItem.Map<PlayerItem, ItemDto>()));
+                return;
+            }
             if (baseItem.ItemNumber.Category != ItemCategory.Weapon ||
                 baseItem.ItemNumber.SubCategory != (byte)WeaponCategory.Melee)
             {
@@ -744,6 +764,28 @@ namespace Santana.Network.Services
                 Items = owner.Inventory.Select(i => i.Map<PlayerItem, ItemDto>()).ToArray()
             });
         }
+        private static bool MatchesEsperChipSlot(PlayerItem chip, PlayerItem target)
+        {
+            var slot = chip.ItemNumber.Id / 1000;
+            if (target.ItemNumber.Category != ItemCategory.Costume)
+                return false;
+            var costume = (CostumeSlot)target.ItemNumber.SubCategory;
+            if (slot == 7011)
+                return costume == CostumeSlot.Face;
+            if (slot == 7012)
+                return costume == CostumeSlot.Shirt;
+            if (slot == 7013)
+                return costume == CostumeSlot.Pants;
+            if (slot == 7014)
+                return costume == CostumeSlot.Gloves;
+            if (slot == 7015)
+                return costume == CostumeSlot.Shoes;
+            if (slot == 7016)
+                return costume == CostumeSlot.Accessory;
+            if (slot == 7017)
+                return costume == CostumeSlot.Pet;
+            return false;
+        }
         private static bool IsEsperChip(PlayerItem item)
         {
             return item != null && item.ItemNumber.Id >= 7000000 && item.ItemNumber.Id <= 7099999;
@@ -794,6 +836,10 @@ namespace Santana.Network.Services
                 owner.Inventory.RemoveOrDecreaseCount(esperItem, 1);
                 var upgraded = owner.Inventory.FirstOrDefault(x => x.ItemNumber == chipId + 1u);
                 var upgradedEffect = upgraded?.Effects?.FirstOrDefault(x => x.Id != 0).Id ?? 0u;
+                session.SendAsync(new ItemInventoryInfoAckMessage
+                {
+                    Items = owner.Inventory.Select(i => i.Map<PlayerItem, ItemDto>()).ToArray()
+                });
                 session.SendAsync(new EsperEnchantAckMessage
                 {
                     Result = 0,
@@ -819,6 +865,10 @@ namespace Santana.Network.Services
                     owner.Inventory.CreateUnits(chipId - 1u, 1);
                     owner.Inventory.RemoveOrDecreaseCount(esperItem, 1);
                     var downgraded = owner.Inventory.FirstOrDefault(x => x.ItemNumber == chipId - 1u);
+                        session.SendAsync(new ItemInventoryInfoAckMessage
+                    {
+                        Items = owner.Inventory.Select(i => i.Map<PlayerItem, ItemDto>()).ToArray()
+                    });
                     session.SendAsync(new EsperEnchantAckMessage
                     {
                         Result = 2,
