@@ -727,13 +727,14 @@
                 var drops = new List<(ItemNumber item, uint units)>();
                 var tiers = new[] { (211, 6010004u), (131, 6010003u), (71, 6010002u), (31, 6010001u), (1, 6010000u) };
                 var remainingDays = (int)message.Days;
-                while (remainingDays >= 1 && drops.Count < 3)
+                var componentCount = 0;
+                while (remainingDays >= 1 && componentCount < 3)
                 {
                     var tier = tiers.FirstOrDefault(x => x.Item1 <= remainingDays);
                     if (tier.Item1 == 0)
                         break;
                     remainingDays -= tier.Item1;
-                    gemResult = (int)tier.Item2;
+                    componentCount++;
                     var existing = drops.FindIndex(x => x.item == (ItemNumber)tier.Item2);
                     if (existing >= 0)
                         drops[existing] = (drops[existing].item, drops[existing].units + 1);
@@ -748,7 +749,8 @@
                 actor.Inventory.RemoveOrDecreaseDays(target, (ushort)message.Days);
                 foreach (var drop in drops)
                     actor.Inventory.CreateUnits(drop.item, drop.units);
-                var gemUnits = drops.Count > 0 ? (int)drops[drops.Count - 1].units : 1;
+                gemResult = drops.Count > 0 ? (int)drops[0].item.Id : 6010000;
+                var gemUnits = drops.Count > 0 ? (int)drops[0].units : 1;
                 await session.SendAsync(new AlchemyDecompositionAckMessage(9, 48649, 1, gemUnits, gemResult, 0));
             }
             await actor.SendAsync(new MoneyRefreshPenInfoAckMessage { Unk = actor.PEN });
