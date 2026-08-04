@@ -786,7 +786,7 @@
                 foreach (var drop in drops)
                     actor.Inventory.CreateUnits(drop.item, drop.units);
                 var gemUnits = drops.Count > 0 ? (int)drops[drops.Count - 1].units : 1;
-                await session.SendAsync(new AlchemyDecompositionAckMessage(9, 48649, gemUnits, 1, gemResult, 0));
+                await session.SendAsync(new AlchemyDecompositionAckMessage(9, 48649, 1, gemUnits, gemResult, 0));
             }
             await actor.SendAsync(new MoneyRefreshPenInfoAckMessage { Unk = actor.PEN });
         }
