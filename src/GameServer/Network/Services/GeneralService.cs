@@ -731,28 +731,81 @@
             {
                 var gemResult = 0;
                 var drops = new List<(ItemNumber item, uint units)>();
-                var tiers = new[] { (211, 6010004u), (131, 6010003u), (71, 6010002u), (31, 6010001u) };
-                var remainingDays = (int)message.Days;
-                while (remainingDays >= 31)
-                {
-                    var tier = tiers.FirstOrDefault(x => x.Item1 <= remainingDays);
-                    if (tier.Item1 == 0)
-                        break;
-                    remainingDays -= tier.Item1;
-                    var existing = drops.FindIndex(x => x.item == (ItemNumber)tier.Item2);
-                    if (existing >= 0)
-                        drops[existing] = (drops[existing].item, drops[existing].units + 1);
-                    else
-                        drops.Add((tier.Item2, 1));
-                }
                 var periodMultiple = 1;
                 if (target.ItemNumber.Category == ItemCategory.Weapon)
                     periodMultiple = 3;
                 else if (target.ItemNumber.Category == ItemCategory.Costume && target.ItemNumber.SubCategory == (byte)CostumeSlot.Pet)
                     periodMultiple = 2;
-                var gearOneUnits = (uint)(remainingDays / 10 * periodMultiple);
-                if (gearOneUnits > 0)
+                var gearOneUnits = (uint)Math.Max(1, (int)message.Days / 10 * periodMultiple);
+                if (message.Days <= 30)
+                {
                     drops.Add((6010000u, gearOneUnits));
+                }
+                else if (message.Days <= 40)
+                {
+                    drops.Add((6010001u, 1));
+                }
+                else if (message.Days <= 61)
+                {
+                    drops.Add((6010001u, 1));
+                    drops.Add((6010000u, gearOneUnits));
+                }
+                else if (message.Days <= 70)
+                {
+                    drops.Add((6010001u, 1));
+                }
+                else if (message.Days <= 80)
+                {
+                    drops.Add((6010002u, 1));
+                }
+                else if (message.Days <= 101)
+                {
+                    drops.Add((6010002u, 1));
+                    drops.Add((6010000u, gearOneUnits));
+                }
+                else if (message.Days <= 130)
+                {
+                    drops.Add((6010002u, 1));
+                    drops.Add((6010001u, 1));
+                }
+                else if (message.Days <= 140)
+                {
+                    drops.Add((6010003u, 1));
+                }
+                else if (message.Days <= 161)
+                {
+                    drops.Add((6010003u, 1));
+                    drops.Add((6010000u, gearOneUnits));
+                }
+                else if (message.Days <= 201)
+                {
+                    drops.Add((6010003u, 1));
+                    drops.Add((6010001u, 1));
+                }
+                else if (message.Days <= 210)
+                {
+                    drops.Add((6010003u, 1));
+                    drops.Add((6010002u, 1));
+                }
+                else if (message.Days <= 220)
+                {
+                    drops.Add((6010004u, 1));
+                }
+                else if (message.Days <= 241)
+                {
+                    drops.Add((6010004u, 1));
+                    drops.Add((6010000u, gearOneUnits));
+                }
+                else if (message.Days <= 281)
+                {
+                    drops.Add((6010004u, 1));
+                    drops.Add((6010001u, 1));
+                }
+                else
+                {
+                    drops.Add((6010004u, 1));
+                    drops.Add((6010002u, 1));
+                }
                 if (drops.Count == 0)
                 {
                     gemResult = 6010000;
