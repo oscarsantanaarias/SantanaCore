@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -737,41 +737,85 @@ namespace Santana.Network.Services
             if (owner == null)
                 return;
             var esperItem = owner.Inventory[message.EsperItemId];
-            var esperTable = GameServer.Instance.ResourceCache.GetEsperEnchant();
-            var esperData = esperTable.Where(x => x.Value.EsperId == esperItem.ItemNumber).FirstOrDefault().Value;
-            var esperLevel = esperData.Level;
-            var random = new SecureRandom();
-            var rateRoll = Enumerable.Range(esperData.Rate, 101)
-                    .Count(i => random.Next(esperData.Rate, 101) <= esperData.Rate);
-            if (rateRoll >= 3 && esperLevel < 4)
+            if (esperItem == null)
             {
-                esperLevel++;
-                session.SendAsync(new EnchantEnchantItemAckMessage
-                {
-                    Result = EnchantResult.Success,
-                    ItemId = message.EsperItemId,
-                    Effect = esperData.Effect,
-                });
+                session.SendAsync(new EnchantEnchantItemAckMessage { Result = EnchantResult.ErrorItemEnchant });
+                return;
             }
-            else if (rateRoll >= 4 && esperLevel == 4)
+            var chipId = esperItem.ItemNumber.Id;
+            var level = (int)(chipId % 10);
+            if (level < 1 || level >= 5)
             {
-                esperLevel++;
-                session.SendAsync(new EnchantEnchantItemAckMessage
+                session.SendAsync(new EnchantEnchantItemAckMessage { Result = EnchantResult.ErrorItemEnchant });
+                return;
+            }
+            var prices = new[] { 300, 500, 800, 3200 };
+            var successProb = new[] { 80, 60, 30, 5 };
+            var failKeep = new[] { 100, 70, 40, 45 };
+            var failDown = new[] { 0, 25, 40, 50 };
+            var price = prices[level - 1];
+            if (owner.PEN < price)
+            {
+                session.SendAsync(new EnchantEnchantItemAckMessage { Result = EnchantResult.NotEnoughMoney });
+                return;
+            }
+            if (message.PlusChips != 0)
+                Logger.Information("[ESPERCHIP] PercentUp con PlusChips={Plus} sobre chip {Chip}", message.PlusChips, chipId);
+            owner.PEN -= (uint)price;
+            var random = new SecureRandom();
+            if (random.Next(1, 101) <= successProb[level - 1])
+            {
+                Logger.Information("[ESPERCHIP] upgrade {From} -> {To}", chipId, chipId + 1u);
+                owner.Inventory.CreateUnits(chipId + 1u, 1);
+                owner.Inventory.RemoveOrDecreaseCount(esperItem, 1);
+                var upgraded = owner.Inventory.FirstOrDefault(x => x.ItemNumber == chipId + 1u);
+                session.SendAsync(new EsperEnchantAckMessage
                 {
-                    Result = EnchantResult.Success,
-                    ItemId = message.EsperItemId,
-                    Effect = esperData.Effect,
+                    Result = 0,
+                    ItemId = upgraded?.Id ?? message.EsperItemId,
+                    Effect = chipId + 1u
                 });
             }
             else
             {
-                session.SendAsync(new EsperEnchantAckMessage
+                var failRoll = random.Next(1, 101);
+                if (failRoll > failKeep[level - 1] + failDown[level - 1])
                 {
-                    ItemId = message.EsperItemId,
-                    Effect = esperData.Effect,
-                });
+                    owner.Inventory.RemoveOrDecreaseCount(esperItem, 1);
+                    session.SendAsync(new EsperEnchantAckMessage
+                    {
+                        Result = 3,
+                        ItemId = message.EsperItemId,
+                        Effect = 0
+                    });
+                }
+                else if (failRoll > failKeep[level - 1] && level > 1)
+                {
+                    owner.Inventory.CreateUnits(chipId - 1u, 1);
+                    owner.Inventory.RemoveOrDecreaseCount(esperItem, 1);
+                    var downgraded = owner.Inventory.FirstOrDefault(x => x.ItemNumber == chipId - 1u);
+                    session.SendAsync(new EsperEnchantAckMessage
+                    {
+                        Result = 2,
+                        ItemId = downgraded?.Id ?? message.EsperItemId,
+                        Effect = chipId - 1u
+                    });
+                }
+                else
+                {
+                    session.SendAsync(new EsperEnchantAckMessage
+                    {
+                        Result = 1,
+                        ItemId = message.EsperItemId,
+                        Effect = chipId
+                    });
+                }
             }
-            session.Player.Inventory.Update(esperItem.Id);
+            session.SendAsync(new MoneyRefreshCashInfoAckMessage { PEN = owner.PEN, AP = owner.AP });
+            session.SendAsync(new ItemInventoryInfoAckMessage
+            {
+                Items = owner.Inventory.Select(i => i.Map<PlayerItem, ItemDto>()).ToArray()
+            });
         }
         [MessageHandler(typeof(ItemUseCapsuleReqMessage))]
         public async Task ItemUseCapsule(GameSession session, ItemUseCapsuleReqMessage message)
