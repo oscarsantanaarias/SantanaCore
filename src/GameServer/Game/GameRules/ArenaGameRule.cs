@@ -123,9 +123,9 @@ namespace Santana.Game.GameRules
             SyncRoster();
             foreach (var occupant in Room.TeamManager.Players)
             {
-                if (occupant.RoomInfo?.Team == null || occupant.RoomInfo.Team.Team == 0)
+                if (occupant == plr || occupant.RoomInfo?.Team == null || occupant.RoomInfo.Team.Team == 0)
                     continue;
-                var tag = new RoomEnterPlayerForBookNameTagsAckMessage
+                plr.Session?.SendAsync(new RoomEnterPlayerForBookNameTagsAckMessage
                 {
                     AccountId = occupant.Account.Id,
                     Team = occupant.RoomInfo.Team.Team,
@@ -134,14 +134,8 @@ namespace Santana.Game.GameRules
                     Nickname = occupant.Account.Nickname,
                     Unk1 = occupant.NameTag,
                     Unk2 = (byte)(occupant.NameTag > 0 ? 1 : 0)
-                };
-                foreach (var target in Room.TeamManager.Players)
-                {
-                    if (target == occupant)
-                        continue;
-                    target.Session?.SendAsync(tag);
-                }
-                Trace($"BROADCAST RoomEnterPlayerForBookNameTags(member={occupant.Account.Nickname} team={occupant.RoomInfo.Team.Team}) -> all");
+                });
+                Trace($"-> {plr.Account.Nickname} RoomEnterPlayerForBookNameTags(member={occupant.Account.Nickname} team={occupant.RoomInfo.Team.Team})");
             }
         }
         private void SyncRoster()

@@ -301,7 +301,11 @@ namespace Santana
                     plr.SendAsync(new RoomCurrentCharacterSlotAckMessage((uint)plr.CharacterManager.CurrentSlot, plr.RoomInfo.Slot));
                      plr.SendAsync(new RoomPlayerInfoListForEnterPlayerAckMessage(Players.Values.Select(r => GetRoomPlrDto(r)).ToArray()));
                     foreach (var roomPlr in Players.Values)
+                    {
+                        if (roomPlr == plr)
+                            continue;
                         plr.SendAsync(CreateRoomEnterPlayerAck(roomPlr));
+                    }
                      RefreshClubInfoSnapshot();
                      plr.SendAsync(new ItemClearInvalidEquipItemAckMessage());
                      plr.SendAsync(new ItemClearEsperChipAckMessage());
