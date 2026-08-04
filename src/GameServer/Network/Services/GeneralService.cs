@@ -708,6 +708,12 @@
                 await session.SendAsync(new AlchemyDecompositionAckMessage(0, 0, 0, 0, 0, 0));
                 return;
             }
+            var prohibited = new uint[] { 2010000, 2000016, 3000000, 2000000, 2010025, 1000010, 1040016, 1060026, 1030016, 1050016, 1030035, 1010011, 1020017, 1060016, 1010020, 1040034, 1050034, 1000018, 1020038 };
+            if (prohibited.Contains(target.ItemNumber.Id))
+            {
+                await session.SendAsync(new AlchemyDecompositionAckMessage(0, 0, 0, 0, 0, 0));
+                return;
+            }
             var secureRng = new SecureRandom();
             if (target.PeriodType != ItemPeriodType.Days)
             {
@@ -725,22 +731,28 @@
             {
                 var gemResult = 0;
                 var drops = new List<(ItemNumber item, uint units)>();
-                var tiers = new[] { (211, 6010004u), (131, 6010003u), (71, 6010002u), (31, 6010001u), (1, 6010000u) };
+                var tiers = new[] { (211, 6010004u), (131, 6010003u), (71, 6010002u), (31, 6010001u) };
                 var remainingDays = (int)message.Days;
-                var componentCount = 0;
-                while (remainingDays >= 1 && componentCount < 3)
+                while (remainingDays >= 31)
                 {
                     var tier = tiers.FirstOrDefault(x => x.Item1 <= remainingDays);
                     if (tier.Item1 == 0)
                         break;
                     remainingDays -= tier.Item1;
-                    componentCount++;
                     var existing = drops.FindIndex(x => x.item == (ItemNumber)tier.Item2);
                     if (existing >= 0)
                         drops[existing] = (drops[existing].item, drops[existing].units + 1);
                     else
                         drops.Add((tier.Item2, 1));
                 }
+                var periodMultiple = 1;
+                if (target.ItemNumber.Category == ItemCategory.Weapon)
+                    periodMultiple = 3;
+                else if (target.ItemNumber.Category == ItemCategory.Costume && target.ItemNumber.SubCategory == (byte)CostumeSlot.Pet)
+                    periodMultiple = 2;
+                var gearOneUnits = (uint)(remainingDays / 10 * periodMultiple);
+                if (gearOneUnits > 0)
+                    drops.Add((6010000u, gearOneUnits));
                 if (drops.Count == 0)
                 {
                     gemResult = 6010000;
