@@ -713,6 +713,17 @@ namespace Santana.Network.Services
             session.SendAsync(new ItemUpdateInventoryAckMessage(InventoryAction.Update, baseItem.Map<PlayerItem, ItemDto>()));
             session.SendAsync(new MoneyRefreshCashInfoAckMessage(owner.PEN, owner.AP));
         }
+        [MessageHandler(typeof(ItemUseEsperChipReqMessage))]
+        public void ItemUseEsperChip(GameSession session, ItemUseEsperChipReqMessage message)
+        {
+            var owner = session.Player;
+            if (owner == null)
+                return;
+            var first = owner.Inventory[message.Unk1];
+            var second = owner.Inventory[message.Unk2];
+            Logger.Information("[ESPERCHIP] Unk1={U1} ({I1}) Unk2={U2} ({I2})",
+                message.Unk1, first?.ItemNumber.Id ?? 0, message.Unk2, second?.ItemNumber.Id ?? 0);
+        }
         [MessageHandler(typeof(EsperEnchantReqMessage))]
         public void EsperEnchant(GameSession session, EsperEnchantReqMessage message)
         {
