@@ -1,4 +1,4 @@
-namespace Santana.Network.Services
+﻿namespace Santana.Network.Services
 {
     using System;
     using System.Collections.Generic;
@@ -654,7 +654,12 @@ namespace Santana.Network.Services
                 }
                 plr.EDHwid = System.Text.RegularExpressions.Regex.Replace(plr.Account.Hwid, "[^a-zA-Z]", "");
                 plr?.SendAsync(new ItemClearInvalidEquipItemAckMessage());
-                plr?.SendAsync(new ItemClearEsperChipAckMessage());
+                plr?.SendAsync(new ItemClearEsperChipAckMessage
+                {
+                    Unk = plr.Inventory.Where(x => x.EsperChip != 0)
+                        .Select(x => new ClearEsperChipDto { Unk1 = x.Id, Unk2 = (int)x.EsperChip })
+                        .ToArray()
+                });
                 plr?.SendAsync(new MapOpenInfosMessage());
                 await plr.SendAsync(new PlayerAccountInfoAckMessage(plr.Map<Player, PlayerAccountInfoDto>()));
                 await plr.SendAsync(new ServerResultAckMessage(ServerResult.WelcomeToS4World));

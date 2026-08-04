@@ -1,4 +1,4 @@
-using Santana.Game;
+﻿using Santana.Game;
 namespace Santana
 {
     using SantanaLib.Collections.Concurrent;
@@ -308,7 +308,12 @@ namespace Santana
                     }
                      RefreshClubInfoSnapshot();
                      plr.SendAsync(new ItemClearInvalidEquipItemAckMessage());
-                     plr.SendAsync(new ItemClearEsperChipAckMessage());
+                     plr.SendAsync(new ItemClearEsperChipAckMessage
+                     {
+                         Unk = plr.Inventory.Where(x => x.EsperChip != 0)
+                             .Select(x => new Santana.Network.Data.Game.ClearEsperChipDto { Unk1 = x.Id, Unk2 = (int)x.EsperChip })
+                             .ToArray()
+                     });
                      if (plr.Club != null && plr.Club?.Id > 0)
                      {
                          plr.SendAsync(new ClubClubInfoAckMessage(plr.Map<Player, ClubInfoDto>()));
@@ -492,7 +497,12 @@ namespace Santana
                 Network.Services.IpcService.NotifyPlayerLeftRoom(plr.Account.Id);
                 plr.SendAsync(new RoomLeavePlayerInfoAckMessage(plr.Account.Id));
                 plr.SendAsync(new ItemClearInvalidEquipItemAckMessage());
-                plr.SendAsync(new ItemClearEsperChipAckMessage());
+                plr.SendAsync(new ItemClearEsperChipAckMessage
+                     {
+                         Unk = plr.Inventory.Where(x => x.EsperChip != 0)
+                             .Select(x => new Santana.Network.Data.Game.ClearEsperChipDto { Unk1 = x.Id, Unk2 = (int)x.EsperChip })
+                             .ToArray()
+                     });
                 plr.Channel?.BroadcastExcept(plr, new ChannelEnterPlayerAckMessage(plr.Map<Player, PlayerInfoShortDto>()));
                 plr.Channel?.NewPlayerList(plr, 1);
                 plr.Channel?.SendPlayerlist(plr);
