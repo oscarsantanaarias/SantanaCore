@@ -957,8 +957,8 @@ namespace Santana.Network.Message.GameRule
         public PlayerGameMode PlayerGameMode { get; set; }
         public uint Exp { get; set; }
         public string Nickname { get; set; }
-        public uint Unk1 { get; set; }
         public byte Unk2 { get; set; }
+        public uint Unk1 { get; set; }
     }
     [Packet(3091, PacketType.GameRule)]
     public class RoomEnterPlayerInfoListForNameTagAckMessage

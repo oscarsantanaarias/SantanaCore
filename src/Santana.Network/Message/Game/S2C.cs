@@ -273,8 +273,6 @@ namespace Santana.Network.Message.Game
         public RoomEnterRoomInfoAck2Message()
         {
             RelayEndPoint = new IPEndPoint(0, 0);
-            Unk3 = 1;
-            Unk5 = 1;
         }
         public uint RoomId { get; set; }
         public Santana.GameRule GameRule { get; set; }
@@ -288,8 +286,8 @@ namespace Santana.Network.Message.Game
         public uint ScoreLimit { get; set; }
         public byte Unk2 { get; set; }
         [EndpointStr] public IPEndPoint RelayEndPoint { get; set; }
-        public int Unk3 { get; set; }
-        public byte Unk4 { get; set; }
+        public bool CreatedRoom { get; set; }
+        public int Unk4 { get; set; }
         public int Unk5 { get; set; }
         public int Unk6 { get; set; }
         public byte LastMapId { get; set; }
@@ -300,8 +298,6 @@ namespace Santana.Network.Message.Game
         public RoomEnterRoomInfoAckMessage()
         {
             RelayEndPoint = new IPEndPoint(0, 0);
-            Unk3 = 1;
-            Unk5 = 1;
         }
         public uint RoomId { get; set; }
         public Santana.GameRule GameRule { get; set; }
@@ -315,8 +311,8 @@ namespace Santana.Network.Message.Game
         public uint ScoreLimit { get; set; }
         public byte Unk2 { get; set; }
         [EndpointStr] public IPEndPoint RelayEndPoint { get; set; }
-        public int Unk3 { get; set; }
-        public byte Unk4 { get; set; }
+        public bool CreatedRoom { get; set; }
+        public int Unk4 { get; set; }
         public int Unk5 { get; set; }
         public int Unk6 { get; set; }
         public byte LastMapId { get; set; }
