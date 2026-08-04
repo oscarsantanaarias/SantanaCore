@@ -601,12 +601,21 @@
             var actor = session.Player;
             if (actor == null)
                 return;
-            if (actor.PEN < 2000)
+            if (actor.PEN < 300)
             {
                 await session.SendAsync(new AlchemyCombinationAckMessage { Unk = 1 });
                 return;
             }
-            actor.PEN -= 2000;
+            foreach (var gear in message.Info ?? Array.Empty<AlchemyDto>())
+            {
+                var owned = actor.Inventory.FirstOrDefault(x => x.ItemNumber == gear.GearId);
+                if (owned == null || owned.Count < gear.GearCount)
+                {
+                    await session.SendAsync(new AlchemyCombinationAckMessage { Unk = 1 });
+                    return;
+                }
+            }
+            actor.PEN -= 300;
             ItemNumber grantedItem = 0;
             switch (message.Id)
             {
@@ -716,71 +725,25 @@
             {
                 var gemResult = 0;
                 var drops = new List<(ItemNumber item, uint units)>();
-                if (message.Days <= 10)
+                var tiers = new[] { (211, 6010004u), (131, 6010003u), (71, 6010002u), (31, 6010001u), (1, 6010000u) };
+                var remainingDays = (int)message.Days;
+                while (remainingDays >= 1 && drops.Count < 3)
+                {
+                    var tier = tiers.FirstOrDefault(x => x.Item1 <= remainingDays);
+                    if (tier.Item1 == 0)
+                        break;
+                    remainingDays -= tier.Item1;
+                    gemResult = (int)tier.Item2;
+                    var existing = drops.FindIndex(x => x.item == (ItemNumber)tier.Item2);
+                    if (existing >= 0)
+                        drops[existing] = (drops[existing].item, drops[existing].units + 1);
+                    else
+                        drops.Add((tier.Item2, 1));
+                }
+                if (drops.Count == 0)
                 {
                     gemResult = 6010000;
-                    drops.Add((6010000u, 3u));
-                }
-                else if (message.Days <= 20)
-                {
-                    gemResult = 6010000;
-                    drops.Add((6010000u, 6u));
-                }
-                else if (message.Days <= 30)
-                {
-                    gemResult = 6010000;
-                    drops.Add((6010000u, 9u));
-                }
-                else if (message.Days <= 40)
-                {
-                    gemResult = 6010001;
-                    drops.Add((6010001u, 1u));
-                }
-                else if (message.Days <= 50)
-                {
-                    gemResult = 6010001;
-                    drops.Add((6010001u, 4u));
-                }
-                else if (message.Days <= 60)
-                {
-                    gemResult = 6010001;
-                    drops.Add((6010001u, 7u));
-                }
-                else if (message.Days <= 70)
-                {
-                    gemResult = 6010001;
-                    drops.Add((6010001u, 10u));
-                }
-                else if (message.Days <= 80)
-                {
-                    gemResult = 6010002;
-                    drops.Add((6010002u, 1u));
-                }
-                else if (message.Days <= 90)
-                {
-                    gemResult = 6010002;
-                    drops.Add((6010002u, 4u));
-                }
-                else if (message.Days <= 99)
-                {
-                    gemResult = 6010002;
-                    drops.Add((6010002u, 7u));
-                }
-                else if (message.Days <= 119)
-                {
-                    gemResult = 6010002;
-                    drops.Add((6010000u, 20u));
-                    drops.Add((6010002u, 3u));
-                }
-                else if (message.Days <= 199)
-                {
-                    gemResult = 6010003;
-                    drops.Add((6010003u, 1u));
-                }
-                else
-                {
-                    gemResult = 6010004;
-                    drops.Add((6010004u, 1u));
+                    drops.Add((6010000u, 1));
                 }
                 actor.Inventory.RemoveOrDecreaseDays(target, (ushort)message.Days);
                 foreach (var drop in drops)
