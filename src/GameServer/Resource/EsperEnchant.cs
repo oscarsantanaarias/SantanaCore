@@ -6,14 +6,14 @@ using System.Text;
 
 namespace Santana.Resource
 {
-    public enum EsperSkillType : byte
+    public enum EsperSkillType
     {
-        None = 0,
-        Beam,
-        Bomb,
-        Coat,
-        KneeSlide,
-        MoneyRain
+        None = -1,
+        Beam = 0,
+        Coat = 1,
+        Bomb = 2,
+        MoneyRain = 3,
+        KneeSlide = 4
     }
 
     public class EsperEnchant

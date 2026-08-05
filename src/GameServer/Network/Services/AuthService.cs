@@ -642,16 +642,12 @@
             finally
             {
                 await plr?.SendAsync(new ItemEquipBoostItemInfoAckMessage { Items = plr.CharacterManager.Boosts.GetItems().Select(i => i?.Id ?? 0).ToArray() });
-                using (var gameDb = GameDatabase.Open())
-                {
-                    var esperChip = DbUtil.Find<EsperSkillDto>(gameDb, statement => statement
-                       .Where($"{nameof(EsperSkillDto.PlayerId):C} = @{nameof(plr.Account.Id)} AND {nameof(EsperSkillDto.CharId):C} = @{nameof(plr.CharacterManager.CurrentSlot)}")
-                       .WithParameters(new { plr.Account.Id, plr.CharacterManager.CurrentSlot })).FirstOrDefault();
-                    if (esperChip == null)
-                        await plr?.SendAsync(new EspherChipLv5Message());
-                    else
-                        await plr?.SendAsync(new EspherChipLv5Message(esperChip.Id));
-                }
+                var esperSkill = plr.CharacterManager.CurrentCharacter?.Costumes.GetEsperSkill()
+                    ?? Santana.Resource.EsperSkillType.None;
+                if (esperSkill == Santana.Resource.EsperSkillType.None)
+                    await plr?.SendAsync(new EspherChipLv5Message());
+                else
+                    await plr?.SendAsync(new EspherChipLv5Message((int)esperSkill));
                 plr.EDHwid = System.Text.RegularExpressions.Regex.Replace(plr.Account.Hwid, "[^a-zA-Z]", "");
                 plr?.SendAsync(new ItemClearInvalidEquipItemAckMessage());
                 plr?.SendAsync(new ItemClearEsperChipAckMessage

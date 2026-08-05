@@ -201,21 +201,12 @@ namespace Santana.Network.Services
                     await session.SendAsync(new CharacterSelectAckMessage(message.Slot));
                     return;
                 }
-                using (var gameConn = GameDatabase.Open())
-                {
-                    var chip = DbUtil.Find<EsperSkillDto>(gameConn, statement => statement
-                        .Where($"{nameof(EsperSkillDto.PlayerId):C} = @PlayerId AND {nameof(EsperSkillDto.CharId):C} = @CharId")
-                        .WithParameters(new
-                        {
-                            PlayerId = owner.Account.Id,
-                            CharId = message.Slot
-                        }))
-                        .FirstOrDefault();
-                    if (chip == null)
-                        await owner.SendAsync(new EspherChipLv5Message());
-                    else
-                        await owner.SendAsync(new EspherChipLv5Message(chip.Id));
-                }
+                var esperSkill = owner.CharacterManager.CurrentCharacter?.Costumes.GetEsperSkill()
+                    ?? Santana.Resource.EsperSkillType.None;
+                if (esperSkill == Santana.Resource.EsperSkillType.None)
+                    await owner.SendAsync(new EspherChipLv5Message());
+                else
+                    await owner.SendAsync(new EspherChipLv5Message((int)esperSkill));
                 AuthService.LoadPlayerNameTag(owner, true, false);
                 if (owner.NameTag != previousNameTag)
                 {

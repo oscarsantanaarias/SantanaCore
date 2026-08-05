@@ -47,6 +47,7 @@ namespace Santana.Network.Services
                     targetChar.Equip(invItem, message.EquipSlot);
                 else if (message.Action == UseItemAction.UnEquip)
                     targetChar.UnEquip(invItem.ItemNumber.Category, message.EquipSlot, invItem.ItemNumber);
+                targetChar.Costumes.RefreshEsperSkill();
             }
             catch (CharacterException error)
             {
@@ -748,6 +749,11 @@ namespace Santana.Network.Services
             if (chip == null || target == null)
             {
                 session.SendAsync(new ItemUseEsperChipItemAckMessage { Unk1 = 1 });
+                return;
+            }
+            if (target.EsperChip != 0)
+            {
+                session.SendAsync(new ItemUseEsperChipItemAckMessage { Unk1 = 2 });
                 return;
             }
             var effects = target.Effects.Where(x => x.Id != 0).ToList();

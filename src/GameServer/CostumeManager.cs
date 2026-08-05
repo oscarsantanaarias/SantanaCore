@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using SantanaLib.Threading.Tasks;
@@ -91,6 +91,17 @@ namespace Santana
             });
         }
 
+        public void RefreshEsperSkill()
+        {
+            if (_owner.CharacterManager.CurrentCharacter != _owner)
+                return;
+            var skill = GetEsperSkill();
+            if (skill == Resource.EsperSkillType.None)
+                _owner.CharacterManager.Player.Session.SendAsync(new EspherChipLv5Message());
+            else
+                _owner.CharacterManager.Player.Session.SendAsync(new EspherChipLv5Message((int)skill));
+        }
+
         public PlayerItem GetItem(CostumeSlot slot)
         {
             if (slot > CostumeSlot.Pet)
@@ -102,6 +113,29 @@ namespace Santana
         public IReadOnlyList<PlayerItem> GetItems()
         {
             return _slots;
+        }
+
+        public Resource.EsperSkillType GetEsperSkill()
+        {
+            var table = Network.GameServer.Instance.ResourceCache.GetEsperEnchant();
+            var shirt = GetItem(CostumeSlot.Shirt);
+            if (shirt == null || shirt.EsperChip == 0)
+                return Resource.EsperSkillType.None;
+            if (!table.TryGetValue(shirt.EsperChip, out var reference) || reference.Level != 5)
+                return Resource.EsperSkillType.None;
+
+            var matching = 0;
+            foreach (var piece in _slots)
+            {
+                if (piece == null || piece.EsperChip == 0)
+                    continue;
+                if (!table.TryGetValue(piece.EsperChip, out var entry))
+                    continue;
+                if (entry.Level == reference.Level && entry.Type == reference.Type)
+                    matching++;
+            }
+
+            return matching > 3 ? reference.Type : Resource.EsperSkillType.None;
         }
 
         public bool CanEquip(PlayerItem item, CostumeSlot slot)
