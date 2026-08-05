@@ -1534,6 +1534,63 @@ namespace Santana.Network.Message.Game
         public int Unk1 { get; set; }
         public ClubNoticeRecordDto[] Info { get; set; } = Array.Empty<ClubNoticeRecordDto>();
     }
+#if !LATESTS4
+    [Packet(1163, PacketType.Game)]
+    public class Match_ClubMark_Ack
+    {
+        public int Unk1 { get; set; }
+        public int Unk2 { get; set; }
+    }
+    [Packet(1164, PacketType.Game)]
+    public class ClubMatchPoint_Ack
+    {
+        public int Unk1 { get; set; }
+        public int Unk2 { get; set; }
+    }
+    [Packet(1168, PacketType.Game)]
+    public class Club_Search_Room_Ack
+    {
+        public int Unk1 { get; set; }
+        public int Unk2 { get; set; }
+    }
+    [Packet(1169, PacketType.Game)]
+    public class Club_Stadium_Edit_MapData_Ack
+    {
+        public int Unk1 { get; set; }
+        public int Unk2 { get; set; }
+        public int Unk3 { get; set; }
+        public int Unk4 { get; set; }
+        public int Unk5 { get; set; }
+    }
+    [Packet(1171, PacketType.Game)]
+    public class Club_Stadium_Edit_Blastinfo_Edit_Ack
+    {
+        public int Unk1 { get; set; }
+        public ulong Unk2 { get; set; }
+        public int Unk3 { get; set; }
+    }
+    [Packet(1172, PacketType.Game)]
+    public class Club_Stadium_Info_Ack
+    {
+        public int Unk1 { get; set; }
+        public ulong Unk2 { get; set; }
+    }
+    [Packet(1173, PacketType.Game)]
+    public class Club_Stadium_Select_Ack
+    {
+        public int Unk1 { get; set; }
+        public int Unk2 { get; set; }
+    }
+    [Packet(1175, PacketType.Game)]
+    public class Club_Stadium_HomeData_Ack
+    {
+        public int Unk1 { get; set; }
+        public int Unk2 { get; set; }
+        public int Unk3 { get; set; }
+        public int Unk4 { get; set; }
+        public int Unk5 { get; set; }
+    }
+#endif
     [Dto]
     public class ClubNoticeRecordDto
     {

@@ -1,4 +1,4 @@
-namespace Santana.Network.Services
+﻿namespace Santana.Network.Services
 {
     using SantanaLib;
     using SantanaLib.DotNetty.Handlers.MessageHandling;
@@ -87,8 +87,10 @@ namespace Santana.Network.Services
             if (actor == null)
                 return;
             ClearViewingOtherClub(actor);
-            if (actor.Club != null && TryResolveClubSnapshot(out var snap, clubId: actor.Club.Id))
+            var wanted = message.ClubId != 0 ? message.ClubId : actor.Club?.Id ?? 0;
+            if (wanted != 0 && TryResolveClubSnapshot(out var snap, clubId: wanted))
             {
+                session.SendAsync(new ClubClubInfoAckMessage(BuildClubInfoDtoFromSnapshot(snap)));
                 return;
             }
             session.SendAsync(new ClubClubInfoAckMessage(actor.Map<Player, ClubInfoDto>()));
@@ -115,6 +117,292 @@ namespace Santana.Network.Services
                 return;
             ClearViewingOtherClub(actor);
             session.SendAsync(new ClubInfoAckMessage(actor.Map<Player, PlayerClubInfoDto>()));
+        }
+        [MessageHandler(typeof(ClubNewsInfoReqMessage))]
+        public void ClubNewsInfoReq(GameSession session, ClubNewsInfoReqMessage message)
+        {
+            session.SendAsync(new ClubNewsInfoAckMessage());
+        }
+        [MessageHandler(typeof(ClubRestoreReqMessage))]
+        public void ClubRestoreReq(GameSession session, ClubRestoreReqMessage message)
+        {
+            session.SendAsync(new ClubRestoreAckMessage { Unk = 0 });
+        }
+#if !LATESTS4
+        [MessageHandler(typeof(ClubRestoreReq2Message))]
+        public void ClubRestoreReq2(GameSession session, ClubRestoreReq2Message message)
+        {
+            session.SendAsync(new ClubRestoreAck2Message { Result = 0 });
+        }
+        [MessageHandler(typeof(ClubEditIntroduceReqMessage))]
+        public void ClubEditIntroduceReq(GameSession session, ClubEditIntroduceReqMessage message)
+        {
+            var actor = session.Player;
+            if (actor?.Club == null)
+            {
+                session.SendAsync(new ClubEditIntroduceAckMessage { Result = 1 });
+                return;
+            }
+            UpdateClubRow(actor.Club.Id, row => row.Title = message.Introduction ?? "");
+            session.SendAsync(new ClubEditIntroduceAckMessage
+            {
+                Result = 0,
+                ClubId = (int)actor.Club.Id
+            });
+        }
+        [MessageHandler(typeof(ClubEditUrlReqMessage))]
+        public void ClubEditUrlReq(GameSession session, ClubEditUrlReqMessage message)
+        {
+            var actor = session.Player;
+            session.SendAsync(new ClubEditUrlAckMessage
+            {
+                Result = 0,
+                ClubId = (int)(actor?.Club?.Id ?? 0)
+            });
+        }
+        [MessageHandler(typeof(Club_Stadium_Select_Req))]
+        public void ClubStadiumSelectReq(GameSession session, Club_Stadium_Select_Req message)
+        {
+            session.SendAsync(new Club_Stadium_Select_Ack());
+        }
+#endif
+        [MessageHandler(typeof(ClubAdminNoticeChangeReqMessage))]
+        public void ClubAdminNoticeChangeReq(GameSession session, ClubAdminNoticeChangeReqMessage message)
+        {
+            var actor = session.Player;
+            if (actor?.Club != null)
+                UpdateClubRow(actor.Club.Id, row => row.Message = message.Notice ?? "");
+            session.SendAsync(new ClubAdminNoticeChangeAckMessage { Unk = 0 });
+        }
+        [MessageHandler(typeof(ClubAdminInfoModifyReqMessage))]
+        public void ClubAdminInfoModifyReq(GameSession session, ClubAdminInfoModifyReqMessage message)
+        {
+            var actor = session.Player;
+            if (actor?.Club != null)
+            {
+                UpdateClubRow(actor.Club.Id, row =>
+                {
+                    row.Area = message.Unk1;
+                    row.Activity = message.Unk2;
+                    row.Title = message.Unk3 ?? "";
+                });
+            }
+            session.SendAsync(new ClubAdminInfoModifyAckMessage { Unk = 0 });
+        }
+        [MessageHandler(typeof(ClubAdminSubMasterReqMessage))]
+        public void ClubAdminSubMasterReq(GameSession session, ClubAdminSubMasterReqMessage message)
+        {
+            session.SendAsync(new ClubAdminSubMasterAckMessage { Unk = 0 });
+        }
+        [MessageHandler(typeof(ClubAdminSubMasterCancelReqMessage))]
+        public void ClubAdminSubMasterCancelReq(GameSession session, ClubAdminSubMasterCancelReqMessage message)
+        {
+            session.SendAsync(new ClubAdminSubMasterCancelAckMessage { Unk = 0 });
+        }
+        [MessageHandler(typeof(ClubAdminJoinConditionModifyReqMessage))]
+        public void ClubAdminJoinConditionModifyReq(GameSession session, ClubAdminJoinConditionModifyReqMessage message)
+        {
+            session.SendAsync(new ClubAdminJoinConditionModifyAckMessage { Unk = 0 });
+        }
+        [MessageHandler(typeof(ClubAdminBoardModifyReqMessage))]
+        public void ClubAdminBoardModifyReq(GameSession session, ClubAdminBoardModifyReqMessage message)
+        {
+            session.SendAsync(new ClubAdminBoardModifyAckMessage { Unk = 0 });
+        }
+        [MessageHandler(typeof(ClubUnjoinerListReqMessage))]
+        public void ClubUnjoinerListReq(GameSession session, ClubUnjoinerListReqMessage message)
+        {
+            session.SendAsync(new ClubUnjoinerListAckMessage { Unk = Array.Empty<UnjoinerDto>() });
+        }
+        [MessageHandler(typeof(ClubUnjoinSettingMemberListReqMessage))]
+        public void ClubUnjoinSettingMemberListReq(GameSession session, ClubUnjoinSettingMemberListReqMessage message)
+        {
+            session.SendAsync(new ClubUnjoinSettingMemberListAckMessage { Unk = Array.Empty<UnjoinSettingMemberDto>() });
+        }
+        [MessageHandler(typeof(ClubGradeCountReqMessage))]
+        public void ClubGradeCountReq(GameSession session, ClubGradeCountReqMessage message)
+        {
+            var members = session.Player?.Club?.Players.Values;
+            session.SendAsync(new ClubGradeCountAckMessage
+            {
+                Unk1 = members?.Count(x => x.Rank == ClubRank.Master) ?? 0,
+                Unk2 = members?.Count(x => x.Rank == ClubRank.CoMaster) ?? 0,
+                Unk3 = members?.Count(x => x.Rank == ClubRank.Staff) ?? 0,
+                Unk4 = members?.Count(x => x.Rank == ClubRank.Member) ?? 0
+            });
+        }
+        private static void UpdateClubRow(uint clubId, Action<ClubDto> patch)
+        {
+            using (var gameDb = GameDatabase.Open())
+            {
+                var row = DbUtil.Find<ClubDto>(gameDb).FirstOrDefault(club => club.Id == clubId);
+                if (row == null)
+                    return;
+                patch(row);
+                DbUtil.Update(gameDb, row);
+            }
+        }
+        private static BoardMessageDto[] LoadBoard(uint clubId, int authorId = 0)
+        {
+            using (var gameDb = GameDatabase.Open())
+            {
+                var rows = DbUtil.Find<ClubBoardDto>(gameDb)
+                    .Where(post => post.ClubId == clubId && (authorId == 0 || post.AuthorId == authorId))
+                    .OrderByDescending(post => post.Id)
+                    .Take(50)
+                    .ToArray();
+                var threaded = rows
+                    .Where(post => post.ParentId == 0 || rows.All(other => other.Id != post.ParentId))
+                    .OrderByDescending(post => post.Id)
+                    .SelectMany(root => new[] { root }
+                        .Concat(rows.Where(reply => reply.ParentId == root.Id).OrderBy(reply => reply.Id)))
+                    .ToArray();
+                return threaded.Select(post => new BoardMessageDto
+                {
+                    PostId = (int)post.Id,
+                    Unk2 = "",
+                    RowType = post.ParentId == 0 ? 0 : 1,
+                    AuthorId = post.AuthorId,
+                    ClassIcon = post.AuthorLevel,
+                    AuthorName = post.AuthorName ?? "",
+                    AuthorAccountId = post.AuthorId,
+                    Message = post.Message ?? "",
+                    CreatedAt = DateTimeOffset.FromUnixTimeSeconds(post.CreatedAt).LocalDateTime.ToString("yyyyMMddHHmmss"),
+                    Unk10 = 0,
+                    Unk11 = (int)post.ParentId,
+                    IsPublic = post.IsPublic,
+                    ClubId = (int)clubId
+                }).ToArray();
+            }
+        }
+        private static void SendBoard(GameSession session, BoardMessageDto[] posts)
+        {
+            session.SendAsync(new ClubBoardReadAckMessage
+            {
+#if !LATESTS4
+                Unk1 = posts.Length,
+#endif
+                Unk = posts
+            });
+        }
+        [MessageHandler(typeof(ClubBoardReadReqMessage))]
+        public void ClubBoardReadReq(GameSession session, ClubBoardReadReqMessage message)
+        {
+            var actor = session.Player;
+            SendBoard(session, actor?.Club == null
+                ? Array.Empty<BoardMessageDto>()
+                : LoadBoard(actor.Club.Id));
+        }
+        [MessageHandler(typeof(ClubBoardReadMineReqMessage))]
+        public void ClubBoardReadMineReq(GameSession session, ClubBoardReadMineReqMessage message)
+        {
+            var actor = session.Player;
+            SendBoard(session, actor?.Club == null
+                ? Array.Empty<BoardMessageDto>()
+                : LoadBoard(actor.Club.Id, (int)actor.Account.Id));
+        }
+        [MessageHandler(typeof(ClubBoardReadOtherClubReqMessage))]
+        public void ClubBoardReadOtherClubReq(GameSession session, ClubBoardReadOtherClubReqMessage message)
+        {
+            var actor = session.Player;
+            var posts = actor?.Club == null
+                ? Array.Empty<BoardMessageDto>()
+                : LoadBoard(actor.Club.Id).Where(post => post.IsPublic == 1).ToArray();
+            SendBoard(session, posts);
+        }
+        [MessageHandler(typeof(ClubBoardSearchNickReqMessage))]
+        public void ClubBoardSearchNickReq(GameSession session, ClubBoardSearchNickReqMessage message)
+        {
+            var actor = session.Player;
+            if (actor?.Club == null)
+            {
+                SendBoard(session, Array.Empty<BoardMessageDto>());
+                return;
+            }
+            var needle = message.Unk2?.Trim() ?? "";
+            var posts = LoadBoard(actor.Club.Id)
+                .Where(post => string.IsNullOrEmpty(needle) ||
+                               (post.AuthorName ?? "").IndexOf(needle, StringComparison.OrdinalIgnoreCase) >= 0)
+                .ToArray();
+            SendBoard(session, posts);
+        }
+        [MessageHandler(typeof(ClubBoardWriteReqMessage))]
+        public void ClubBoardWriteReq(GameSession session, ClubBoardWriteReqMessage message)
+        {
+            var actor = session.Player;
+            if (actor?.Club == null)
+            {
+                session.SendAsync(new ClubBoardWriteAckMessage { Unk = 1 });
+                return;
+            }
+            using (var gameDb = GameDatabase.Open())
+            {
+                DbUtil.Insert(gameDb, new ClubBoardDto
+                {
+                    ClubId = actor.Club.Id,
+                    AuthorId = (int)actor.Account.Id,
+                    AuthorName = actor.Account.Nickname ?? "",
+                    Message = message.Message ?? "",
+                    IsPublic = (byte)message.IsPublic,
+                    CreatedAt = DateTimeOffset.Now.ToUnixTimeSeconds(),
+                    AuthorLevel = actor.Level,
+                    ParentId = (uint)message.ParentPostId
+                });
+            }
+            session.SendAsync(new ClubBoardWriteAckMessage { Unk = 0 });
+        }
+        [MessageHandler(typeof(ClubBoardModifyReqMessage))]
+        public void ClubBoardModifyReq(GameSession session, ClubBoardModifyReqMessage message)
+        {
+            var actor = session.Player;
+            if (actor?.Club != null)
+            {
+                using (var gameDb = GameDatabase.Open())
+                {
+                    var row = DbUtil.Find<ClubBoardDto>(gameDb)
+                        .FirstOrDefault(post => post.Id == (uint)message.PostId && post.ClubId == actor.Club.Id);
+                    if (row != null && row.AuthorId == (int)actor.Account.Id)
+                    {
+                        row.Message = message.Message ?? "";
+                        row.IsPublic = (byte)message.IsPublic;
+                        DbUtil.Update(gameDb, row);
+                    }
+                }
+            }
+            session.SendAsync(new ClubBoardModifyAckMessage { Unk = 0 });
+        }
+        [MessageHandler(typeof(ClubBoardDeleteReqMessage))]
+        public void ClubBoardDeleteReq(GameSession session, ClubBoardDeleteReqMessage message)
+        {
+            var actor = session.Player;
+            if (actor?.Club != null)
+            {
+                using (var gameDb = GameDatabase.Open())
+                {
+                    foreach (var post in DbUtil.Find<ClubBoardDto>(gameDb)
+                                 .Where(row => row.ClubId == actor.Club.Id &&
+                                               (row.Id == (uint)message.Unk || row.ParentId == (uint)message.Unk))
+                                 .ToArray())
+                        DbUtil.Delete(gameDb, post);
+                }
+            }
+            session.SendAsync(new ClubBoardDeleteAckMessage { Unk = 0 });
+        }
+        [MessageHandler(typeof(ClubBoardDeleteAllReqMessage))]
+        public void ClubBoardDeleteAllReq(GameSession session, ClubBoardDeleteAllReqMessage message)
+        {
+            var actor = session.Player;
+            if (actor?.Club != null)
+            {
+                using (var gameDb = GameDatabase.Open())
+                {
+                    foreach (var post in DbUtil.Find<ClubBoardDto>(gameDb)
+                                 .Where(row => row.ClubId == actor.Club.Id)
+                                 .ToArray())
+                        DbUtil.Delete(gameDb, post);
+                }
+            }
+            session.SendAsync(new ClubBoardDeleteAllAckMessage { Unk = 0 });
         }
         [MessageHandler(typeof(ClubJoinWaiterInfoReqMessage))]
         public void ClubJoinWaiterInfoReq(GameSession session, ClubJoinWaiterInfoReqMessage message)
@@ -560,10 +848,16 @@ namespace Santana.Network.Services
         [MessageHandler(typeof(ClubCreateReqMessage))]
         public async Task ClubCreateReq(GameSession session, ClubCreateReqMessage message)
         {
-            await ClubCreateReq2(
-                session,
-                message.Map<ClubCreateReqMessage, ClubCreateReq2Message>()
-            );
+            var forwarded = message.Map<ClubCreateReqMessage, ClubCreateReq2Message>();
+#if !LATESTS4
+            forwarded.Name = message.Name;
+            forwarded.Unk2 = null;
+            forwarded.Unk3 = null;
+            forwarded.Introduction = message.Introduction;
+            forwarded.ActivityArea = message.ActivityArea;
+            forwarded.ActivityPurpose = message.ActivityPurpose;
+#endif
+            await ClubCreateReq2(session, forwarded);
         }
         [MessageHandler(typeof(ClubCreateReq2Message))]
         public async Task<bool> ClubCreateReq2(GameSession session, ClubCreateReq2Message message)
@@ -631,11 +925,21 @@ namespace Santana.Network.Services
                                 await ReplyCreate(1);
                                 return false;
                             }
+                            var lastRank = gameDb.Find<ClubDto>(statement => statement
+                                    .AttachToTransaction(tx))
+                                .Select(club => club.Rank)
+                                .DefaultIfEmpty(0u)
+                                .Max();
                             var clubRow = new ClubDto
                             {
                                 Name = finalName,
-                                Icon = "0-200-0",
+                                Icon = "D-2",
                                 Level = 1,
+                                Rank = lastRank + 1,
+                                Area = message.ActivityArea,
+                                Activity = message.ActivityPurpose,
+                                Title = message.Introduction ?? string.Empty,
+                                CreatedAt = DateTimeOffset.Now.ToUnixTimeSeconds(),
                             };
                             await DbUtil.InsertAsync(gameDb, clubRow, statement =>
                                 statement.AttachToTransaction(tx));
@@ -813,7 +1117,7 @@ namespace Santana.Network.Services
         {
             var clubDisplayName = liveClub?.ClanName ?? dto.Name ?? "";
             var rawIcon = liveClub?.ClanIcon ?? dto.Icon;
-            var safeIcon = string.IsNullOrWhiteSpace(rawIcon) ? "0-200-0" : rawIcon;
+            var safeIcon = string.IsNullOrWhiteSpace(rawIcon) ? "D-2" : rawIcon;
             var pts = liveClub?.ClubPoints ?? dto.Points;
             var winCount = liveClub?.ClubWin ?? dto.Win;
             var lossCount = liveClub?.ClubLoss ?? dto.Loss;
@@ -1030,10 +1334,22 @@ namespace Santana.Network.Services
                 Type = GetSafeClanIcon(living?.ClanIcon ?? row.Icon),
                 MasterName = snapshot.MasterName,
                 MemberCount = (int)snapshot.MemberCount,
+                CreationDate = row.CreatedAt > 0
+                    ? DateTimeOffset.FromUnixTimeSeconds(row.CreatedAt).ToString("yyyyMMddHH")
+                    : "",
+#if LATESTS4
                 Unk1 = fight.Points,
                 Unk2 = fight.ClanRank,
                 Unk3 = fight.Wins,
                 Unk4 = fight.Losses,
+#else
+                Area = living?.Area ?? row.Area,
+                Activity = living?.Activity ?? row.Activity,
+                Wins = fight.Wins,
+                Losses = fight.Losses,
+                ClanClass = 0,
+                ClanRank = fight.ClanRank,
+#endif
                 Motto = motto,
                 Announce = announce
             };
@@ -1133,10 +1449,18 @@ namespace Santana.Network.Services
         {
             var row = snapshot.Dto;
             var living = snapshot.LiveClub;
-            var winCount = (int)(living?.ClubWin ?? row.Win);
-            var lossCount = (int)(living?.ClubLoss ?? row.Loss);
-            var pts = (int)(living?.ClubPoints ?? row.Points);
-            var rankVal = (int)(living?.ClanRank ?? row.Rank);
+            var winCount = (int)(living?.ClubWin ?? 0);
+            var lossCount = (int)(living?.ClubLoss ?? 0);
+            var pts = (int)(living?.ClubPoints ?? 0);
+            var rankVal = (int)(living?.ClanRank ?? 0);
+            if (winCount == 0)
+                winCount = (int)row.Win;
+            if (lossCount == 0)
+                lossCount = (int)row.Loss;
+            if (pts == 0)
+                pts = (int)row.Points;
+            if (rankVal == 0)
+                rankVal = (int)row.Rank;
             return (pts, winCount + lossCount, winCount, lossCount, rankVal);
         }
         private static ClubNoticeRecordDto[] BuildClubNoticeRecords(

@@ -432,4 +432,23 @@ namespace Santana.Network.Message.Club
             Result = result;
         }
     }
+#if !LATESTS4
+    [Packet(5038, PacketType.Club)]
+    public class ClubRestoreAck2Message
+    {
+        public int Result { get; set; }
+    }
+    [Packet(5041, PacketType.Club)]
+    public class ClubEditUrlAckMessage
+    {
+        public int Result { get; set; }
+        public int ClubId { get; set; }
+    }
+    [Packet(5042, PacketType.Club)]
+    public class ClubEditIntroduceAckMessage
+    {
+        public int Result { get; set; }
+        public int ClubId { get; set; }
+    }
+#endif
 }

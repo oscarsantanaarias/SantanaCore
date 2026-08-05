@@ -725,4 +725,11 @@ namespace Santana.Network.Message.Game
     public class Promotion_RouletteMachine_Start_Req
     {
     }
+#if !LATESTS4
+    [Packet(110, PacketType.Game)]
+    public class Club_Stadium_Select_Req
+    {
+        public int Unk1 { get; set; }
+    }
+#endif
 }

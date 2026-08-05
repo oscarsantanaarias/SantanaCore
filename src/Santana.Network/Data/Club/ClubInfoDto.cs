@@ -28,6 +28,7 @@ namespace Santana.Network.Data.Club
 
     public string CreationDate { get; set; }
 
+#if LATESTS4
      public int Unk1 { get; set; }
 
      public int Unk2 { get; set; }
@@ -39,6 +40,19 @@ namespace Santana.Network.Data.Club
      public int Unk5 { get; set; }
 
      public int Unk6 { get; set; }
+#else
+     public int Area { get; set; }
+
+     public int Activity { get; set; }
+
+     public int Wins { get; set; }
+
+     public int Losses { get; set; }
+
+     public int ClanClass { get; set; }
+
+     public int ClanRank { get; set; }
+#endif
 
     public string Motto { get; set; }
 

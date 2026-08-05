@@ -52,6 +52,8 @@ namespace Santana
             ClubLoss = dto.Loss;
             Title = dto.Title;
             Message = dto.Message;
+            Area = dto.Area;
+            Activity = dto.Activity;
             _ = CheckMaster().ContinueWith(task =>
             {
                 if (task.Exception != null)
@@ -80,6 +82,8 @@ namespace Santana
         public uint ClanRank { get; private set; }
         public string Title { get; }
         public string Message { get; }
+        public int Area { get; }
+        public int Activity { get; }
         public void ApplyClubWarStats(uint rank, uint points, uint win, uint loss)
         {
             ClanRank = rank;
@@ -336,7 +340,7 @@ namespace Santana
                 string clanMark = clubDto.Icon;
                 if (string.IsNullOrWhiteSpace(clanMark))
                 {
-                    clanMark = "200-0-200";
+                    clanMark = "D-2";
                 }
                 var markParts = clanMark.Split('-');
                 string clanImage = markParts.Length > 1 ? markParts[1].Trim() : "0";

@@ -396,6 +396,24 @@ namespace Santana.Database.Game
         public uint Loss { get; set; }
         public string Title { get; set; }
         public string Message { get; set; }
+        public int Area { get; set; }
+        public int Activity { get; set; }
+        public long CreatedAt { get; set; }
+    }
+    [Table("club_board")]
+    public class ClubBoardDto
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public uint Id { get; set; }
+        public uint ClubId { get; set; }
+        public int AuthorId { get; set; }
+        public string AuthorName { get; set; }
+        public string Message { get; set; }
+        public byte IsPublic { get; set; }
+        public long CreatedAt { get; set; }
+        public int AuthorLevel { get; set; }
+        public uint ParentId { get; set; }
     }
     [Table("club_players")]
     public class ClubPlayerDto

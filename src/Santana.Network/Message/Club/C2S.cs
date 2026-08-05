@@ -208,10 +208,10 @@ namespace Santana.Network.Message.Club
     [Packet(4027, PacketType.Club)]
     public class ClubBoardWriteReqMessage
     {
-        public int Unk1 { get; set; }
-        public int Unk2 { get; set; }
-        public int Unk3 { get; set; }
-        public string Unk4 { get; set; }
+        public int ClubId { get; set; }
+        public int ParentPostId { get; set; }
+        public int IsPublic { get; set; }
+        public string Message { get; set; }
     }
     [Packet(4028, PacketType.Club)]
     public class ClubBoardReadReqMessage
@@ -222,10 +222,10 @@ namespace Santana.Network.Message.Club
     [Packet(4029, PacketType.Club)]
     public class ClubBoardModifyReqMessage
     {
-        public int Unk1 { get; set; }
-        public int Unk2 { get; set; }
-        public int Unk3 { get; set; }
-        public string Unk4 { get; set; }
+        public int ClubId { get; set; }
+        public int PostId { get; set; }
+        public int IsPublic { get; set; }
+        public string Message { get; set; }
     }
     [Packet(4030, PacketType.Club)]
     public class ClubBoardDeleteReqMessage
@@ -262,6 +262,9 @@ namespace Santana.Network.Message.Club
         public string Name { get; set; }
         public string Unk2 { get; set; }
         public string Unk3 { get; set; }
+        [Skip] public int ActivityArea { get; set; }
+        [Skip] public int ActivityPurpose { get; set; }
+        [Skip] public string Introduction { get; set; }
     }
     [Packet(4045, PacketType.Club)]
     public class ClubRankListReqMessage
@@ -282,4 +285,21 @@ namespace Santana.Network.Message.Club
         public string ClanName { get; set; }
 #endif
     }
+#if !LATESTS4
+    [Packet(4039, PacketType.Club)]
+    public class ClubRestoreReq2Message
+    {
+        public int ClubId { get; set; }
+    }
+    [Packet(4042, PacketType.Club)]
+    public class ClubEditUrlReqMessage
+    {
+        public string Url { get; set; }
+    }
+    [Packet(4043, PacketType.Club)]
+    public class ClubEditIntroduceReqMessage
+    {
+        public string Introduction { get; set; }
+    }
+#endif
 }
