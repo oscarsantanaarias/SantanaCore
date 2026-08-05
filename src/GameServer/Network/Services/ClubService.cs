@@ -262,17 +262,24 @@
                     .OrderByDescending(post => post.Id)
                     .Take(50)
                     .ToArray();
-                var threaded = rows
+                var threaded = new List<ClubBoardDto>();
+                var levels = new Dictionary<uint, int>();
+                var pending = new Stack<ClubBoardDto>(rows
                     .Where(post => post.ParentId == 0 || rows.All(other => other.Id != post.ParentId))
-                    .OrderByDescending(post => post.Id)
-                    .SelectMany(root => new[] { root }
-                        .Concat(rows.Where(reply => reply.ParentId == root.Id).OrderBy(reply => reply.Id)))
-                    .ToArray();
+                    .OrderBy(post => post.Id));
+                while (pending.Count > 0)
+                {
+                    var current = pending.Pop();
+                    levels[current.Id] = levels.ContainsKey(current.ParentId) ? levels[current.ParentId] + 1 : 0;
+                    threaded.Add(current);
+                    foreach (var reply in rows.Where(post => post.ParentId == current.Id).OrderByDescending(post => post.Id))
+                        pending.Push(reply);
+                }
                 return threaded.Select(post => new BoardMessageDto
                 {
                     PostId = (int)post.Id,
                     Unk2 = "",
-                    RowType = post.ParentId == 0 ? 0 : 1,
+                    RowType = Math.Min(levels[post.Id], 2),
                     AuthorId = post.AuthorId,
                     ClassIcon = post.AuthorLevel,
                     AuthorName = post.AuthorName ?? "",
