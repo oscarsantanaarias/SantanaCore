@@ -1,4 +1,4 @@
-
+﻿
 using ProudNetSrc.Serialization;
 namespace Santana.Network.Data.Chat
 {
@@ -27,7 +27,7 @@ namespace Santana.Network.Data.Chat
 
      public ClubRank ClanRank { get; set; }
 
-     public int Unk4 { get; set; }
+     public int Rank { get; set; }
 
      public int Unk5 { get; set; }
 
@@ -35,7 +35,7 @@ namespace Santana.Network.Data.Chat
 
     public string LastLogin { get; set; }
 
-     public int Unk12 { get; set; }
+     public int Status { get; set; }
   }
 
   [Dto]

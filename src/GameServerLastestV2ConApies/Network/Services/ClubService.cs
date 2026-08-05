@@ -1,4 +1,4 @@
-namespace Santana.Network.Services
+﻿namespace Santana.Network.Services
 {
     using SantanaLib;
     using SantanaLib.DotNetty.Handlers.MessageHandling;
@@ -362,7 +362,7 @@ namespace Santana.Network.Services
                                 .Where($"{nameof(ClubPlayerDto.ClubId):C} = @{nameof(clubId)} AND {nameof(ClubPlayerDto.PlayerId):C} = @{nameof(accountId)}")
                                 .WithParameters(new { clubId, accountId }))
                             .FirstOrDefault();
-                        entry.Unk4 = (int)(pointsRow?.Points ?? 0);
+                        entry.Rank = (int)(pointsRow?.Points ?? 0);
                         entry.Unk5 = (int)(pointsRow?.Points ?? 0);
                         var onlineMember = GameServer.Instance.PlayerManager[staffMember.AccountId];
                         if (onlineMember != null)

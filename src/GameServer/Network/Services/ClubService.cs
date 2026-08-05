@@ -674,7 +674,7 @@
                                 .Where($"{nameof(ClubPlayerDto.ClubId):C} = @{nameof(clubId)} AND {nameof(ClubPlayerDto.PlayerId):C} = @{nameof(accountId)}")
                                 .WithParameters(new { clubId, accountId }))
                             .FirstOrDefault();
-                        entry.Unk4 = (int)(pointsRow?.Points ?? 0);
+                        entry.Rank = (int)(pointsRow?.Points ?? 0);
                         entry.Unk5 = (int)(pointsRow?.Points ?? 0);
                         var onlineMember = GameServer.Instance.PlayerManager[staffMember.AccountId];
                         if (onlineMember != null)
@@ -1868,14 +1868,25 @@
                 return;
             }
             var memberDtos = new List<ClubMemberDto>();
-            foreach (var entry in clan.Players.Values)
+            using (var gameDb = GameDatabase.Open())
             {
-                var onlineMember = GameServer.Instance.PlayerManager
-                    .FirstOrDefault(p => p.Account.Id == entry.AccountId);
-                if (onlineMember != null)
-                    memberDtos.Add(onlineMember.Map<Player, ClubMemberDto>());
-                else
-                    memberDtos.Add(entry.Map<ClubPlayerInfo, ClubMemberDto>());
+                foreach (var entry in clan.Players.Values)
+                {
+                    var onlineMember = GameServer.Instance.PlayerManager
+                        .FirstOrDefault(p => p.Account.Id == entry.AccountId);
+                    var row = onlineMember != null
+                        ? onlineMember.Map<Player, ClubMemberDto>()
+                        : entry.Map<ClubPlayerInfo, ClubMemberDto>();
+                    var accountId = (int)entry.AccountId;
+                    var clubId = clan.Id;
+                    var memberRow = DbUtil.Find<ClubPlayerDto>(gameDb, statement => statement
+                            .Where($"{nameof(ClubPlayerDto.ClubId):C} = @{nameof(clubId)} AND {nameof(ClubPlayerDto.PlayerId):C} = @{nameof(accountId)}")
+                            .WithParameters(new { clubId, accountId }))
+                        .FirstOrDefault();
+                    row.Rank = (int)(memberRow?.Points ?? 0);
+                    row.Status = onlineMember == null ? 0 : onlineMember.Room != null ? 2 : 1;
+                    memberDtos.Add(row);
+                }
             }
             if (actor.ChatSession != null)
                 await actor.ChatSession.SendAsync(new ClubMemberListAckMessage(memberDtos.ToArray()));
