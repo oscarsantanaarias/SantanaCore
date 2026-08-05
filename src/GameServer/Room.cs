@@ -284,6 +284,7 @@ namespace Santana
                          TimeLimit = (uint)Options.TimeLimit.TotalMilliseconds,
                          TimeSync = (uint)GameRuleManager.GameRule.RoundTime.TotalMilliseconds,
                          ScoreLimit = Options.ScoreLimit,
+                         Unk2 = (byte)(Options.GameRule == GameRule.Arcade ? 1 : 0),
                          RelayEndPoint =
                              new IPEndPoint(IPAddress.Parse(Config.Instance.IP), Config.Instance.RelayListener.Port),
                          LastMapId = plr.RoomInfo.LastMapID,
@@ -693,8 +694,7 @@ namespace Santana
             }
             if (options.GameRule == GameRule.Arcade)
             {
-                Options.ArcadeDifficulty = (byte)Math.Max(2, Math.Min(3, options.Unk1));
-                Console.WriteLine($"[ARCADE-DIFF] Unk1={options.Unk1} -> ArcadeDifficulty={Options.ArcadeDifficulty}");
+                Options.ArcadeDifficulty = (byte)Math.Max(1, Math.Min(3, options.Unk1));
                 foreach (var plr in TeamManager.Players)
                     Santana.Game.GameRules.ArcadeGameRule.SendArcadeRefresh(plr);
             }
