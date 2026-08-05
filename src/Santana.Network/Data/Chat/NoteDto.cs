@@ -24,7 +24,7 @@ namespace Santana.Network.Data.Chat
 
     public string Title { get; set; }
 
-     public uint ReadCount { get; set; }
+     public ushort ReadCount { get; set; }
 
      public byte DaysLeft { get; set; }
 

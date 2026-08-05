@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Santana.Database.Auth;
 
 namespace Santana.Network
@@ -412,7 +412,7 @@ namespace Santana.Network
                 .Function(dest => dest.Unk1, src => (ulong)(src.Id & 0xFFFFFFFF))
                 .Function(dest => dest.Receiver, src => (ulong)(src.Id >> 32))
                 .Member(dest => dest.Title, src => src.Title)
-                .Function(dest => dest.ReadCount, src => src.IsNew ? 0 : 1)
+                .Function(dest => dest.ReadCount, src => src.IsNew ? (ushort)0 : (ushort)1)
                 .Function(dest => dest.DaysLeft,
                     src => DateTimeOffset.Now < src.Expires
                         ? (byte)System.Math.Max(0, System.Math.Min(255,
