@@ -11,7 +11,11 @@ namespace Santana.Network.Data.Club
       Name = "";
       MasterName = "";
       CreationDate = "";
+#if LATESTS4
       Unk7 = 1;
+#else
+      BoardAccess = 1;
+#endif
       Motto = " ";
       Announce = "";
     }
@@ -58,6 +62,7 @@ namespace Santana.Network.Data.Club
 
     public string Announce { get; set; }
 
+#if LATESTS4
      public int Unk7 { get; set; }
 
      public int Unk8 { get; set; }
@@ -65,5 +70,14 @@ namespace Santana.Network.Data.Club
      public int Unk9 { get; set; }
 
      public int Unk10 { get; set; }
+#else
+     public int BoardAccess { get; set; }
+
+     public int BoardAccessBadManner { get; set; }
+
+     public int BoardPost { get; set; }
+
+     public int BoardPostBadManner { get; set; }
+#endif
   }
 }

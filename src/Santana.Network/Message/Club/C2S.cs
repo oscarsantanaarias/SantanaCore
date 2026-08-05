@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using SantanaLib.Serialization;
 using ProudNetSrc.Serialization;
 namespace Santana.Network.Message.Club
@@ -127,10 +127,10 @@ namespace Santana.Network.Message.Club
     [Packet(4016, PacketType.Club)]
     public class ClubAdminBoardModifyReqMessage
     {
-        public int Unk1 { get; set; }
-        public int Unk2 { get; set; }
-        public int Unk3 { get; set; }
-        public int Unk4 { get; set; }
+        public int BoardAccess { get; set; }
+        public int BoardAccessBadManner { get; set; }
+        public int BoardPost { get; set; }
+        public int BoardPostBadManner { get; set; }
     }
     [Packet(4017, PacketType.Club)]
     public class ClubSearchReqMessage
@@ -230,12 +230,12 @@ namespace Santana.Network.Message.Club
     [Packet(4030, PacketType.Club)]
     public class ClubBoardDeleteReqMessage
     {
-        public int Unk { get; set; }
+        public int PostId { get; set; }
     }
     [Packet(4031, PacketType.Club)]
     public class ClubBoardDeleteAllReqMessage
     {
-        public int Unk { get; set; }
+        public int Mode { get; set; }
     }
     [Packet(4032, PacketType.Club)]
     public class ClubBoardSearchNickReqMessage

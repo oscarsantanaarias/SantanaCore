@@ -399,6 +399,10 @@ namespace Santana.Database.Game
         public int Area { get; set; }
         public int Activity { get; set; }
         public long CreatedAt { get; set; }
+        public int BoardAccess { get; set; }
+        public int BoardAccessBadManner { get; set; }
+        public int BoardPost { get; set; }
+        public int BoardPostBadManner { get; set; }
     }
     [Table("club_board")]
     public class ClubBoardDto

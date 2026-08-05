@@ -207,6 +207,17 @@
         [MessageHandler(typeof(ClubAdminBoardModifyReqMessage))]
         public void ClubAdminBoardModifyReq(GameSession session, ClubAdminBoardModifyReqMessage message)
         {
+            var actor = session.Player;
+            if (actor?.Club != null)
+            {
+                UpdateClubRow(actor.Club.Id, row =>
+                {
+                    row.BoardAccess = message.BoardAccess;
+                    row.BoardAccessBadManner = message.BoardAccessBadManner;
+                    row.BoardPost = message.BoardPost;
+                    row.BoardPostBadManner = message.BoardPostBadManner;
+                });
+            }
             session.SendAsync(new ClubAdminBoardModifyAckMessage { Unk = 0 });
         }
         [MessageHandler(typeof(ClubUnjoinerListReqMessage))]
@@ -384,7 +395,7 @@
                 {
                     foreach (var post in DbUtil.Find<ClubBoardDto>(gameDb)
                                  .Where(row => row.ClubId == actor.Club.Id &&
-                                               (row.Id == (uint)message.Unk || row.ParentId == (uint)message.Unk))
+                                               (row.Id == (uint)message.PostId || row.ParentId == (uint)message.PostId))
                                  .ToArray())
                         DbUtil.Delete(gameDb, post);
                 }
@@ -397,10 +408,13 @@
             var actor = session.Player;
             if (actor?.Club != null)
             {
+                var members = actor.Club.Players.Keys.Select(id => (int)id).ToArray();
                 using (var gameDb = GameDatabase.Open())
                 {
                     foreach (var post in DbUtil.Find<ClubBoardDto>(gameDb)
                                  .Where(row => row.ClubId == actor.Club.Id)
+                                 .Where(row => message.Mode == 1 ||
+                                               (message.Mode == 2 && !members.Contains(row.AuthorId)))
                                  .ToArray())
                         DbUtil.Delete(gameDb, post);
                 }
@@ -726,11 +740,49 @@
         [MessageHandler(typeof(ClubSearchReqMessage))]
         public void ClubSearchReq(GameSession session, ClubSearchReqMessage message)
         {
-            var hits = GameServer.Instance.ClubManager
-                .Where(x => x.ClanName.Contains(message.Query, StringComparison.OrdinalIgnoreCase))
-                .Select(x => x.Map<Club, ClubSearchResultDto>())
-                .ToArray();
-            session.SendAsync(new ClubSearchAckMessage(hits));
+            var needle = message.Query?.Trim() ?? "";
+            var hits = new List<ClubSearchResultDto>();
+            using (var gameDb = GameDatabase.Open())
+            {
+                var rows = DbUtil.Find<ClubDto>(gameDb)
+                    .Where(club => club != null && club.Id > 0)
+                    .Where(club => needle.Length == 0 ||
+                                   (club.Name ?? "").IndexOf(needle, StringComparison.OrdinalIgnoreCase) >= 0)
+                    .OrderByDescending(club => club.Points)
+                    .ThenBy(club => club.Id)
+                    .Take(50)
+                    .ToArray();
+                foreach (var row in rows)
+                {
+                    if (!TryResolveClubSnapshot(out var snapshot, clubId: row.Id))
+                        continue;
+                    var fight = GetClubFightStats(snapshot);
+                    hits.Add(new ClubSearchResultDto
+                    {
+                        Id = (int)row.Id,
+                        Icon = GetSafeClanIcon(snapshot.LiveClub?.ClanIcon ?? row.Icon),
+                        Name = snapshot.LiveClub?.ClanName ?? row.Name ?? "",
+                        OwnerName = snapshot.MasterName,
+                        Class = ClubClass.A,
+                        Points = (uint)fight.Points,
+                        Unk = 0,
+#if LATESTS4
+                        CreationDate = row.CreatedAt > 0
+                            ? DateTimeOffset.Now - DateTimeOffset.FromUnixTimeSeconds(row.CreatedAt)
+                            : TimeSpan.Zero,
+#else
+                        CreationDate = row.CreatedAt > 0
+                            ? DateTimeOffset.FromUnixTimeSeconds(row.CreatedAt).ToString("yyyyMMddHH")
+                            : "",
+#endif
+                        MemberCount = snapshot.MemberCount,
+                        Area = (ClubArea)row.Area,
+                        Activity = (ClubActivity)row.Activity,
+                        Description = snapshot.LiveClub?.Title ?? row.Title ?? ""
+                    });
+                }
+            }
+            session.SendAsync(new ClubSearchAckMessage(hits.ToArray()));
         }
         [MessageHandler(typeof(ClubSearchReq2Message))]
         public void ClubSearchReq2(GameSession session, ClubSearchReq2Message message)
@@ -1352,7 +1404,13 @@
                 ClanRank = fight.ClanRank,
 #endif
                 Motto = motto,
-                Announce = announce
+                Announce = announce,
+#if !LATESTS4
+                BoardAccess = row.BoardAccess,
+                BoardAccessBadManner = row.BoardAccessBadManner,
+                BoardPost = row.BoardPost,
+                BoardPostBadManner = row.BoardPostBadManner
+#endif
             };
         }
         private static ClubInfoDto2 BuildClubInfoDto2FromSnapshot(ResolvedClubSnapshot snapshot)
