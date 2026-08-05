@@ -20,6 +20,9 @@ namespace Santana.Network.Message.Club
     public class ClubCreateAck2Message
     {
         public int Unk { get; set; }
+#if !LATESTS4
+        public int ClanId { get; set; }
+#endif
         public ClubCreateAck2Message()
         {
         }
@@ -108,14 +111,25 @@ namespace Santana.Network.Message.Club
     public class ClubAdminJoinCommandAckMessage
     {
         public uint Unk { get; set; }
+#if LATESTS4
         public ulong Unk2 { get; set; }
+#else
+        public ulong[] Unk2 { get; set; }
+#endif
         public ClubAdminJoinCommandAckMessage()
         {
+#if !LATESTS4
+            Unk2 = Array.Empty<ulong>();
+#endif
         }
         public ClubAdminJoinCommandAckMessage(uint unk, ulong unk2)
         {
             Unk = unk;
+#if LATESTS4
             Unk2 = unk2;
+#else
+            Unk2 = new[] { unk2 };
+#endif
         }
     }
     [Packet(5009, PacketType.Club)]
@@ -215,6 +229,7 @@ namespace Santana.Network.Message.Club
     [Packet(5039, PacketType.Club)]
     public class ClubClubInfoAck2Message
     {
+#if LATESTS4
         public ClubInfoDto2 Info { get; set; }
         public ClubClubInfoAck2Message()
         {
@@ -224,6 +239,30 @@ namespace Santana.Network.Message.Club
         {
             Info = info;
         }
+#else
+        public int Unk1 { get; set; }
+        public ClubRankInfoDto Info { get; set; }
+        public ClubClubInfoAck2Message()
+        {
+            Info = new ClubRankInfoDto();
+        }
+        public ClubClubInfoAck2Message(ClubInfoDto2 info)
+        {
+            Info = new ClubRankInfoDto
+            {
+                ClanId = info.Id,
+                Name = info.Name,
+                ClanIcon = info.Type,
+                Unk2 = string.Empty,
+                MasterName = info.MasterName,
+                Unk6 = info.MemberCount,
+                Unk8 = string.Empty,
+                CreationDate = info.CreationDate,
+                Unk9 = info.Motto,
+                Unk10 = string.Empty
+            };
+        }
+#endif
     }
     [Packet(5019, PacketType.Club)]
     public class ClubJoinWaiterInfoAckMessage
@@ -309,9 +348,17 @@ namespace Santana.Network.Message.Club
     [Packet(5026, PacketType.Club)]
     public class ClubNewsInfoAckMessage
     {
+#if LATESTS4
         public int Unk1 { get; set; }
         public string Unk2 { get; set; }
         public string Unk3 { get; set; }
+#else
+        public ClubNewsDto[] News { get; set; }
+        public ClubNewsInfoAckMessage()
+        {
+            News = Array.Empty<ClubNewsDto>();
+        }
+#endif
     }
     [Packet(5027, PacketType.Club)]
     public class ClubMyInfoAckMessage
@@ -333,6 +380,9 @@ namespace Santana.Network.Message.Club
     [Packet(5029, PacketType.Club)]
     public class ClubBoardReadAckMessage
     {
+#if !LATESTS4
+        public int Unk1 { get; set; }
+#endif
         public BoardMessageDto[] Unk { get; set; }
     }
     [Packet(5030, PacketType.Club)]

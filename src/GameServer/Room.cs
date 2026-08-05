@@ -284,11 +284,11 @@ namespace Santana
                          TimeLimit = (uint)Options.TimeLimit.TotalMilliseconds,
                          TimeSync = (uint)GameRuleManager.GameRule.RoundTime.TotalMilliseconds,
                          ScoreLimit = Options.ScoreLimit,
-                         Unk1 = Options.GameRule == GameRule.Arcade ? Math.Max((uint)1, Options.ArcadeDifficulty) : 0,
-                         Unk2 = (byte)(Options.GameRule == GameRule.Arcade ? 1 : 0),
+                         Difficulty = Options.GameRule == GameRule.Arcade ? Math.Max(1, (int)Options.ArcadeDifficulty) : 0,
+                         Movie = (byte)(Options.GameRule == GameRule.Arcade ? 1 : 0),
                          RelayEndPoint =
                              new IPEndPoint(IPAddress.Parse(Config.Instance.IP), Config.Instance.RelayListener.Port),
-                         LastMapId = plr.RoomInfo.LastMapID,
+                         OverrideMapId = plr.RoomInfo.LastMapID,
                      };
                      if (GetRoomPlrDto(plr, true) != null)
                          BroadcastExcept(plr, new RoomEnterPlayerInfoAckMessage(GetRoomPlrDto(plr, true)));

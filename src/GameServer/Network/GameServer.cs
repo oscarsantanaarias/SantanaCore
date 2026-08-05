@@ -363,7 +363,9 @@ namespace Santana.Network
             Mapper.Register<PlayerItem, ItemDto>()
                 .Member(dest => dest.Id, src => src.Id)
                 .Member(dest => dest.EnchantLevel, src => src.EnchantLvl)
+#if LATESTS4
                 .Member(dest => dest.EsperID, src => src.EsperChip)
+#endif
                 .Function(dest => dest.ExpireTime, src => src.CalculateExpireTime())
                 .Function(dest => dest.Durability, src =>
                 {

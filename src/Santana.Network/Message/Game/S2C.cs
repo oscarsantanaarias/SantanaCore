@@ -281,16 +281,16 @@ namespace Santana.Network.Message.Game
         public GameState GameState { get; set; }
         public GameTimeState GameTimeState { get; set; }
         public uint TimeLimit { get; set; }
-        public uint Unk1 { get; set; }
+        public int Difficulty { get; set; }
         public uint TimeSync { get; set; }
         public uint ScoreLimit { get; set; }
-        public byte Unk2 { get; set; }
+        public byte Movie { get; set; }
         [EndpointStr] public IPEndPoint RelayEndPoint { get; set; }
         public bool CreatedRoom { get; set; }
         public int Unk4 { get; set; }
-        public int Unk5 { get; set; }
-        public int Unk6 { get; set; }
-        public byte LastMapId { get; set; }
+        public int OverrideFlags { get; set; }
+        public Santana.GameRule OverrideGameRule { get; set; }
+        public byte OverrideMapId { get; set; }
     }
     [Packet(1018, PacketType.Game)]
     public class RoomEnterRoomInfoAckMessage
@@ -306,17 +306,16 @@ namespace Santana.Network.Message.Game
         public GameState GameState { get; set; }
         public GameTimeState GameTimeState { get; set; }
         public uint TimeLimit { get; set; }
-        public uint Unk1 { get; set; }
+        public int Difficulty { get; set; }
         public uint TimeSync { get; set; }
         public uint ScoreLimit { get; set; }
-        public byte Unk2 { get; set; }
+        public byte Movie { get; set; }
         [EndpointStr] public IPEndPoint RelayEndPoint { get; set; }
         public bool CreatedRoom { get; set; }
         public int Unk4 { get; set; }
-        public int Unk5 { get; set; }
-        public int Unk6 { get; set; }
-        public byte LastMapId { get; set; }
     }
+
+
     [Packet(1019, PacketType.Game)]
     public class RoomLeavePlayerInfoAckMessage
     {

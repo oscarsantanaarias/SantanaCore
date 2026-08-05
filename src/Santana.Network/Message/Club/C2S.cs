@@ -6,9 +6,22 @@ namespace Santana.Network.Message.Club
     [Packet(4001, PacketType.Club)]
     public class ClubCreateReqMessage
     {
+#if LATESTS4
         public string Name { get; set; }
         public string Unk2 { get; set; }
         public string Unk3 { get; set; }
+#else
+        public string Mark { get; set; }
+        public string Name { get; set; }
+        public string Introduction { get; set; }
+        public int ActivityArea { get; set; }
+        public int ActivityPurpose { get; set; }
+        public string Question1 { get; set; }
+        public string Question2 { get; set; }
+        public string Question3 { get; set; }
+        public string Question4 { get; set; }
+        public string Question5 { get; set; }
+#endif
     }
     [Packet(4002, PacketType.Club)]
     public class ClubCloseReqMessage
@@ -265,5 +278,8 @@ namespace Santana.Network.Message.Club
     public class ClubJoinReq2Message
     {
         public uint ClanId { get; set; }
+#if !LATESTS4
+        public string ClanName { get; set; }
+#endif
     }
 }

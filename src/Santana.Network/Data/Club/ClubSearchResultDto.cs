@@ -23,8 +23,12 @@ namespace Santana.Network.Data.Club
 
         public uint Unk { get; set; }
 
+#if LATESTS4
         [Sec]
         public TimeSpan CreationDate { get; set; }
+#else
+        public string CreationDate { get; set; }
+#endif
 
         public uint MemberCount { get; set; }
 
