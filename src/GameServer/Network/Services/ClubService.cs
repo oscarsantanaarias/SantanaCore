@@ -277,6 +277,9 @@
         }
         private static void SendBoard(GameSession session, BoardMessageDto[] posts)
         {
+            foreach (var post in posts)
+                if (post.RowType == 1 && posts.All(other => other.PostId != post.Unk11))
+                    post.RowType = 0;
             session.SendAsync(new ClubBoardReadAckMessage
             {
 #if !LATESTS4
@@ -307,7 +310,7 @@
             var actor = session.Player;
             var posts = actor?.Club == null
                 ? Array.Empty<BoardMessageDto>()
-                : LoadBoard(actor.Club.Id).Where(post => post.IsPublic == 1).ToArray();
+                : LoadBoard(actor.Club.Id).Where(post => post.AuthorId != (int)actor.Account.Id).ToArray();
             SendBoard(session, posts);
         }
         [MessageHandler(typeof(ClubBoardSearchNickReqMessage))]
@@ -641,7 +644,7 @@
                 var staffDtos = new List<ClubMemberDto>();
                 using (var gameDb = GameDatabase.Open())
                 {
-                    foreach (var staffMember in actor.Club.Players.Values.Where(x => x.Rank == ClubRank.Staff))
+                    foreach (var staffMember in actor.Club.Players.Values)
                     {
                         var entry = staffMember.Map<ClubPlayerInfo, ClubMemberDto>();
                         var accountId = (int)staffMember.AccountId;
@@ -686,8 +689,6 @@
                 {
                     foreach (var staffMember in actor.Club.Players.Values)
                     {
-                        if (staffMember.Rank != ClubRank.Staff)
-                            continue;
                         var entry = staffMember.Map<ClubPlayerInfo, ClubMemberDto2>();
                         var accountId = (int)staffMember.AccountId;
                         var clubId = actor.Club.Id;
@@ -700,6 +701,9 @@
                         if (onlineMember != null)
                         {
                             entry.Unk1 = onlineMember.Level;
+                            entry.ServerId = Config.Instance.Id;
+                            entry.ChannelId = onlineMember.Channel?.Id > 0 ? onlineMember.Channel.Id : -1;
+                            entry.RoomId = onlineMember.Room?.Id > 0 ? (int)onlineMember.Room.Id : -1;
                         }
                         else
                         {
@@ -711,9 +715,6 @@
                         }
                         staffDtos.Add(entry);
                     }
-                }
-                foreach (var logEntry in staffDtos)
-                {
                 }
                 session.SendAsync(new ClubStuffListAck2Message(staffDtos.ToArray()));
             }
