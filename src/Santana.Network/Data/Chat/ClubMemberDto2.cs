@@ -14,7 +14,7 @@ namespace Santana.Network.Data.Chat
     public ClubMemberDto()
     {
       Nickname = "";
-      JoinDate = "";
+      SignInDate = "";
       LastLogin = "";
 
     }
@@ -31,7 +31,7 @@ namespace Santana.Network.Data.Chat
 
      public int Unk5 { get; set; }
 
-    public string JoinDate { get; set; }
+    public string SignInDate { get; set; }
 
     public string LastLogin { get; set; }
 

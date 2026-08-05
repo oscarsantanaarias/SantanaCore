@@ -328,7 +328,9 @@
             var actor = session.Player;
             var posts = actor?.Club == null
                 ? Array.Empty<BoardMessageDto>()
-                : LoadBoard(actor.Club.Id).Where(post => post.AuthorId != (int)actor.Account.Id).ToArray();
+                : LoadBoard(actor.Club.Id)
+                    .Where(post => actor.Club.Players.Keys.All(id => (int)id != post.AuthorId))
+                    .ToArray();
             SendBoard(session, posts);
         }
         [MessageHandler(typeof(ClubBoardSearchNickReqMessage))]
@@ -1884,6 +1886,7 @@
                             .WithParameters(new { clubId, accountId }))
                         .FirstOrDefault();
                     row.Rank = (int)(memberRow?.Points ?? 0);
+                    row.SignInDate = onlineMember?.Account?.AccountDto?.LastLogin ?? entry.Account?.LastLogin ?? "";
                     row.Status = onlineMember == null ? 0 : onlineMember.Room != null ? 2 : 1;
                     memberDtos.Add(row);
                 }
@@ -1979,10 +1982,45 @@
             {
             }
         }
-        [MessageHandler(typeof(ClubNoteSendReq2Message))]
-        public void ClubNoteSendReq2(ChatSession session, ClubNoteSendReq2Message message)
+        [MessageHandler(typeof(ClubNoteSendReqMessage))]
+        public async Task ClubNoteSendReq(ChatSession session, ClubNoteSendReqMessage message)
         {
-            session.GameSession?.SendAsync(new ClubNoteSendAckMessage { Unk = 1 });
+            var actor = session?.Player;
+            var note = message?.Note;
+            if (actor?.Club == null || note == null)
+            {
+                await session.SendAsync(new ClubNoteSendAckMessage { Unk = 1 });
+                return;
+            }
+            var ranks = new List<ClubRank>();
+            if (note.ToStaff != 0)
+                ranks.Add(ClubRank.Staff);
+            if (note.ToRegular != 0)
+                ranks.Add(ClubRank.Member);
+            if (note.ToNormal != 0)
+                ranks.Add(ClubRank.Normal);
+            if (note.ToBadManner != 0)
+                ranks.Add(ClubRank.BadManner);
+            var receivers = actor.Club.Players.Values
+                .Where(member => ranks.Contains(member.Rank) && member.AccountId != actor.Account.Id)
+                .Select(member => member.Account?.Nickname)
+                .Where(nickname => !string.IsNullOrEmpty(nickname))
+                .ToArray();
+            if (receivers.Length == 0 || actor.PEN < 100)
+            {
+                await session.SendAsync(new ClubNoteSendAckMessage { Unk = 1 });
+                return;
+            }
+            foreach (var receiver in receivers)
+                await actor.Mailbox.SendAsync(receiver, note.Title ?? "", note.Message ?? "", true);
+            actor.PEN -= 100;
+            await actor.SendAsync(new MoneyRefreshCashInfoAckMessage(actor.PEN, actor.AP));
+            await session.SendAsync(new ClubNoteSendAckMessage { Unk = 0 });
+        }
+        [MessageHandler(typeof(ClubNoteSendReq2Message))]
+        public async Task ClubNoteSendReq2(ChatSession session, ClubNoteSendReq2Message message)
+        {
+            await session.SendAsync(new ClubNoteSendAckMessage { Unk = 1 });
         }
         [MessageHandler(typeof(ClubUnjoinReqMessage))]
         public async Task ClubUnjoinReq(GameSession session, ClubUnjoinReqMessage message)

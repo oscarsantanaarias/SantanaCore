@@ -7,22 +7,22 @@ namespace Santana.Network.Data.Chat
   {
     public ClubNoteDto()
     {
-      Unk6 = "";
-      Unk7 = "";
+      Title = "";
+      Message = "";
     }
 
-     public int Unk1 { get; set; }
+     public int ClubId { get; set; }
 
-     public byte Unk2 { get; set; }
+     public byte ToStaff { get; set; }
 
-     public byte Unk3 { get; set; }
+     public byte ToRegular { get; set; }
 
-     public byte Unk4 { get; set; }
+     public byte ToNormal { get; set; }
 
-     public byte Unk5 { get; set; }
+     public byte ToBadManner { get; set; }
 
-    public string Unk6 { get; set; }
+    public string Title { get; set; }
 
-    public string Unk7 { get; set; }
+    public string Message { get; set; }
   }
 }

@@ -259,7 +259,7 @@ namespace Santana
       _storedMessage = RawMessage;
       _isNew = mailDto.IsMailNew;
       IsClan = isClan;
-      MessageType = isClan ? 1 : 0;
+      MessageType = isClan ? 2 : 0;
       if (TryParseRequestMessage(RawMessage, out var requestBody, out var requestGift, out var requestType))
       {
         Message = requestBody;
