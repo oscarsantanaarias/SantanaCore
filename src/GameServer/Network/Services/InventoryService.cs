@@ -385,7 +385,29 @@ namespace Santana.Network.Services
                     session.SendAsync(new ServerResultAckMessage(ServerResult.DBError));
                     return;
                 }
+                if (MP.ItemNumber == 4130006)
                 {
+                    if (Item.EsperChip == 0)
+                    {
+                        session.SendAsync(new ItemMPRefillAckMessage { Result = 1 });
+                        return;
+                    }
+                    var extracted = Item.EsperChip;
+                    var chipEffects = GetEsperChipEffects(extracted);
+                    var remaining = Item.Effects.Where(x => x.Id != 0).ToList();
+                    foreach (var effect in chipEffects)
+                        remaining.Remove(effect);
+                    Item.Effects = remaining.ToArray();
+                    Item.EsperChip = 0;
+                    Item.NeedsToSave = true;
+                    plr.Inventory.RemoveOrDecrease(MP);
+                    plr.Inventory.CreateUnits(extracted, 1);
+                    session.SendAsync(new ItemMPRefillAckMessage { Result = 0 });
+                    session.SendAsync(new ItemInventroyDeleteAckMessage(Item.Id));
+                    session.SendAsync(new ItemUpdateInventoryAckMessage(InventoryAction.Add,
+                        Item.Map<PlayerItem, ItemDto>()));
+                    RestoreEquipSlot(session, Item);
+                    return;
                 }
                 if (MP.ItemNumber == 4130000)
                 {
@@ -824,6 +846,25 @@ namespace Santana.Network.Services
             session.SendAsync(new ItemInventroyDeleteAckMessage(target.Id));
             session.SendAsync(new ItemUpdateInventoryAckMessage(InventoryAction.Add,
                 target.Map<PlayerItem, ItemDto>()));
+        }
+        private static void RestoreEquipSlot(GameSession session, PlayerItem item)
+        {
+            foreach (var character in session.Player.CharacterManager)
+            {
+                var worn = character.Costumes.GetItems();
+                for (var slot = 0; slot < worn.Count; slot++)
+                {
+                    if (worn[slot]?.Id != item.Id)
+                        continue;
+                    session.SendAsync(new ItemUseItemAckMessage
+                    {
+                        CharacterSlot = character.Slot,
+                        ItemId = item.Id,
+                        Action = UseItemAction.Equip,
+                        EquipSlot = (byte)slot
+                    });
+                }
+            }
         }
         private static EffectNumber[] GetEsperChipEffects(uint chipNumber)
         {

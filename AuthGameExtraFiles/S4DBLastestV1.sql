@@ -58,7 +58,7 @@ INSERT INTO `accounts` (`Id`, `Username`, `Nickname`, `Password`, `Salt`, `Secur
 	(4, 'tester4', 'tester4', '', '', 0, '597b2075', '04458707', 'tester4', '', '20260804034415', '000906724C800800FEFFFFFFF', '', '', '', 1, 'tester4@hotmail.com', '0', 0, 0, 0, 0, NULL, NULL),
 	(5, 'tester5', 'tester5', '', '', 0, '9f08413b', '058a8054', 'tester5', '', '20260804034413', '000906724C800800FEFFFFFFF', '', '', '', 1, 'tester5@hotmail.com', '0', 0, 0, 0, 0, NULL, NULL),
 	(6, 'tester6', 'tester6', '', '', 0, 'a0d76e34', '66071705', 'tester6', '', '20260724120540', '000906724C800800FEFFFFFFF', '', '', '', 1, 'tester5@hotmail.com', '0', 0, 0, 0, 0, NULL, NULL),
-	(7, 'tester7', 'tester7', '', '', 0, '42594a6e', '41e06b06', 'tester7', '', '20260805122948', '000906724C800800FEFFFFFFF', '', '', '', 1, 'tester5@hotmail.com', '0', 0, 1, 0, 0, NULL, NULL),
+	(7, 'tester7', 'tester7', '', '', 0, 'c36ebe4f', '83e86a9d', 'tester7', '', '20260805131051', '000906724C800800FEFFFFFFF', '', '', '', 1, 'tester5@hotmail.com', '0', 0, 1, 0, 0, NULL, NULL),
 	(8, 'tester8', 'tester8', '', '', 0, '0f47bd8d', 'e867b379', 'tester8', '', '20260731174506', '000906724C800800FEFFFFFFF', '', '', '', 1, 'tester5@hotmail.com', '0', 0, 0, 0, 0, NULL, NULL);
 
 -- Dumping structure for table test.accounts_inactive
@@ -430,7 +430,7 @@ CREATE TABLE IF NOT EXISTS `club_member_history` (
   KEY `ClubId` (`ClubId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table test.club_member_history: ~1 rows (approximately)
+-- Dumping data for table test.club_member_history: ~0 rows (approximately)
 INSERT INTO `club_member_history` (`Id`, `PlayerId`, `ClubId`, `JoinedAt`, `LeftAt`) VALUES
 	(1, 4, 2, '2026-07-27 15:24:07', NULL);
 
@@ -466,7 +466,7 @@ CREATE TABLE IF NOT EXISTS `club_request` (
   KEY `PlayerId` (`PlayerId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table test.club_request: ~1 rows (approximately)
+-- Dumping data for table test.club_request: ~0 rows (approximately)
 INSERT INTO `club_request` (`Id`, `ClubId`, `PlayerId`) VALUES
 	(2, 1, 7);
 
@@ -2055,7 +2055,7 @@ CREATE TABLE IF NOT EXISTS `collect_book_meta` (
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table test.collect_book_meta: ~1 rows (approximately)
+-- Dumping data for table test.collect_book_meta: ~0 rows (approximately)
 INSERT INTO `collect_book_meta` (`Id`, `Version`, `UpdatedAt`) VALUES
 	(1, '20260528091048', '2026-05-28 08:55:48');
 
@@ -3199,7 +3199,7 @@ CREATE TABLE IF NOT EXISTS `combi` (
   CONSTRAINT `FK_combi_players_PlayerId` FOREIGN KEY (`PlayerId`) REFERENCES `players` (`Id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- Dumping data for table test.combi: ~1 rows (approximately)
+-- Dumping data for table test.combi: ~0 rows (approximately)
 INSERT INTO `combi` (`Id`, `PlayerId`, `CombiPlayerId`, `Exp`, `Battle`, `Match`, `Win`, `Defeat`, `CombiName`, `CombiMate`, `CombiDate`, `State`) VALUES
 	(4, 2, 4, 1540, 148, 148, 124, 24, 'sdsdsd', 'tester4', '20260717124825', 1);
 
@@ -7200,7 +7200,7 @@ CREATE TABLE IF NOT EXISTS `nickname_history` (
   `ExpireDate` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `AccountId` (`AccountId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 -- Dumping data for table test.nickname_history: ~0 rows (approximately)
 
@@ -7232,7 +7232,7 @@ INSERT INTO `players` (`Id`, `PlayTime`, `TutorialState`, `Level`, `TotalExperie
 	(4, '1.03:44:23.6572639', 0, 34, 104563, 86540, 8330, 0, 0, 0, 84, 75, 9, 4000000009, 0),
 	(5, '12:12:24.7304523', 0, 29, 54232, 52960, 9529, 0, 0, 0, 40, 28, 12, 4000000009, 0),
 	(6, '00:33:32.1626295', 0, 27, 45056, 9041, 8771, 0, 0, 0, 0, 0, 0, 4000000009, 0),
-	(7, '01:42:40.1792345', 0, 0, 0, 1397, 7077, 0, 0, 0, 2, 1, 1, 0, 0),
+	(7, '01:57:26.3903070', 0, 0, 0, 900, 6160, 0, 0, 0, 2, 1, 1, 0, 0),
 	(8, '00:58:14.5924674', 0, 0, 59, 10057, 9950, 0, 0, 0, 3, 2, 1, 0, 0);
 
 -- Dumping structure for table test.player_boosters
@@ -19814,7 +19814,7 @@ CREATE TABLE IF NOT EXISTS `player_deny` (
   KEY `DenyPlayerId` (`DenyPlayerId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table test.player_deny: ~1 rows (approximately)
+-- Dumping data for table test.player_deny: ~0 rows (approximately)
 INSERT INTO `player_deny` (`Id`, `PlayerId`, `DenyPlayerId`) VALUES
 	(1, 3, 5);
 
@@ -20030,9 +20030,9 @@ CREATE TABLE IF NOT EXISTS `player_items` (
   KEY `PlayerId` (`PlayerId`),
   KEY `ShopItemInfoId` (`ShopItemInfoId`),
   KEY `ShopPriceId` (`ShopPriceId`)
-) ENGINE=InnoDB AUTO_INCREMENT=550 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=569 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table test.player_items: ~446 rows (approximately)
+-- Dumping data for table test.player_items: ~456 rows (approximately)
 INSERT INTO `player_items` (`Id`, `PlayerId`, `ShopItemInfoId`, `ShopPriceId`, `Period`, `DaysLeft`, `Effects`, `Color`, `PurchaseDate`, `Durability`, `Count`, `EnchantMP`, `EnchantLvl`, `PeriodType`, `EsperChip`) VALUES
 	(1, 2, 6, 3, 1, 1, '1100313003,1100315003,1100317003', 0, 1784259642, 2400, 1, 0, 0, 0, 0),
 	(2, 2, 199, 5, 1, 1, '1102303003', 0, 1784259642, 2400, 1, 0, 0, 0, 0),
@@ -20472,21 +20472,23 @@ INSERT INTO `player_items` (`Id`, `PlayerId`, `ShopItemInfoId`, `ShopPriceId`, `
 	(533, 7, 2480, 271, 1, 1, '2102304002,2102330002,2102357002,2102358002', 0, 1785903311, 2400, 1, 0, 0, 0, 0),
 	(534, 7, 2475, 266, 1, 1, '2102304002,2102311001,2102312001,2102301001', 0, 1785903316, 2400, 1, 0, 0, 0, 0),
 	(536, 7, 2465, 256, 1, 1, '2102310002,2102331001,2102343002,2102342002', 0, 1785903323, 2400, 1, 0, 0, 0, 0),
-	(537, 7, 432, 5, 1, 1, '1102303003,2102304002,2102600002,2102337002', 0, 1785903339, 2400, 1, 168, 0, 0, 7012215),
+	(537, 7, 432, 5, 1, 1, '1102303003,3102319002,2102310002,2102600002,2102337002', 0, 1785903339, 2400, 1, 0, 1, 0, 7012115),
 	(538, 7, 689, 6, 1, 1, '1103302004,2103301003,2103300007', 0, 1785903341, 2400, 1, 168, 0, 0, 7013115),
 	(539, 7, 933, 7, 1, 1, '1104300005,2104300003,2104338002,2104303002,3104338003', 0, 1785903345, 2400, 1, 0, 1, 0, 7014115),
 	(540, 7, 1178, 7, 1, 1, '1101301005,2105300003,2105338002,2105337002,3105344001', 0, 1785903351, 2400, 1, 0, 1, 0, 7015115),
 	(541, 7, 103, 3, 1, 1, '1100313003,1100315003,1100317003', 0, 1785903376, 2400, 0, 0, 0, 0, 0),
 	(542, 7, 4280, 91, 1, 1, '1999000001', 0, 1785906730, 0, 1, 0, 0, 0, 0),
-	(546, 7, 2399, 181, 1, 1, '0', 0, 1785930882, 2400, 1, 0, 0, 0, 0),
-	(549, 7, 4420, 457, 1, 1, '2102304001,2102304002,2102310002,2102302001,2104300001,2104300002,2104300003,2104343001,2104354001,2104356001,2105800001,2105800002,2105800003,2105330001,2105358001,2105357001,2105343001,2105342001,2107800001,2107344001,2107801001,2107332001,2202601001,2202601002,2203601001,2204601001,2204601002,1206601001,2206309001,2206309002,2207601002,2299605001,2299303001,2299600001,2299303002,2102302002,2103302001,2105343002,2100332001', 0, 1785932572, 0, 1, 0, 0, 0, 0),
+	(549, 7, 4420, 457, 1, 1, '2102304001,2102304002,2102310002,2102302001,2104300001,2104300002,2104300003,2104343001,2104354001,2104356001,2105800001,2105800002,2105800003,2105330001,2105358001,2105357001,2105343001,2105342001,2107800001,2107344001,2107801001,2107332001,2202601001,2202601002,2203601001,2204601001,2204601002,1206601001,2206309001,2206309002,2207601002,2299605001,2299303001,2299600001,2299303002,2102302002,2103302001,2105343002,2100332001', 0, 1785932572, 0, 3, 0, 0, 0, 0),
 	(553, 7, 1843, 126, 1, 1, '0', 0, 1785933047, 2400, 0, 0, 0, 0, 0),
 	(554, 7, 2398, 458, 0, 0, '0', 0, 1785933136, 2400, 999, 0, 0, 0, 0),
 	(555, 7, 2400, 460, 0, 0, '0', 0, 1785933139, 2400, 999, 0, 0, 0, 0),
 	(556, 7, 2402, 463, 0, 0, '0', 0, 1785933141, 2400, 999, 0, 0, 0, 0),
 	(557, 7, 2401, 461, 0, 0, '0', 0, 1785933144, 2400, 999, 0, 0, 0, 0),
 	(558, 7, 2406, 464, 0, 0, '0', 0, 1785933267, 2400, 999, 0, 0, 0, 0),
-	(559, 7, 2405, 466, 0, 0, '0', 0, 1785933269, 2400, 999, 0, 0, 0, 0);
+	(559, 7, 2405, 466, 0, 0, '0', 0, 1785933269, 2400, 999, 0, 0, 0, 0),
+	(561, 7, 4419, 455, 0, 0, '0', 0, 1785933479, 0, 1, 0, 0, 0, 0),
+	(562, 7, 4422, 468, 0, 0, '0', 0, 1785933670, 0, 1, 0, 0, 0, 0),
+	(563, 7, 4431, 469, 0, 0, '0', 0, 1785933687, 0, 1, 0, 0, 0, 0);
 
 -- Dumping structure for table test.player_licenses
 CREATE TABLE IF NOT EXISTS `player_licenses` (
@@ -20517,7 +20519,7 @@ CREATE TABLE IF NOT EXISTS `player_mails` (
   KEY `SenderPlayerId` (`SenderPlayerId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table test.player_mails: ~3 rows (approximately)
+-- Dumping data for table test.player_mails: ~2 rows (approximately)
 INSERT INTO `player_mails` (`Id`, `PlayerId`, `SenderPlayerId`, `SentDate`, `Title`, `Message`, `IsMailNew`, `IsMailDeleted`, `IsClubMail`) VALUES
 	(1, 1, 3, 1784302405, 'Request to Join', '[NNREQ:2;0;0;0;0;0;0;0;0;0]The player tester3 requested to join the club.', 0, 0, 0),
 	(2, 3, 1, 1784302477, 'Approved', '[NNREQ:2;0;0;0;0;0;0;0;0;0]Your request to join asasa has been approved.', 0, 0, 0),
@@ -20742,7 +20744,7 @@ CREATE TABLE IF NOT EXISTS `randomshop_version` (
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- Dumping data for table test.randomshop_version: ~1 rows (approximately)
+-- Dumping data for table test.randomshop_version: ~0 rows (approximately)
 INSERT INTO `randomshop_version` (`Id`, `Version`) VALUES
 	(1, '201949751868');
 
@@ -20754,7 +20756,7 @@ CREATE TABLE IF NOT EXISTS `server_status` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table test.server_status: ~1 rows (approximately)
+-- Dumping data for table test.server_status: ~0 rows (approximately)
 INSERT INTO `server_status` (`id`, `online`, `updated_at`) VALUES
 	(1, 3, '2026-08-03 20:46:49');
 
@@ -20781,9 +20783,9 @@ CREATE TABLE IF NOT EXISTS `shop_effects` (
   `Effect` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`Id`) USING BTREE,
   KEY `EffectGroupId` (`EffectGroupId`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1832 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=1847 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ROW_FORMAT=DYNAMIC;
 
--- Dumping data for table test.shop_effects: ~1,438 rows (approximately)
+-- Dumping data for table test.shop_effects: ~1,246 rows (approximately)
 INSERT INTO `shop_effects` (`Id`, `EffectGroupId`, `Effect`) VALUES
 	(2, 2, 1100302001),
 	(3, 3, 1100313001),
@@ -22026,7 +22028,230 @@ INSERT INTO `shop_effects` (`Id`, `EffectGroupId`, `Effect`) VALUES
 	(1836, 906, 0),
 	(1838, 907, 0),
 	(1839, 2002, 0),
-	(1841, 2003, 0);
+	(1841, 2003, 0),
+	(1842, 1033, 0),
+	(1843, 2004, 0),
+	(1844, 2005, 0),
+	(1846, 2006, 0);
+
+-- Dumping structure for table test.shop_effects_extractor_backup
+CREATE TABLE IF NOT EXISTS `shop_effects_extractor_backup` (
+  `Id` int(11) NOT NULL DEFAULT 0,
+  `EffectGroupId` int(11) NOT NULL,
+  `Effect` int(10) unsigned NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Dumping data for table test.shop_effects_extractor_backup: ~156 rows (approximately)
+INSERT INTO `shop_effects_extractor_backup` (`Id`, `EffectGroupId`, `Effect`) VALUES
+	(1676, 1031, 2102304001),
+	(1677, 1031, 2102304002),
+	(1678, 1031, 2102310002),
+	(1679, 1031, 2102302001),
+	(1680, 1031, 2104300001),
+	(1681, 1031, 2104300002),
+	(1682, 1031, 2104300003),
+	(1683, 1031, 2104343001),
+	(1684, 1031, 2104354001),
+	(1685, 1031, 2104356001),
+	(1686, 1031, 2105800001),
+	(1687, 1031, 2105800002),
+	(1688, 1031, 2105800003),
+	(1689, 1031, 2105330001),
+	(1690, 1031, 2105358001),
+	(1691, 1031, 2105357001),
+	(1692, 1031, 2105343001),
+	(1693, 1031, 2105342001),
+	(1694, 1031, 2107800001),
+	(1695, 1031, 2107344001),
+	(1696, 1031, 2107801001),
+	(1697, 1031, 2107332001),
+	(1698, 1031, 2202601001),
+	(1699, 1031, 2202601002),
+	(1700, 1031, 2203601001),
+	(1701, 1031, 2204601001),
+	(1702, 1031, 2204601002),
+	(1703, 1031, 1206601001),
+	(1704, 1031, 2206309001),
+	(1705, 1031, 2206309002),
+	(1706, 1031, 2207601002),
+	(1707, 1031, 2299605001),
+	(1708, 1031, 2299303001),
+	(1709, 1031, 2299600001),
+	(1710, 1031, 2299303002),
+	(1711, 1031, 2102302002),
+	(1712, 1031, 2103302001),
+	(1713, 1031, 2105343002),
+	(1714, 1031, 2100332001),
+	(1715, 1032, 2102304001),
+	(1716, 1032, 2102304002),
+	(1717, 1032, 2102310002),
+	(1718, 1032, 2102302001),
+	(1719, 1032, 2104300001),
+	(1720, 1032, 2104300002),
+	(1721, 1032, 2104300003),
+	(1722, 1032, 2104343001),
+	(1723, 1032, 2104354001),
+	(1724, 1032, 2104356001),
+	(1725, 1032, 2105800001),
+	(1726, 1032, 2105800002),
+	(1727, 1032, 2105800003),
+	(1728, 1032, 2105330001),
+	(1729, 1032, 2105358001),
+	(1730, 1032, 2105357001),
+	(1731, 1032, 2105343001),
+	(1732, 1032, 2105342001),
+	(1733, 1032, 2107800001),
+	(1734, 1032, 2107344001),
+	(1735, 1032, 2107801001),
+	(1736, 1032, 2107332001),
+	(1737, 1032, 2202601001),
+	(1738, 1032, 2202601002),
+	(1739, 1032, 2203601001),
+	(1740, 1032, 2204601001),
+	(1741, 1032, 2204601002),
+	(1742, 1032, 1206601001),
+	(1743, 1032, 2206309001),
+	(1744, 1032, 2206309002),
+	(1745, 1032, 2207601002),
+	(1746, 1032, 2299605001),
+	(1747, 1032, 2299303001),
+	(1748, 1032, 2299600001),
+	(1749, 1032, 2299303002),
+	(1750, 1032, 2102302002),
+	(1751, 1032, 2103302001),
+	(1752, 1032, 2105343002),
+	(1753, 1032, 2100332001),
+	(1754, 1033, 2102304001),
+	(1755, 1033, 2102304002),
+	(1756, 1033, 2102310002),
+	(1757, 1033, 2102302001),
+	(1758, 1033, 2104300001),
+	(1759, 1033, 2104300002),
+	(1760, 1033, 2104300003),
+	(1761, 1033, 2104343001),
+	(1762, 1033, 2104354001),
+	(1763, 1033, 2104356001),
+	(1764, 1033, 2105800001),
+	(1765, 1033, 2105800002),
+	(1766, 1033, 2105800003),
+	(1767, 1033, 2105330001),
+	(1768, 1033, 2105358001),
+	(1769, 1033, 2105357001),
+	(1770, 1033, 2105343001),
+	(1771, 1033, 2105342001),
+	(1772, 1033, 2107800001),
+	(1773, 1033, 2107344001),
+	(1774, 1033, 2107801001),
+	(1775, 1033, 2107332001),
+	(1776, 1033, 2202601001),
+	(1777, 1033, 2202601002),
+	(1778, 1033, 2203601001),
+	(1779, 1033, 2204601001),
+	(1780, 1033, 2204601002),
+	(1781, 1033, 1206601001),
+	(1782, 1033, 2206309001),
+	(1783, 1033, 2206309002),
+	(1784, 1033, 2207601002),
+	(1785, 1033, 2299605001),
+	(1786, 1033, 2299303001),
+	(1787, 1033, 2299600001),
+	(1788, 1033, 2299303002),
+	(1789, 1033, 2102302002),
+	(1790, 1033, 2103302001),
+	(1791, 1033, 2105343002),
+	(1792, 1033, 2100332001),
+	(1793, 1034, 2102304001),
+	(1794, 1034, 2102304002),
+	(1795, 1034, 2102310002),
+	(1796, 1034, 2102302001),
+	(1797, 1034, 2104300001),
+	(1798, 1034, 2104300002),
+	(1799, 1034, 2104300003),
+	(1800, 1034, 2104343001),
+	(1801, 1034, 2104354001),
+	(1802, 1034, 2104356001),
+	(1803, 1034, 2105800001),
+	(1804, 1034, 2105800002),
+	(1805, 1034, 2105800003),
+	(1806, 1034, 2105330001),
+	(1807, 1034, 2105358001),
+	(1808, 1034, 2105357001),
+	(1809, 1034, 2105343001),
+	(1810, 1034, 2105342001),
+	(1811, 1034, 2107800001),
+	(1812, 1034, 2107344001),
+	(1813, 1034, 2107801001),
+	(1814, 1034, 2107332001),
+	(1815, 1034, 2202601001),
+	(1816, 1034, 2202601002),
+	(1817, 1034, 2203601001),
+	(1818, 1034, 2204601001),
+	(1819, 1034, 2204601002),
+	(1820, 1034, 1206601001),
+	(1821, 1034, 2206309001),
+	(1822, 1034, 2206309002),
+	(1823, 1034, 2207601002),
+	(1824, 1034, 2299605001),
+	(1825, 1034, 2299303001),
+	(1826, 1034, 2299600001),
+	(1827, 1034, 2299303002),
+	(1828, 1034, 2102302002),
+	(1829, 1034, 2103302001),
+	(1830, 1034, 2105343002),
+	(1831, 1034, 2100332001);
+
+-- Dumping structure for table test.shop_effects_grupo1_backup
+CREATE TABLE IF NOT EXISTS `shop_effects_grupo1_backup` (
+  `Id` int(11) NOT NULL DEFAULT 0,
+  `EffectGroupId` int(11) NOT NULL,
+  `Effect` int(10) unsigned NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Dumping data for table test.shop_effects_grupo1_backup: ~43 rows (approximately)
+INSERT INTO `shop_effects_grupo1_backup` (`Id`, `EffectGroupId`, `Effect`) VALUES
+	(1344, 1, 2102304001),
+	(1345, 1, 2102304002),
+	(1347, 1, 2102310002),
+	(1348, 1, 2102302001),
+	(1349, 1, 2104300001),
+	(1350, 1, 2104300002),
+	(1351, 1, 2104300003),
+	(1352, 1, 2104343001),
+	(1353, 1, 2104354001),
+	(1354, 1, 2104356001),
+	(1355, 1, 2105800001),
+	(1356, 1, 2105800002),
+	(1357, 1, 2105800003),
+	(1358, 1, 2105330001),
+	(1359, 1, 2105358001),
+	(1360, 1, 2105357001),
+	(1361, 1, 2105343001),
+	(1362, 1, 2105342001),
+	(1363, 1, 2107800001),
+	(1364, 1, 2107344001),
+	(1365, 1, 2107801001),
+	(1366, 1, 2107332001),
+	(1367, 1, 2202601001),
+	(1368, 1, 2202601002),
+	(1369, 1, 2203601001),
+	(1370, 1, 2202601001),
+	(1371, 1, 2204601001),
+	(1372, 1, 2204601002),
+	(1373, 1, 1206601001),
+	(1374, 1, 2203601001),
+	(1375, 1, 2206309001),
+	(1376, 1, 2206309002),
+	(1377, 1, 2203601001),
+	(1378, 1, 2207601002),
+	(1379, 1, 2299605001),
+	(1380, 1, 2299303001),
+	(1381, 1, 2299600001),
+	(1382, 1, 2299303002),
+	(1383, 1, 2102302002),
+	(1384, 1, 2103302001),
+	(1385, 1, 2105343002),
+	(1386, 1, 2104354001),
+	(1387, 1, 2100332001);
 
 -- Dumping structure for table test.shop_effect_groups
 CREATE TABLE IF NOT EXISTS `shop_effect_groups` (
@@ -22034,9 +22259,9 @@ CREATE TABLE IF NOT EXISTS `shop_effect_groups` (
   `Name` varchar(100) NOT NULL DEFAULT '',
   `Effect` int(10) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`Id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=1035 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=2007 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ROW_FORMAT=DYNAMIC;
 
--- Dumping data for table test.shop_effect_groups: ~1,034 rows (approximately)
+-- Dumping data for table test.shop_effect_groups: ~1,040 rows (approximately)
 INSERT INTO `shop_effect_groups` (`Id`, `Name`, `Effect`) VALUES
 	(1, 'None', 3000001),
 	(2, 'Defense +3%', 1100302001),
@@ -23070,11 +23295,14 @@ INSERT INTO `shop_effect_groups` (`Id`, `Name`, `Effect`) VALUES
 	(1030, 'chip7015155', 7015155),
 	(1031, 'None', 90004),
 	(1032, 'None', 90005),
-	(1033, 'None', 90006),
+	(1033, 'None', 0),
 	(1034, 'None', 90007),
 	(2001, 'chip7014007', 7014007),
 	(2002, 'None', 0),
-	(2003, 'None', 0);
+	(2003, 'None', 0),
+	(2004, 'None', 0),
+	(2005, 'None', 0),
+	(2006, 'i4130006', 0);
 
 -- Dumping structure for table test.shop_iteminfos
 CREATE TABLE IF NOT EXISTS `shop_iteminfos` (
@@ -23088,9 +23316,9 @@ CREATE TABLE IF NOT EXISTS `shop_iteminfos` (
   KEY `PriceGroupId` (`PriceGroupId`) USING BTREE,
   KEY `EffectGroupId` (`EffectGroupId`) USING BTREE,
   KEY `ShopItemId` (`ShopItemId`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=4437 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=4443 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ROW_FORMAT=DYNAMIC;
 
--- Dumping data for table test.shop_iteminfos: ~4,434 rows (approximately)
+-- Dumping data for table test.shop_iteminfos: ~4,435 rows (approximately)
 INSERT INTO `shop_iteminfos` (`Id`, `ShopItemId`, `PriceGroupId`, `EffectGroupId`, `DiscountPercentage`, `Type`) VALUES
 	(1, 1000000, 6, 866, 0, 1),
 	(2, 1000001, 6, 866, 0, 1),
@@ -27507,25 +27735,26 @@ INSERT INTO `shop_iteminfos` (`Id`, `ShopItemId`, `PriceGroupId`, `EffectGroupId
 	(4415, 2000116, 6, 4, 0, 2),
 	(4416, 2000117, 6, 4, 0, 2),
 	(4417, 2000118, 6, 4, 0, 2),
-	(4418, 4340001, 278, 1033, 0, 2),
-	(4419, 4340002, 279, 1032, 0, 2),
-	(4420, 4340003, 280, 1034, 0, 2),
-	(4421, 4190001, 281, 1, 0, 0),
-	(4422, 4200001, 282, 1, 0, 0),
-	(4423, 4210001, 283, 1, 0, 0),
-	(4424, 4220001, 284, 1, 0, 0),
-	(4425, 4230001, 285, 1, 0, 0),
+	(4418, 4340001, 278, 1033, 0, 1),
+	(4419, 4340002, 279, 1032, 0, 1),
+	(4420, 4340003, 280, 1034, 0, 1),
+	(4421, 4190001, 281, 1, 0, 1),
+	(4422, 4200001, 282, 2004, 0, 1),
+	(4423, 4210001, 283, 1, 0, 1),
+	(4424, 4220001, 284, 1, 0, 1),
+	(4425, 4230001, 285, 1, 0, 1),
 	(4426, 4240001, 286, 1031, 0, 1),
-	(4427, 4350001, 287, 1, 0, 0),
-	(4428, 4250001, 288, 1, 0, 0),
-	(4429, 4260001, 289, 1, 0, 0),
-	(4430, 4270001, 290, 1, 0, 0),
-	(4431, 4280001, 291, 1, 0, 0),
-	(4432, 4290001, 292, 1, 0, 0),
-	(4433, 4300001, 293, 1, 0, 0),
-	(4434, 4310001, 294, 1, 0, 0),
-	(4435, 4320001, 295, 1, 0, 0),
-	(4436, 4330001, 296, 1, 0, 0);
+	(4427, 4350001, 287, 1, 0, 1),
+	(4428, 4250001, 288, 1, 0, 1),
+	(4429, 4260001, 289, 1, 0, 1),
+	(4430, 4270001, 290, 1, 0, 1),
+	(4431, 4280001, 291, 2005, 0, 1),
+	(4432, 4290001, 292, 1, 0, 1),
+	(4433, 4300001, 293, 1, 0, 1),
+	(4434, 4310001, 294, 1, 0, 1),
+	(4435, 4320001, 295, 1, 0, 1),
+	(4436, 4330001, 296, 1, 0, 1),
+	(4442, 4130006, 343, 2006, 0, 2);
 
 -- Dumping structure for table test.shop_items
 CREATE TABLE IF NOT EXISTS `shop_items` (
@@ -27545,7 +27774,7 @@ CREATE TABLE IF NOT EXISTS `shop_items` (
   PRIMARY KEY (`Id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ROW_FORMAT=DYNAMIC;
 
--- Dumping data for table test.shop_items: ~4,432 rows (approximately)
+-- Dumping data for table test.shop_items: ~4,434 rows (approximately)
 INSERT INTO `shop_items` (`Id`, `RequiredGender`, `RequiredLicense`, `Colors`, `UniqueColors`, `RequiredLevel`, `LevelLimit`, `RequiredMasterLevel`, `IsOneTimeUse`, `IsDestroyable`, `MainTab`, `SubTab`, `RepairCost`) VALUES
 	(1000000, 1, 0, 3, 0, 0, 0, 0, 0, 1, 3, 2, NULL),
 	(1000001, 1, 0, 5, 0, 0, 0, 0, 0, 1, 3, 2, NULL),
@@ -31647,6 +31876,8 @@ INSERT INTO `shop_items` (`Id`, `RequiredGender`, `RequiredLicense`, `Colors`, `
 	(4080003, 0, 0, 1, 0, 0, 0, 0, 0, 0, 4, 3, NULL),
 	(4130001, 0, 0, 1, 0, 0, 0, 0, 0, 1, 4, 3, NULL),
 	(4130002, 0, 0, 0, 0, 0, 0, 0, 0, 0, 4, 3, NULL),
+	(4130006, 0, 0, 1, 0, 0, 0, 0, 0, 0, 4, 3, NULL),
+	(4130007, 0, 0, 1, 0, 0, 0, 0, 0, 0, 4, 3, NULL),
 	(4190001, 0, 0, 1, 0, 0, 0, 0, 0, 0, 4, 2, NULL),
 	(4200001, 0, 0, 1, 0, 0, 0, 0, 0, 0, 4, 2, NULL),
 	(4210001, 0, 0, 1, 0, 0, 0, 0, 0, 0, 4, 2, NULL),
@@ -31994,9 +32225,9 @@ CREATE TABLE IF NOT EXISTS `shop_prices` (
   `TypeInfo` text DEFAULT NULL,
   PRIMARY KEY (`Id`) USING BTREE,
   KEY `PriceGroupId` (`PriceGroupId`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=458 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=474 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ROW_FORMAT=DYNAMIC;
 
--- Dumping data for table test.shop_prices: ~284 rows (approximately)
+-- Dumping data for table test.shop_prices: ~285 rows (approximately)
 INSERT INTO `shop_prices` (`Id`, `PriceGroupId`, `PeriodType`, `Period`, `Price`, `IsRefundable`, `Durability`, `IsEnabled`, `Info`, `TypeInfo`) VALUES
 	(1, 20, 1, 1, 50, 0, 2400, 1, 'itemsshit', '4 unit'),
 	(2, 32, 4, 5, 5000, 0, 0, 1, 'Items5Stack', '3 days'),
@@ -32257,7 +32488,6 @@ INSERT INTO `shop_prices` (`Id`, `PriceGroupId`, `PeriodType`, `Period`, `Price`
 	(393, 276, 4, 1, 50, 0, 2400, 1, '0', NULL),
 	(394, 277, 4, 1, 50, 0, 2400, 1, '0', NULL),
 	(398, 281, 4, 1, 50, 0, 0, 1, '0', NULL),
-	(399, 282, 4, 1, 50, 0, 0, 1, '0', NULL),
 	(400, 283, 4, 1, 50, 0, 0, 1, '0', NULL),
 	(401, 284, 4, 1, 50, 0, 0, 1, '0', NULL),
 	(402, 285, 4, 1, 50, 0, 0, 1, '0', NULL),
@@ -32265,7 +32495,6 @@ INSERT INTO `shop_prices` (`Id`, `PriceGroupId`, `PeriodType`, `Period`, `Price`
 	(405, 288, 4, 1, 50, 0, 0, 1, '0', NULL),
 	(406, 289, 4, 1, 50, 0, 0, 1, '0', NULL),
 	(407, 290, 4, 1, 50, 0, 0, 1, '0', NULL),
-	(408, 291, 4, 1, 50, 0, 0, 1, '0', NULL),
 	(409, 292, 4, 1, 50, 0, 0, 1, '0', NULL),
 	(410, 293, 4, 1, 50, 0, 0, 1, '0', NULL),
 	(411, 294, 4, 1, 50, 0, 0, 1, '0', NULL),
@@ -32273,7 +32502,6 @@ INSERT INTO `shop_prices` (`Id`, `PriceGroupId`, `PeriodType`, `Period`, `Price`
 	(413, 296, 4, 1, 50, 0, 0, 1, '0', NULL),
 	(454, 286, 4, 1, 50, 0, 0, 1, '0', NULL),
 	(455, 279, 4, 1, 50, 0, 0, 1, '0', NULL),
-	(456, 278, 4, 1, 50, 0, 0, 1, '0', NULL),
 	(457, 280, 4, 1, 50, 0, 0, 1, '0', NULL),
 	(458, 75, 4, 999, 50, 0, 2400, 1, '0', NULL),
 	(459, 76, 4, 999, 50, 0, 2400, 1, '0', NULL),
@@ -32281,7 +32509,11 @@ INSERT INTO `shop_prices` (`Id`, `PriceGroupId`, `PeriodType`, `Period`, `Price`
 	(461, 78, 4, 999, 50, 0, 2400, 1, '0', NULL),
 	(463, 79, 4, 999, 50, 0, 2400, 1, '0', NULL),
 	(464, 81, 4, 999, 50, 0, 2400, 1, '0', NULL),
-	(466, 80, 4, 999, 50, 0, 2400, 1, '0', NULL);
+	(466, 80, 4, 999, 50, 0, 2400, 1, '0', NULL),
+	(467, 278, 4, 1, 7777, 0, 0, 1, '0', NULL),
+	(468, 282, 4, 1, 111, 0, 0, 1, '0', NULL),
+	(469, 291, 4, 1, 506, 0, 0, 1, '0', NULL),
+	(473, 343, 4, 1, 99, 0, 0, 1, '0', NULL);
 
 -- Dumping structure for table test.shop_price_groups
 CREATE TABLE IF NOT EXISTS `shop_price_groups` (
@@ -32289,9 +32521,9 @@ CREATE TABLE IF NOT EXISTS `shop_price_groups` (
   `Name` varchar(20) DEFAULT '',
   `PriceType` tinyint(3) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`Id`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=343 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=344 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci ROW_FORMAT=DYNAMIC;
 
--- Dumping data for table test.shop_price_groups: ~281 rows (approximately)
+-- Dumping data for table test.shop_price_groups: ~284 rows (approximately)
 INSERT INTO `shop_price_groups` (`Id`, `Name`, `PriceType`) VALUES
 	(1, 'PEN', 1),
 	(2, 'AP', 2),
@@ -32573,7 +32805,10 @@ INSERT INTO `shop_price_groups` (`Id`, `Name`, `PriceType`) VALUES
 	(293, 'i4300001', 2),
 	(294, 'i4310001', 2),
 	(295, 'i4320001', 2),
-	(296, 'i4330001', 2);
+	(296, 'i4330001', 2),
+	(297, 'i4130006', 2),
+	(298, 'i4130007', 2),
+	(343, 'i4130006', 1);
 
 -- Dumping structure for table test.shop_version
 CREATE TABLE IF NOT EXISTS `shop_version` (
@@ -32582,9 +32817,9 @@ CREATE TABLE IF NOT EXISTS `shop_version` (
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table test.shop_version: ~1 rows (approximately)
+-- Dumping data for table test.shop_version: ~0 rows (approximately)
 INSERT INTO `shop_version` (`Id`, `Version`) VALUES
-	(1, '201949755105');
+	(1, '201949755116');
 
 -- Dumping structure for table test.start_items
 CREATE TABLE IF NOT EXISTS `start_items` (
