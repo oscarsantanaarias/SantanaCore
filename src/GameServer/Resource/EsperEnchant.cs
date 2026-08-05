@@ -6,12 +6,30 @@ using System.Text;
 
 namespace Santana.Resource
 {
+    public enum EsperSkillType : byte
+    {
+        None = 0,
+        Beam,
+        Bomb,
+        Coat,
+        KneeSlide,
+        MoneyRain
+    }
+
     public class EsperEnchant
     {
+        public EsperEnchant()
+        {
+            Effects = Array.Empty<uint>();
+        }
+
         public byte Level { get; set; }
-        public byte Type { get; set; }
+        public EsperSkillType Type { get; set; }
         public ulong EsperId { get; set; }
         public int Rate { get; set; }
-        public uint Effect { get; set; }
+        public uint[] Effects { get; set; }
+        public uint PEN { get; set; }
+
+        public uint Effect => Effects.Length > 0 ? Effects[0] : 0;
     }
 }

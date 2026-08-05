@@ -750,19 +750,34 @@ namespace Santana.Network.Services
                 session.SendAsync(new ItemUseEsperChipItemAckMessage { Unk1 = 1 });
                 return;
             }
+            var effects = target.Effects.Where(x => x.Id != 0).ToList();
+            foreach (var previous in GetEsperChipEffects(target.EsperChip))
+                effects.Remove(previous);
+            foreach (var gained in GetEsperChipEffects(chip.ItemNumber.Id))
+                effects.Add(gained);
+            target.Effects = effects.ToArray();
             target.EsperChip = chip.ItemNumber.Id;
             target.NeedsToSave = true;
             owner.Inventory.RemoveOrDecreaseCount(chip, 1);
             session.SendAsync(new ItemUseEsperChipItemAckMessage
             {
-                Unk1 = 0,
+                Unk1 = 3,
                 Unk2 = (long)target.Id,
                 Unk3 = (int)chip.ItemNumber.Id
             });
-            session.SendAsync(new ItemInventoryInfoAckMessage
-            {
-                Items = owner.Inventory.Select(i => i.Map<PlayerItem, ItemDto>()).ToArray()
-            });
+            session.SendAsync(new ItemInventroyDeleteAckMessage(target.Id));
+            session.SendAsync(new ItemUpdateInventoryAckMessage(InventoryAction.Add,
+                target.Map<PlayerItem, ItemDto>()));
+        }
+        private static EffectNumber[] GetEsperChipEffects(uint chipNumber)
+        {
+            if (chipNumber == 0)
+                return Array.Empty<EffectNumber>();
+            var shop = GameServer.Instance.ResourceCache.GetShop();
+            var info = shop.GetFirstItemInfo(chipNumber);
+            if (info?.EffectGroup == null)
+                return Array.Empty<EffectNumber>();
+            return info.EffectGroup.Effects.Select(x => (EffectNumber)x.Effect).ToArray();
         }
         private static bool MatchesEsperChipSlot(PlayerItem chip, PlayerItem target)
         {

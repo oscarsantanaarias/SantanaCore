@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<esper_enchant_info money_need="[300,300,500,800,3200]">
+	<esper_enchant_item_info  level="1"	type="Beam" shop_id="7012111" prob="80" effects="[2102310001]" />	<!-- Shirt Strong Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="Beam" shop_id="7012112" prob="60" effects="[2102310001,2102600001]" />	<!-- Shirt Strong Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="Beam" shop_id="7012113" prob="40" effects="[2102310002,2102600001]" />	<!-- Shirt Strong Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="Beam" shop_id="7012114" prob="20" effects="[2102310002,2102600001,2102337002]" />	<!-- Shirt Strong Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="Beam" shop_id="7012115" prob="10" effects="[2102310002,2102600002,2102337002]" />	<!-- Shirt Strong Chip Level 5 -->
+	
+	<esper_enchant_item_info  level="1"	type="Coat" shop_id="7012121" prob="80" effects="[2102310001]" />	<!-- Shirt Solid Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="Coat" shop_id="7012122" prob="60" effects="[2102310001,2102311001]" />	<!-- Shirt Solid Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="Coat" shop_id="7012123" prob="40" effects="[2102310002,2102311001]" />	<!-- Shirt Solid Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="Coat" shop_id="7012124" prob="20" effects="[2102310002,2102311001,2102318001]" />	<!-- Shirt Solid Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="Coat" shop_id="7012125" prob="10" effects="[2102310002,2102311001,2102318001,2102301001]" />	<!-- Shirt Solid Chip Level 5 -->
+	
+	<esper_enchant_item_info  level="1"	type="Bomb" shop_id="7012131" prob="80" effects="[2102310001]" />	<!-- Shirt Special Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="Bomb" shop_id="7012132" prob="60" effects="[2102310001,2102330001]" />	<!-- Shirt Special Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="Bomb" shop_id="7012133" prob="40" effects="[2102310002,2102330001]" />	<!-- Shirt Special Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="Bomb" shop_id="7012134" prob="20" effects="[2102310002,2102330001,2102358001,2102357001]" />	<!-- Shirt Special Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="Bomb" shop_id="7012135" prob="10" effects="[2102310002,2102330002,2102358002,2102357002]" />	<!-- Shirt Special Chip Level 5 -->
+	
+	<esper_enchant_item_info  level="1"	type="MoneyRain" shop_id="7012141" prob="80" effects="[2102310001]" />	<!-- Shirt Shiny Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="MoneyRain" shop_id="7012142" prob="60" effects="[2102310001,2102800002]" />	<!-- Shirt Shiny Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="MoneyRain" shop_id="7012143" prob="40" effects="[2102310002,2102800002]" />	<!-- Shirt Shiny Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="MoneyRain" shop_id="7012144" prob="20" effects="[2102310002,2102800002,2102801005]" />	<!-- Shirt Shiny Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="MoneyRain" shop_id="7012145" prob="10" effects="[2102310002,2102800003,2102801005]" />	<!-- Shirt Shiny Chip Level 5 -->
+	
+	<esper_enchant_item_info  level="1"	type="KneeSlide" shop_id="7012151" prob="80" effects="[2102310001]" />	<!-- Shirt Style Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="KneeSlide" shop_id="7012152" prob="60" effects="[2102310001,2102331001]" />	<!-- Shirt Style Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="KneeSlide" shop_id="7012153" prob="40" effects="[2102310002,2102331001]" />	<!-- Shirt Style Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="KneeSlide" shop_id="7012154" prob="20" effects="[2102310002,2102331001,2102343001,2102342001]" />	<!-- Shirt Style Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="KneeSlide" shop_id="7012155" prob="10" effects="[2102310002,2102331001,2102343002,2102342002]" />	<!-- Shirt Style Chip Level 5 -->
+	
+
+	<esper_enchant_item_info  level="1"	type="Beam" shop_id="7012211" prob="80" effects="[2102304001]" />	<!-- Shirt 2 Strong Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="Beam" shop_id="7012212" prob="60" effects="[2102304001,2102600001]" />	<!-- Shirt 2 Strong Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="Beam" shop_id="7012213" prob="40" effects="[2102304002,2102600001]" />	<!-- Shirt 2 Strong Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="Beam" shop_id="7012214" prob="20" effects="[2102304002,2102600001,2102337002]" />	<!-- Shirt 2 Strong Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="Beam" shop_id="7012215" prob="10" effects="[2102304002,2102600002,2102337002]" />	<!-- Shirt 2 Strong Chip Level 5 -->
+	
+	<esper_enchant_item_info  level="1"	type="Coat" shop_id="7012221" prob="80" effects="[2102304001]" />	<!-- Shirt 2 Solid Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="Coat" shop_id="7012222" prob="60" effects="[2102304001,2102311001]" />	<!-- Shirt 2 Solid Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="Coat" shop_id="7012223" prob="40" effects="[2102304002,2102311001]" />	<!-- Shirt 2 Solid Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="Coat" shop_id="7012224" prob="20" effects="[2102304002,2102311001,2102318001]" />	<!-- Shirt 2 Solid Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="Coat" shop_id="7012225" prob="10" effects="[2102304002,2102311001,2102318001,2102301001]" />	<!-- Shirt 2 Solid Chip Level 5 -->
+	
+	<esper_enchant_item_info  level="1"	type="Bomb" shop_id="7012231" prob="80" effects="[2102304001]" />	<!-- Shirt 2 Special Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="Bomb" shop_id="7012232" prob="60" effects="[2102304001,2102330001]" />	<!-- Shirt 2 Special Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="Bomb" shop_id="7012233" prob="40" effects="[2102304002,2102330001]" />	<!-- Shirt 2 Special Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="Bomb" shop_id="7012234" prob="20" effects="[2102304002,2102330001,2102358001,2102357001]" />	<!-- Shirt 2 Special Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="Bomb" shop_id="7012235" prob="10" effects="[2102304002,2102330002,2102358002,2102357002]" />	<!-- Shirt 2 Special Chip Level 5 -->
+	
+	<esper_enchant_item_info  level="1"	type="MoneyRain" shop_id="7012241" prob="80" effects="[2102304001]" />	<!-- Shirt 2 Shiny Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="MoneyRain" shop_id="7012242" prob="60" effects="[2102304001,2102800002]" />	<!-- Shirt 2 Shiny Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="MoneyRain" shop_id="7012243" prob="40" effects="[2102304002,2102800002]" />	<!-- Shirt 2 Shiny Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="MoneyRain" shop_id="7012244" prob="20" effects="[2102304002,2102800002,2102801005]" />	<!-- Shirt 2 Shiny Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="MoneyRain" shop_id="7012245" prob="10" effects="[2102304002,2102800003,2102801005]" />	<!-- Shirt 2 Shiny Chip Level 5 -->
+	
+	<esper_enchant_item_info  level="1"	type="KneeSlide" shop_id="7012251" prob="80" effects="[2102304001]" />	<!-- Shirt 2 Style Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="KneeSlide" shop_id="7012252" prob="60" effects="[2102304001,2102331001]" />	<!-- Shirt 2 Style Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="KneeSlide" shop_id="7012253" prob="40" effects="[2102304002,2102331001]" />	<!-- Shirt 2 Style Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="KneeSlide" shop_id="7012254" prob="20" effects="[2102304002,2102331001,2102343001,2102342001]" />	<!-- Shirt 2 Style Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="KneeSlide" shop_id="7012255" prob="10" effects="[2102304002,2102331001,2102343002,2102342002]" />	<!-- Shirt 2 Style Chip Level 5 -->
+	
+	
+	<esper_enchant_item_info  level="1"	type="Beam" shop_id="7013111" prob="80" effects="[2103301001]" />	<!-- Pants Strong Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="Beam" shop_id="7013112" prob="60" effects="[2103301002,2103300002]" />	<!-- Pants Strong Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="Beam" shop_id="7013113" prob="40" effects="[2103301003,2103300002]" />	<!-- Pants Strong Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="Beam" shop_id="7013114" prob="20" effects="[2103301003,2103300005]" />	<!-- Pants Strong Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="Beam" shop_id="7013115" prob="10" effects="[2103301003,2103300007]" />	<!-- Pants Strong Chip Level 5 -->
+	
+	<esper_enchant_item_info  level="1"	type="Coat" shop_id="7013121" prob="80" effects="[2103301001]" />	<!-- Pants Solid Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="Coat" shop_id="7013122" prob="60" effects="[2103301002,2103302002]" />	<!-- Pants Solid Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="Coat" shop_id="7013123" prob="40" effects="[2103301005,2103302002]" />	<!-- Pants Solid Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="Coat" shop_id="7013124" prob="20" effects="[2103301003,2103302003]" />	<!-- Pants Solid Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="Coat" shop_id="7013125" prob="10" effects="[2103301005,2103302003]" />	<!-- Pants Solid Chip Level 5 -->
+	
+	<esper_enchant_item_info  level="1"	type="Bomb" shop_id="7013131" prob="80" effects="[2103301001]" />	<!-- Pants Special Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="Bomb" shop_id="7013132" prob="60" effects="[2103301002,2103606001]" />	<!-- Pants Special Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="Bomb" shop_id="7013133" prob="40" effects="[2103301003,2103606001]" />	<!-- Pants Special Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="Bomb" shop_id="7013134" prob="20" effects="[2103301003,2103606003]" />	<!-- Pants Special Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="Bomb" shop_id="7013135" prob="10" effects="[2103301003,2103606003,2103300003]" />	<!-- Pants Special Chip Level 5 -->
+	
+	<esper_enchant_item_info  level="1"	type="MoneyRain" shop_id="7013141" prob="80" effects="[2103301001]" />	<!-- Pants Shiny Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="MoneyRain" shop_id="7013142" prob="60" effects="[2103301002,2103800002]" />	<!-- Pants Shiny Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="MoneyRain" shop_id="7013143" prob="40" effects="[2103301003,2103800002]" />	<!-- Pants Shiny Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="MoneyRain" shop_id="7013144" prob="20" effects="[2103301003,2103800002,2103801005]" />	<!-- Pants Shiny Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="MoneyRain" shop_id="7013145" prob="10" effects="[2103301003,2103800003,2103801005]" />	<!-- Pants Shiny Chip Level 5 -->
+	
+	<esper_enchant_item_info  level="1"	type="KneeSlide" shop_id="7013151" prob="80" effects="[2103301001]" />	<!-- Pants Style Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="KneeSlide" shop_id="7013152" prob="60" effects="[2103301002,2103331001]" />	<!-- Pants Style Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="KneeSlide" shop_id="7013153" prob="40" effects="[2103301003,2103331001]" />	<!-- Pants Style Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="KneeSlide" shop_id="7013154" prob="20" effects="[2103301003,2103331001,2103307001]" />	<!-- Pants Style Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="KneeSlide" shop_id="7013155" prob="10" effects="[2103301005,2103331001,2103307001]" />	<!-- Pants Style Chip Level 5 -->
+	
+	
+	<esper_enchant_item_info  level="1"	type="Beam" shop_id="7014111" prob="80" effects="[2104300001]" />	<!-- Gloves Strong Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="Beam" shop_id="7014112" prob="60" effects="[2104300002,2104338002]" />	<!-- Gloves Strong Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="Beam" shop_id="7014113" prob="40" effects="[2104300003,2104338002]" />	<!-- Gloves Strong Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="Beam" shop_id="7014114" prob="20" effects="[2104300003,2104338002,2104303001]" />	<!-- Gloves Strong Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="Beam" shop_id="7014115" prob="10" effects="[2104300003,2104338002,2104303002]" />	<!-- Gloves Strong Chip Level 5 -->
+	
+	<esper_enchant_item_info  level="1"	type="Coat" shop_id="7014121" prob="80" effects="[2104300001]" />	<!-- Gloves Solid Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="Coat" shop_id="7014122" prob="60" effects="[2104300002,2104301002]" />	<!-- Gloves Solid Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="Coat" shop_id="7014123" prob="40" effects="[2104300003,2104301002]" />	<!-- Gloves Solid Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="Coat" shop_id="7014124" prob="20" effects="[2104300003,2104301005]" />	<!-- Gloves Solid Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="Coat" shop_id="7014125" prob="10" effects="[2104300003,2104301003]" />	<!-- Gloves Solid Chip Level 5 -->
+	
+	<esper_enchant_item_info  level="1"	type="Bomb" shop_id="7014131" prob="80" effects="[2104300001]" />	<!-- Gloves Special Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="Bomb" shop_id="7014132" prob="60" effects="[2104300002,2104355001]" />	<!-- Gloves Special Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="Bomb" shop_id="7014133" prob="40" effects="[2104300003,2104355001]" />	<!-- Gloves Special Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="Bomb" shop_id="7014134" prob="20" effects="[2104300003,2104355001,2104354003,2104356002]" />	<!-- Gloves Special Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="Bomb" shop_id="7014135" prob="10" effects="[2104300003,2104355002,2104354004,2104356003]" />	<!-- Gloves Special Chip Level 5 -->
+	
+	<esper_enchant_item_info  level="1"	type="MoneyRain" shop_id="7014141" prob="80" effects="[2104300001]" />	<!-- Gloves Shiny Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="MoneyRain" shop_id="7014142" prob="60" effects="[2104300002,2104800002]" />	<!-- Gloves Shiny Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="MoneyRain" shop_id="7014143" prob="40" effects="[2104300003,2104800002]" />	<!-- Gloves Shiny Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="MoneyRain" shop_id="7014144" prob="20" effects="[2104300003,2104800002,2104801005]" />	<!-- Gloves Shiny Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="MoneyRain" shop_id="7014145" prob="10" effects="[2104300003,2104800002,2104801005]" />	<!-- Gloves Shiny Chip Level 5 -->
+	
+	<esper_enchant_item_info  level="1"	type="KneeSlide" shop_id="7014151" prob="80" effects="[2104300001]" />	<!-- Gloves Style Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="KneeSlide" shop_id="7014152" prob="60" effects="[2104300002,2104343003,2104342002]" />	<!-- Gloves Style Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="KneeSlide" shop_id="7014153" prob="40" effects="[2104300003,2104343003,2104342002]" />	<!-- Gloves Style Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="KneeSlide" shop_id="7014154" prob="20" effects="[2104300003,2104343004,2104342003]" />	<!-- Gloves Style Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="KneeSlide" shop_id="7014155" prob="10" effects="[2104300003,2104301002,2104343004,2104342003]" />	<!-- Gloves Style Chip Level 5 -->
+	
+	
+	<esper_enchant_item_info  level="1"	type="Beam" shop_id="7015111" prob="80" effects="[2105300001]" />	<!-- Shoes Strong Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="Beam" shop_id="7015112" prob="60" effects="[2105300002,2105338002]" />	<!-- Shoes Strong Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="Beam" shop_id="7015113" prob="40" effects="[2105300003,2105338002]" />	<!-- Shoes Strong Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="Beam" shop_id="7015114" prob="20" effects="[2105300003,2105338002,2105337001]" />	<!-- Shoes Strong Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="Beam" shop_id="7015115" prob="10" effects="[2105300003,2105338002,2105337002]" />	<!-- Shoes Strong Chip Level 5 -->
+	
+	<esper_enchant_item_info  level="1"	type="Coat" shop_id="7015121" prob="80" effects="[2105300001]" />	<!-- Shoes Solid Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="Coat" shop_id="7015122" prob="60" effects="[2105300002,2105332002]" />	<!-- Shoes Solid Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="Coat" shop_id="7015123" prob="40" effects="[2105300003,2105332002]" />	<!-- Shoes Solid Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="Coat" shop_id="7015124" prob="20" effects="[2105300003,2105332003]" />	<!-- Shoes Solid Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="Coat" shop_id="7015125" prob="10" effects="[2105300003,2105332003,2105301001]" />	<!-- Shoes Solid Chip Level 5 -->
+	
+	<esper_enchant_item_info  level="1"	type="Bomb" shop_id="7015131" prob="80" effects="[2105300001]" />	<!-- Shoes Special Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="Bomb" shop_id="7015132" prob="60" effects="[2105300002,2105330002]" />	<!-- Shoes Special Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="Bomb" shop_id="7015133" prob="40" effects="[2105300003,2105330002]" />	<!-- Shoes Special Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="Bomb" shop_id="7015134" prob="20" effects="[2105300003,2105330002,2105358004,2105357002]" />	<!-- Shoes Special Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="Bomb" shop_id="7015135" prob="10" effects="[2105300003,2105330003,2105358002,2105357003]" />	<!-- Shoes Special Chip Level 5 -->
+	
+	<esper_enchant_item_info  level="1"	type="MoneyRain" shop_id="7015141" prob="80" effects="[2105300001]" />	<!-- Shoes Shiny Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="MoneyRain" shop_id="7015142" prob="60" effects="[2105300002,2105800004]" />	<!-- Shoes Shiny Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="MoneyRain" shop_id="7015143" prob="40" effects="[2105300003,2105800004]" />	<!-- Shoes Shiny Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="MoneyRain" shop_id="7015144" prob="20" effects="[2105300003,2105800004,2105801005]" />	<!-- Shoes Shiny Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="MoneyRain" shop_id="7015145" prob="10" effects="[2105300003,2105800004,2105801005]" />	<!-- Shoes Shiny Chip Level 5 -->
+	
+	<esper_enchant_item_info  level="1"	type="KneeSlide" shop_id="7015151" prob="80" effects="[2105300001]" />	<!-- Shoes Style Chip Level 1 -->
+	<esper_enchant_item_info  level="2"	type="KneeSlide" shop_id="7015152" prob="60" effects="[2105300002,2105343002,2105342003]" />	<!-- Shoes Style Chip Level 2 -->
+	<esper_enchant_item_info  level="3"	type="KneeSlide" shop_id="7015153" prob="40" effects="[2105300003,2105343002,2105342003]" />	<!-- Shoes Style Chip Level 3 -->
+	<esper_enchant_item_info  level="4"	type="KneeSlide" shop_id="7015154" prob="20" effects="[2105300003,2105343002,2105342003,2105307001]" />	<!-- Shoes Style Chip Level 4 -->
+	<esper_enchant_item_info  level="5"	type="KneeSlide" shop_id="7015155" prob="10" effects="[2105300003,2105343002,2105342003,2105307001]" />	<!-- Shoes Style Chip Level 5 -->
+</esper_enchant_info>

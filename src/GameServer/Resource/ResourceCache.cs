@@ -250,7 +250,7 @@ namespace Santana.Resource
             if (cached == null)
             {
 
-                cached = _loader.LoadEsperEnchant().ToDictionary(t => (uint)t.Level);
+                cached = _loader.LoadEsperEnchant().ToDictionary(t => (uint)t.EsperId);
                 _store.Set(ResourceCacheType.EsperEnchant, cached);
             }
             return cached;

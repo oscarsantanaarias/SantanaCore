@@ -1005,18 +1005,37 @@ namespace Santana.Resource
         }
         public IEnumerable<EsperEnchant> LoadEsperEnchant()
         {
-            var esperData = ReadXml<EsperSystemDto>("xml/Esper.xml");
+            var esperData = ReadXml<EsperSystemDto>("xml/esper_enchant.x7");
             var esperRows = esperData.Espers;
+            if (esperRows == null)
+                yield break;
+
+            var moneyNeed = ParseUIntList(esperData.MoneyNeed);
             foreach (var row in esperRows)
             {
+                Enum.TryParse<EsperSkillType>(row.Type, true, out var esperType);
                 yield return new EsperEnchant
                 {
                     Level = row.Level,
-                    EsperId = row.EsperId,
-                    Rate = row.Rate,
-                    Effect = row.Effect
+                    Type = esperType,
+                    EsperId = row.ShopId,
+                    Rate = row.Prob,
+                    Effects = ParseUIntList(row.Effects),
+                    PEN = row.Level >= 1 && row.Level <= moneyNeed.Length ? moneyNeed[row.Level - 1] : 0
                 };
             }
+        }
+        private static uint[] ParseUIntList(string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return Array.Empty<uint>();
+
+            var parsed = new List<uint>();
+            foreach (var token in value.Trim('[', ']').Split(','))
+                if (uint.TryParse(token.Trim(), out var number))
+                    parsed.Add(number);
+
+            return parsed.ToArray();
         }
     }
 }

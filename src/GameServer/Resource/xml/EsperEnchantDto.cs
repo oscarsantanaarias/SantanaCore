@@ -6,28 +6,31 @@ using System.Xml.Serialization;
 namespace Santana.Resource.xml
 {
     [XmlType(AnonymousType = true)]
-    [XmlRoot(Namespace = "", IsNullable = false, ElementName = "EsperEnchant")]
+    [XmlRoot(Namespace = "", IsNullable = false, ElementName = "esper_enchant_info")]
     public class EsperSystemDto
     {
-        [XmlElement("Esper")]
+        [XmlAttribute("money_need")]
+        public string MoneyNeed { get; set; }
+
+        [XmlElement("esper_enchant_item_info")]
         public EsperEnchantSystemDto[] Espers { get; set; }
     }
 
     public class EsperEnchantSystemDto
     {
-        [XmlAttribute("Level")]
+        [XmlAttribute("level")]
         public byte Level { get; set; }
 
-        [XmlAttribute("Type")]
-        public byte Type { get; set; }
+        [XmlAttribute("type")]
+        public string Type { get; set; }
 
-        [XmlAttribute("EsperId")]
-        public ulong EsperId { get; set; }
+        [XmlAttribute("shop_id")]
+        public uint ShopId { get; set; }
 
-        [XmlAttribute("Rate")]
-        public int Rate { get; set; }
+        [XmlAttribute("prob")]
+        public int Prob { get; set; }
 
-        [XmlElement("Effect")]
-        public uint Effect { get; set; }
+        [XmlAttribute("effects")]
+        public string Effects { get; set; }
     }
 }
