@@ -53,6 +53,7 @@
                         var historyRows = await DbUtil.FindAsync<NicknameHistoryDto>(conn, statement => statement
                             .Where($"{nameof(NicknameHistoryDto.AccountId):C} = @Id")
                             .WithParameters(new { plr.Account.Id }));
+                        historyRows = historyRows.Where(x => x.ExpireDate != -1).ToList();
                         var earliest = historyRows.FirstOrDefault();
                         if (earliest == null)
                         {
@@ -87,7 +88,8 @@
                         Unk2 = 0L,
                         Unk3 = requestedNick
                     });
-                    plr.Inventory.CreateSilent(4000002, 0, 0, 0);
+                    if (nicknameHistory.ExpireDate != -1)
+                        plr.Inventory.CreateSilent(4000002, 0, 0, 0);
                     DbUtil.Update(conn, accountRow);
                     return true;
                 }
@@ -179,6 +181,11 @@
                     break;
                 case 4000004:
                     historyEntry.ExpireDate = DateTimeOffset.Now.AddDays(7).ToUnixTimeSeconds();
+                    if (await ChangeNickname(session.Player, historyEntry, false))
+                        actor.Inventory.RemoveOrDecrease(ticket);
+                    break;
+                case 4000006:
+                    historyEntry.ExpireDate = DateTimeOffset.Now.AddDays(3).ToUnixTimeSeconds();
                     if (await ChangeNickname(session.Player, historyEntry, false))
                         actor.Inventory.RemoveOrDecrease(ticket);
                     break;
