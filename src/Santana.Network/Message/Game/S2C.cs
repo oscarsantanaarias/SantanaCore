@@ -1158,6 +1158,26 @@ namespace Santana.Network.Message.Game
     [Packet(1193, PacketType.Game)]
     public class MoveEnchantChipAckMessage
     {
+        public MoveEnchantChipAckMessage()
+        {
+            Removed = Array.Empty<int>();
+            Gained = Array.Empty<int>();
+        }
+        public byte Unk1 { get; set; }
+        public int[] Removed { get; set; }
+        public int[] Gained { get; set; }
+        public int Result { get; set; }
+    }
+    [Packet(1194, PacketType.Game)]
+    public class EnchantChipErrorAckMessage
+    {
+        public EnchantChipErrorAckMessage()
+        {
+        }
+        public EnchantChipErrorAckMessage(int result)
+        {
+            Result = result;
+        }
         public int Result { get; set; }
     }
     [Packet(1110, PacketType.Game)]

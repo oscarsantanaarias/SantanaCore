@@ -547,13 +547,18 @@ namespace Santana.Network.Services
                     baseItem.Map<PlayerItem, ItemDto>()));
                 return;
             }
-            if (baseItem.ItemNumber.Category != ItemCategory.Weapon ||
-                baseItem.ItemNumber.SubCategory != (byte)WeaponCategory.Melee)
+            var extractedNumber = GetExtractedChipNumber(baseItem.ItemNumber);
+            if (extractedNumber == 0)
             {
                 session.SendAsync(new ServerResultAckMessage(ServerResult.DBError));
                 return;
             }
             var carriedEffects = baseItem.Effects.Where(eff => eff >= 3100800001).ToArray();
+            if (carriedEffects.Length == 0)
+            {
+                session.SendAsync(new ServerResultAckMessage(ServerResult.DBError));
+                return;
+            }
             int carriedLevel = baseItem.EnchantLvl;
             List<EffectNumber> keptEffects = new List<EffectNumber>();
             keptEffects.AddRange(baseItem.Effects.Where(eff => eff < 3100800001).ToArray());
@@ -561,7 +566,40 @@ namespace Santana.Network.Services
             owner.Inventory.Update(baseItem.Id);
             session.SendAsync(new ItemUpdateInventoryAckMessage(InventoryAction.Update, baseItem.Map<PlayerItem, ItemDto>()));
             owner.Inventory.RemoveOrDecrease(chipItem);
-            owner.Inventory.Create(4190001, 1, 0, carriedEffects, 1, carriedLevel, true);
+            owner.Inventory.Create(extractedNumber, 1, 0, carriedEffects, 1, carriedLevel, true);
+        }
+        private static uint GetExtractedChipNumber(ItemNumber item)
+        {
+            if (item.Category == ItemCategory.Weapon)
+            {
+                switch ((WeaponCategory)item.SubCategory)
+                {
+                    case WeaponCategory.Melee: return 4190001;
+                    case WeaponCategory.RifleGun: return 4200001;
+                    case WeaponCategory.HeavyGun: return 4220001;
+                    case WeaponCategory.Sniper: return 4230001;
+                    case WeaponCategory.Sentry: return 4240001;
+                    case WeaponCategory.Bomb: return 4250001;
+                    case WeaponCategory.Mind: return 4350001;
+                    default: return 0;
+                }
+            }
+            if (item.Category == ItemCategory.Costume)
+            {
+                switch ((CostumeSlot)item.SubCategory)
+                {
+                    case CostumeSlot.Hair: return 4260001;
+                    case CostumeSlot.Face: return 4270001;
+                    case CostumeSlot.Shirt: return 4280001;
+                    case CostumeSlot.Pants: return 4290001;
+                    case CostumeSlot.Gloves: return 4300001;
+                    case CostumeSlot.Shoes: return 4310001;
+                    case CostumeSlot.Accessory: return 4320001;
+                    case CostumeSlot.Pet: return 4330001;
+                    default: return 0;
+                }
+            }
+            return 0;
         }
         [MessageHandler(typeof(MoveEnchantChipReqMessage))]
         public void MoveEnchantChipReq(GameSession session, MoveEnchantChipReqMessage message)
@@ -576,20 +614,32 @@ namespace Santana.Network.Services
                 session.SendAsync(new ServerResultAckMessage(ServerResult.DBError));
                 return;
             }
-            if (baseItem.ItemNumber.Category == ItemCategory.Weapon)
+            if (GetExtractedChipNumber(baseItem.ItemNumber) != chipItem.ItemNumber.Id)
             {
-                switch (baseItem.ItemNumber.SubCategory)
-                {
-                    case (byte)WeaponCategory.Melee:
-                        owner.Inventory.Remove(chipItem);
-                        List<EffectNumber> keptEffects = new List<EffectNumber>();
-                        keptEffects.AddRange(baseItem.Effects.Where(eff => eff < 3100800001).ToArray());
-                        baseItem.Effects = keptEffects.ToArray();
-                        session.SendAsync(new ItemUpdateInventoryAckMessage(InventoryAction.Update, baseItem.Map<PlayerItem, ItemDto>()));
-                        break;
-                }
+                session.SendAsync(new ServerResultAckMessage(ServerResult.DBError));
+                return;
             }
-            session.SendAsync(new MoveEnchantChipAckMessage { Result = 1 });
+            var gainedEffects = chipItem.Effects.Where(eff => eff >= 3100800001).ToArray();
+            if (gainedEffects.Length == 0)
+            {
+                session.SendAsync(new ServerResultAckMessage(ServerResult.DBError));
+                return;
+            }
+            var removedEffects = baseItem.Effects.Where(eff => eff >= 3100800001).ToArray();
+            var mergedEffects = baseItem.Effects.Where(eff => eff < 3100800001).ToList();
+            mergedEffects.AddRange(gainedEffects);
+            baseItem.Effects = mergedEffects.ToArray();
+            baseItem.EnchantLvl = chipItem.EnchantLvl;
+            baseItem.NeedsToSave = true;
+            owner.Inventory.Remove(chipItem);
+            session.SendAsync(new ItemUpdateInventoryAckMessage(InventoryAction.Update, baseItem.Map<PlayerItem, ItemDto>()));
+            session.SendAsync(new MoveEnchantChipAckMessage
+            {
+                Unk1 = 0,
+                Removed = removedEffects.Select(x => (int)x.Id).ToArray(),
+                Gained = gainedEffects.Select(x => (int)x.Id).ToArray(),
+                Result = 1
+            });
         }
         [MessageHandler(typeof(ItemEnchanReqMessage))]
         public void ItemEnchanReq(GameSession session, ItemEnchanReqMessage message)

@@ -680,14 +680,16 @@
             }
             foreach (var gear in message.Info)
                 actor.Inventory.RemoveOrDecreaseCount(actor.Inventory.FirstOrDefault(x => x.ItemNumber == gear.GearId), (uint)gear.GearCount);
+            var grantedInfo = GameServer.Instance.ResourceCache.GetShop().GetFirstItemInfo(grantedItem);
+            var grantedPrice = grantedInfo?.PriceGroup?.Prices?.FirstOrDefault();
             var resultItems = new List<AlchemyItemDto>();
             var resultEntry = new AlchemyItemDto
             {
                 Unk = 0,
                 itemNumber = grantedItem,
-                itemPriceType = ItemPriceType.AP,
-                itemPeriodType = ItemPeriodType.None,
-                Period = 1,
+                itemPriceType = grantedInfo?.PriceGroup?.PriceType ?? ItemPriceType.AP,
+                itemPeriodType = grantedPrice?.PeriodType ?? ItemPeriodType.None,
+                Period = (uint)(grantedPrice?.Period ?? 1),
                 Unk3 = 0,
                 Color = 0,
                 Effect = 0
