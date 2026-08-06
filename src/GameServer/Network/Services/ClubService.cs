@@ -237,11 +237,18 @@
             session.SendAsync(new Club_Stadium_Select_Ack());
         }
 #endif
+        private static bool CanManageClub(Player actor)
+        {
+            if (actor?.Club == null)
+                return false;
+            var slot = actor.Club.GetPlayer((ulong)actor.Account.Id);
+            return slot != null && slot.Rank >= ClubRank.Master && slot.Rank <= ClubRank.Staff;
+        }
         [MessageHandler(typeof(ClubAdminNoticeChangeReqMessage))]
         public void ClubAdminNoticeChangeReq(GameSession session, ClubAdminNoticeChangeReqMessage message)
         {
             var actor = session.Player;
-            if (actor?.Club != null)
+            if (CanManageClub(actor))
                 UpdateClubRow(actor.Club.Id, row => row.Message = message.Notice ?? "");
             session.SendAsync(new ClubAdminNoticeChangeAckMessage { Unk = 0 });
         }
@@ -249,7 +256,7 @@
         public void ClubAdminInfoModifyReq(GameSession session, ClubAdminInfoModifyReqMessage message)
         {
             var actor = session.Player;
-            if (actor?.Club != null)
+            if (CanManageClub(actor))
             {
                 UpdateClubRow(actor.Club.Id, row =>
                 {
@@ -314,7 +321,7 @@
         {
             var actor = session.Player;
 #if !LATESTS4
-            if (actor?.Club != null)
+            if (CanManageClub(actor))
             {
                 UpdateClubRow(actor.Club.Id, row =>
                 {
@@ -334,7 +341,7 @@
         public void ClubAdminBoardModifyReq(GameSession session, ClubAdminBoardModifyReqMessage message)
         {
             var actor = session.Player;
-            if (actor?.Club != null)
+            if (CanManageClub(actor))
             {
                 UpdateClubRow(actor.Club.Id, row =>
                 {

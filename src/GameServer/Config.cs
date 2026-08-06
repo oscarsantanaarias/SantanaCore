@@ -138,7 +138,7 @@ namespace Santana
         public GameSettings()
         {
             EnableTutorial = true;
-            IsEmailLimited = true;
+            IsEmailLimited = false;
             EmailMaxPerDay = 0;
             EmailCooldownMinutes = 0;
             EmailCooldownSeconds = 0;
