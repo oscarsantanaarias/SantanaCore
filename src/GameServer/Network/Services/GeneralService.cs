@@ -599,8 +599,8 @@
             var actor = session.Player;
             if (actor == null)
                 return;
-            actor.Inventory.CreateUnits(6000053, 20);
-            actor.Inventory.RemoveOrDecreaseCount(actor.Inventory.FirstOrDefault(x => x.ItemNumber == 6000053), 10);
+            //actor.Inventory.CreateUnits(6000053, 20);
+            //actor.Inventory.RemoveOrDecreaseCount(actor.Inventory.FirstOrDefault(x => x.ItemNumber == 6000053), 10);
             await actor.SendAsync(new CPromotionNewYearCardUseAckMessage(1));
         }
         [MessageHandler(typeof(CardGambleReqMessage))]
