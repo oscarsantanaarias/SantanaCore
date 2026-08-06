@@ -550,7 +550,7 @@
                     Unk10 = 0,
                     Unk11 = (int)post.ParentId,
                     MembersOnly = post.MembersOnly,
-                    ClubId = (int)clubId
+                    AuthorClubId = (int)(post.AuthorClubId != 0 ? post.AuthorClubId : clubId)
                 }).ToArray();
             }
         }

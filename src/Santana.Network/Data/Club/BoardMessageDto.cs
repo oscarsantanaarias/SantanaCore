@@ -29,6 +29,6 @@ namespace Santana.Network.Data.Club
 
      public byte MembersOnly { get; set; }
 
-     public int ClubId { get; set; }
+     public int AuthorClubId { get; set; }
   }
 }
