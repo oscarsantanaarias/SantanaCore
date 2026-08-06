@@ -143,6 +143,7 @@ namespace Santana
             EmailCooldownMinutes = 0;
             EmailCooldownSeconds = 0;
             MailRetentionHours = 24;
+            CombiMaxPendingRequests = 0;
             ChaserIntruderOnKill = false;
             MaxLevel = 100;
             StartLevel = 0;
@@ -165,6 +166,7 @@ namespace Santana
         [JsonProperty("email_cooldown_minutes")] public int EmailCooldownMinutes { get; set; }
         [JsonProperty("email_cooldown_seconds")] public int EmailCooldownSeconds { get; set; }
         [JsonProperty("mail_retention_hours")] public int MailRetentionHours { get; set; }
+        [JsonProperty("combi_max_pending_requests")] public int CombiMaxPendingRequests { get; set; }
 
         // true = the intruder joins and is killed instantly, landing in the native death cam
         // false = the intruder joins as a room spectator instead

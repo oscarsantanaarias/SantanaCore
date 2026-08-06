@@ -948,10 +948,6 @@ namespace Santana.Network.Services
                 owner.Inventory.RemoveOrDecreaseCount(esperItem, 1);
                 var upgraded = owner.Inventory.FirstOrDefault(x => x.ItemNumber == chipId + 1u);
                 var upgradedEffect = upgraded?.Effects?.FirstOrDefault(x => x.Id != 0).Id ?? 0u;
-                session.SendAsync(new ItemInventoryInfoAckMessage
-                {
-                    Items = owner.Inventory.Select(i => i.Map<PlayerItem, ItemDto>()).ToArray()
-                });
                 session.SendAsync(new EsperEnchantAckMessage
                 {
                     Result = 0,
@@ -977,10 +973,6 @@ namespace Santana.Network.Services
                     owner.Inventory.CreateUnits(chipId - 1u, 1);
                     owner.Inventory.RemoveOrDecreaseCount(esperItem, 1);
                     var downgraded = owner.Inventory.FirstOrDefault(x => x.ItemNumber == chipId - 1u);
-                        session.SendAsync(new ItemInventoryInfoAckMessage
-                    {
-                        Items = owner.Inventory.Select(i => i.Map<PlayerItem, ItemDto>()).ToArray()
-                    });
                     session.SendAsync(new EsperEnchantAckMessage
                     {
                         Result = 2,

@@ -1097,7 +1097,17 @@ namespace Santana.Network.Services
                             TargetId = targetPlayerId
                         });
 
-                    if (nameTaken > 0 || pairTaken > 0)
+                    var pendingOver = false;
+                    var maxPending = Config.Instance.Game.CombiMaxPendingRequests;
+                    if (maxPending > 0)
+                    {
+                        var pendingCount = await db.ExecuteScalarAsync<int>(
+                            "SELECT COUNT(*) FROM combi WHERE PlayerId = @PlayerId AND State = 0",
+                            new { PlayerId = (int)who.Account.Id });
+                        pendingOver = pendingCount >= maxPending;
+                    }
+
+                    if (nameTaken > 0 || pairTaken > 0 || pendingOver)
                     {
                         var failDto = BuildCombiDto(
                             targetValue,

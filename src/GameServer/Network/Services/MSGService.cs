@@ -169,8 +169,17 @@ namespace Santana.Network.Services
         return;
       }
 
-      var delivered = await session.Player.Mailbox.SendAsync(message.Receiver, message.Title, message.Message);
+      var title = SanitizeMailText(message.Title);
+      var body = SanitizeMailText(message.Message);
+      var delivered = await session.Player.Mailbox.SendAsync(message.Receiver, title, body);
       await session.SendAsync(new NoteSendAckMessage(delivered ? 0 : 1));
+    }
+
+    private static string SanitizeMailText(string text)
+    {
+      if (string.IsNullOrEmpty(text))
+        return text ?? "";
+      return new string(text.Where(c => !char.IsControl(c) || c == '\n' || c == '\r' || c == '\t').ToArray());
     }
 
     [MessageHandler(typeof(NoteRejectImportuneReqMessage))]
