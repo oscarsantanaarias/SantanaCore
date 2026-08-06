@@ -134,6 +134,10 @@
             using (var gameDb = GameDatabase.Open())
             {
                 var since = DateTimeOffset.Now.AddDays(-ClubNewsDays).ToUnixTimeSeconds();
+                foreach (var stale in DbUtil.Find<ClubNewsRowDto>(gameDb)
+                             .Where(entry => entry.CreatedAt < since)
+                             .ToArray())
+                    DbUtil.Delete(gameDb, stale);
                 var entries = DbUtil.Find<ClubNewsRowDto>(gameDb)
                     .Where(entry => entry.ClubId == clubId && entry.CreatedAt >= since)
                     .OrderByDescending(entry => entry.Id)
@@ -406,6 +410,22 @@
                     Message = text ?? "",
                     CreatedAt = DateTimeOffset.Now.ToUnixTimeSeconds()
                 });
+            }
+        }
+        private static void SaveJoinAnswers(uint clubId, int playerId, string a1, string a2, string a3, string a4, string a5)
+        {
+            using (var gameDb = GameDatabase.Open())
+            {
+                var row = DbUtil.Find<ClubPlayerDto>(gameDb)
+                    .FirstOrDefault(entry => entry.ClubId == clubId && entry.PlayerId == playerId);
+                if (row == null)
+                    return;
+                row.Answer1 = a1 ?? "";
+                row.Answer2 = a2 ?? "";
+                row.Answer3 = a3 ?? "";
+                row.Answer4 = a4 ?? "";
+                row.Answer5 = a5 ?? "";
+                DbUtil.Update(gameDb, row);
             }
         }
         private static void RecordClubJoin(uint clubId, int playerId)
@@ -702,15 +722,16 @@
                     .FirstOrDefault();
                 var capacity = Math.Max((clubRow?.Level ?? 1) * 12, 12);
                 var headcount = roster.Count;
+                var isPublic = clubRow?.JoinCondition1 == 2;
                 session.SendAsync(new ClubJoinConditionInfoAckMessage
                 {
                     Unk1 = clubRow?.JoinCondition1 ?? 0,
                     Unk2 = clubRow?.JoinCondition2 ?? 0,
-                    Unk3 = clubRow?.Question1 ?? "",
-                    Unk4 = clubRow?.Question2 ?? "",
-                    Unk5 = clubRow?.Question3 ?? "",
-                    Unk6 = clubRow?.Question4 ?? "",
-                    Unk7 = clubRow?.Question5 ?? ""
+                    Unk3 = isPublic ? "" : clubRow?.Question1 ?? "",
+                    Unk4 = isPublic ? "" : clubRow?.Question2 ?? "",
+                    Unk5 = isPublic ? "" : clubRow?.Question3 ?? "",
+                    Unk6 = isPublic ? "" : clubRow?.Question4 ?? "",
+                    Unk7 = isPublic ? "" : clubRow?.Question5 ?? ""
                 });
             }
         }
@@ -850,12 +871,19 @@
                     return;
                 }
 #if !LATESTS4
+                if (clubRow.JoinCondition2 > 0 && actor.Level < clubRow.JoinCondition2)
+                {
+                    await actor.SendAsync(new ClubJoinAckMessage { Unk = ClubJoinResult.LevelRequirementNotMet });
+                    return;
+                }
                 if (clubRow.JoinCondition1 == 2)
                 {
                     if (existingReq != null)
                         DbUtil.Delete(gameDb, existingReq);
                     await targetClub.AddPlayer((ulong)actor.Account.Id);
                     RecordClubJoin(targetClub.Id, (int)actor.Account.Id);
+                    SaveJoinAnswers(targetClub.Id, (int)actor.Account.Id,
+                        message.Answer1, message.Answer2, message.Answer3, message.Answer4, message.Answer5);
                     await actor.SendAsync(new ClubJoinAckMessage { Unk = ClubJoinResult.Joined });
                     await actor.SendAsync(new ClubMyInfoAckMessage(actor.Map<Player, ClubMyInfoDto>()));
                     return;
@@ -2574,20 +2602,25 @@
                 return;
             }
             var memberDtos = new List<ClubMemberInfoDto>();
-            ClubDto clubRow;
+            ClubDto clubRow = null;
+#if !LATESTS4
             using (var gameDb = GameDatabase.Open())
             {
                 clubRow = DbUtil.Find<ClubDto>(gameDb).FirstOrDefault(row => row.Id == clan.Id);
             }
+#endif
             foreach (var entry in clan.Players.Values)
             {
+                if (entry.Rank == ClubRank.Master)
+                    continue;
                 var online = GameServer.Instance.PlayerManager[entry.AccountId];
-                ClanRequestDto answers;
+                ClubPlayerDto answers = null;
                 var joinedAt = "";
+#if !LATESTS4
                 using (var gameDb = GameDatabase.Open())
                 {
-                    answers = DbUtil.Find<ClanRequestDto>(gameDb)
-                        .FirstOrDefault(row => row.ClubId == clan.Id && row.PlayerId == entry.AccountId);
+                    answers = DbUtil.Find<ClubPlayerDto>(gameDb)
+                        .FirstOrDefault(row => row.ClubId == clan.Id && row.PlayerId == (int)entry.AccountId);
                     var history = DbUtil.Find<ClubMemberHistoryDto>(gameDb)
                         .Where(row => row.ClubId == clan.Id && row.PlayerId == (int)entry.AccountId)
                         .OrderByDescending(row => row.Id)
@@ -2595,6 +2628,7 @@
                     if (history != null)
                         joinedAt = history.JoinedAt.ToString("yyyyMMddHH");
                 }
+#endif
                 var nickname = online?.Account?.Nickname;
                 if (string.IsNullOrWhiteSpace(nickname))
                     nickname = entry.Account?.Nickname;
@@ -2701,6 +2735,8 @@
                                 await clan.AddPlayer(target);
 #if !LATESTS4
                                 RecordClubJoin(clan.Id, (int)target);
+                                SaveJoinAnswers(clan.Id, (int)target,
+                                    joinReq.Answer1, joinReq.Answer2, joinReq.Answer3, joinReq.Answer4, joinReq.Answer5);
 #endif
                                 notifyDecision = true;
                                 wasAccepted = true;

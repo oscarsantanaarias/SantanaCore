@@ -467,6 +467,11 @@ namespace Santana.Database.Game
         public uint Win { get; set; }
         public uint Loss { get; set; }
         public string LastLogin { get; set; }
+        public string Answer1 { get; set; }
+        public string Answer2 { get; set; }
+        public string Answer3 { get; set; }
+        public string Answer4 { get; set; }
+        public string Answer5 { get; set; }
     }
     [Table("clan_union")]
     public class ClanUnionDto
