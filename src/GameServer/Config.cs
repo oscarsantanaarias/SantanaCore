@@ -138,6 +138,11 @@ namespace Santana
         public GameSettings()
         {
             EnableTutorial = true;
+            IsEmailLimited = true;
+            EmailMaxPerDay = 0;
+            EmailCooldownMinutes = 0;
+            EmailCooldownSeconds = 0;
+            MailRetentionHours = 24;
             ChaserIntruderOnKill = false;
             MaxLevel = 100;
             StartLevel = 0;
@@ -155,6 +160,11 @@ namespace Santana
             WarfareExpRates = new WarfareExperienceRates();
         }
         [JsonProperty("enable_tutorial")] public bool EnableTutorial { get; set; }
+        [JsonProperty("is_email_limited")] public bool IsEmailLimited { get; set; }
+        [JsonProperty("email_max_per_day")] public int EmailMaxPerDay { get; set; }
+        [JsonProperty("email_cooldown_minutes")] public int EmailCooldownMinutes { get; set; }
+        [JsonProperty("email_cooldown_seconds")] public int EmailCooldownSeconds { get; set; }
+        [JsonProperty("mail_retention_hours")] public int MailRetentionHours { get; set; }
 
         // true = the intruder joins and is killed instantly, landing in the native death cam
         // false = the intruder joins as a room spectator instead

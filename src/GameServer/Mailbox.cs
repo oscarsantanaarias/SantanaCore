@@ -67,6 +67,56 @@ namespace Santana
       if (_box.TryAdd(mail.Id, mail))
         UpdateReminder();
     }
+    public static void PurgeExpired()
+    {
+      using (var gameDb = GameDatabase.Open())
+      {
+        DbUtil.BulkDelete<PlayerMailDto>(gameDb, statement => statement
+            .Where($"{nameof(PlayerMailDto.IsMailDeleted):C} = 1"));
+        var hours = Config.Instance.Game.MailRetentionHours;
+        if (hours <= 0)
+          return;
+        var cutoff = DateTimeOffset.Now.ToUnixTimeSeconds() - hours * 3600L;
+        var candidates = DbUtil.Find<PlayerMailDto>(gameDb, statement => statement
+            .Where($"{nameof(PlayerMailDto.IsClubMail):C} = 0 AND {nameof(PlayerMailDto.SentDate):C} < @cutoff")
+            .WithParameters(new { cutoff }));
+        var expiredIds = candidates
+            .Where(dto =>
+            {
+              var type = new Mail(dto, dto.IsClubMail).MessageType;
+              return type == 0 || type == 6;
+            })
+            .Select(dto => dto.Id)
+            .ToList();
+        if (expiredIds.Any())
+          DbUtil.BulkDelete<PlayerMailDto>(gameDb, statement => statement
+              .Where($"{nameof(PlayerMailDto.Id):C} IN ({string.Join(",", expiredIds)})"));
+      }
+    }
+    public static bool MailRateExceeded(int senderId)
+    {
+      if (!Config.Instance.Game.IsEmailLimited)
+        return false;
+      var perDay = Config.Instance.Game.EmailMaxPerDay;
+      var cooldown = Config.Instance.Game.EmailCooldownMinutes * 60 + Config.Instance.Game.EmailCooldownSeconds;
+      if (perDay <= 0 && cooldown <= 0)
+        return false;
+      var now = DateTimeOffset.Now.ToUnixTimeSeconds();
+      var since = now - (perDay > 0 ? 86400 : cooldown);
+      using (var gameDb = GameDatabase.Open())
+      {
+        var times = DbUtil.Find<PlayerMailDto>(gameDb, statement => statement
+            .Where($"{nameof(PlayerMailDto.SenderPlayerId):C} = @senderId AND {nameof(PlayerMailDto.SentDate):C} >= @since")
+            .WithParameters(new { senderId, since }))
+            .Select(entry => entry.SentDate)
+            .ToList();
+        if (perDay > 0 && times.Count >= perDay)
+          return true;
+        if (cooldown > 0 && times.Any(t => t > now - cooldown))
+          return true;
+        return false;
+      }
+    }
     public async Task<bool> SendAsync(string receiver, string title, string message, bool isClub = false)
     {
       return await SendAsync(receiver, title, message, isClub, null, true);

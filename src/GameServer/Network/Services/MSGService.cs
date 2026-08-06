@@ -160,6 +160,13 @@ namespace Santana.Network.Services
         return;
       }
 
+      if (Mailbox.MailRateExceeded((int)session.Player.Account.Id))
+      {
+        Log_.ForAccount(session).Error("Send blocked: mail rate limit reached");
+        await session.SendAsync(new NoteSendAckMessage(1));
+        return;
+      }
+
       var delivered = await session.Player.Mailbox.SendAsync(message.Receiver, message.Title, message.Message);
       await session.SendAsync(new NoteSendAckMessage(delivered ? 0 : 1));
     }

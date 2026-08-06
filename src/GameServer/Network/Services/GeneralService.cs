@@ -391,6 +391,11 @@
             var player = session.Player;
             if (player == null)
                 return;
+            if (Mailbox.MailRateExceeded((int)player.Account.Id))
+            {
+                await session.SendAsync(new NoteImportuneItemAckMessage { Unk = NoteImportuneItemAckFailValue });
+                return;
+            }
             var senderNick = player.Account?.Nickname ?? "";
             var receiver = NormalizeImportuneText(message.Unk1);
             var title = NormalizeImportuneText(message.Unk3);

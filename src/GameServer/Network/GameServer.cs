@@ -45,6 +45,7 @@ namespace Santana.Network
         private readonly ServerlistMgr _serverList;
         private readonly ILoop _tickLoop;
         private TimeSpan _persistElapsed;
+        private TimeSpan _mailPurgeElapsed;
 
         public static class CollectBookMapper
         {
@@ -304,6 +305,19 @@ namespace Santana.Network
                     GameLog.Error(disposeError.ToString());
                 }
             });
+            _mailPurgeElapsed = _mailPurgeElapsed.Add(delta);
+            if (_mailPurgeElapsed >= TimeSpan.FromHours(1))
+            {
+                _mailPurgeElapsed = TimeSpan.Zero;
+                try
+                {
+                    Mailbox.PurgeExpired();
+                }
+                catch (Exception purgeError)
+                {
+                    GameLog.Error(purgeError.ToString());
+                }
+            }
             _persistElapsed = _persistElapsed.Add(delta);
             if (_persistElapsed <= Config.Instance.SaveInterval)
                 return;
