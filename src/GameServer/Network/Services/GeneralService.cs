@@ -857,7 +857,7 @@
                     .Where($"{nameof(Daily_MissionDto.PlayerId):C} = @{nameof(session.Player.Account.Id)} AND ({nameof(Daily_MissionDto.Date):C} = @{nameof(date)})")
                     .WithParameters(new { session.Player.Account.Id, date })).FirstOrDefault();
                 var rng = new SecureRandom();
-                if (missionRow != null)
+                if (missionRow != null && !missionRow.IsRewarded)
                 {
                     session.Player.PEN -= 600;
                     await session.SendAsync(new MoneyRefreshCashInfoAckMessage(session.Player.PEN, session.Player.AP));
@@ -883,10 +883,8 @@
                     .WithParameters(new { session.Player.Account.Id, date })).FirstOrDefault();
                 if (missionRow != null)
                 {
-                    var nextStep = Math.Min((missionRow.Progress <= 0 ? message.unk1 : missionRow.Progress) + 1, 3);
-                    missionRow.Progress = nextStep;
-                    DbUtil.Update(db, missionRow);
-                    await session.Player?.SendAsync(new DailyMission_NoticeMessage { Unk = 1, GameMode = 0, Map = missionRow.Map, MaxProgress = nextStep, Progress = 0, Unk5 = 5, Unk6 = new int[] { missionRow.Reward, missionRow.Reward2, missionRow.Reward3 } });
+                    var step = Math.Clamp(missionRow.Progress, 0, 3);
+                    await session.Player?.SendAsync(new DailyMission_NoticeMessage { Unk = 1, GameMode = 0, Map = missionRow.Map, MaxProgress = step, Progress = 0, Unk5 = 5, Unk6 = new int[] { missionRow.Reward, missionRow.Reward2, missionRow.Reward3 } });
                 }
             }
         }
@@ -901,10 +899,10 @@
                 var missionRow = DbUtil.Find<Daily_MissionDto>(db, statement => statement
                     .Where($"{nameof(Daily_MissionDto.PlayerId):C} = @{nameof(session.Player.Account.Id)} AND ({nameof(Daily_MissionDto.Date):C} = @{nameof(date)})")
                     .WithParameters(new { session.Player.Account.Id, date })).FirstOrDefault();
-                if (missionRow != null && !missionRow.IsRewarded)
+                if (missionRow != null && !missionRow.IsRewarded && missionRow.Progress > 0)
                 {
                     var rewardIds = new[] { missionRow.Reward, missionRow.Reward2, missionRow.Reward3 };
-                    var count = Math.Clamp(message.unk1 > 0 ? message.unk1 : missionRow.Progress, 1, 3);
+                    var count = Math.Clamp(missionRow.Progress, 1, 3);
                     for (var box = 0; box < count; box++)
                     {
                         var rewardId = rewardIds[box];
@@ -934,6 +932,11 @@
                 .Where($"{nameof(AchieveMissionDto.PlayerId):C} = @{nameof(session.Player.Account.Id)}")
                 .WithParameters(new { session.Player.Account.Id })).FirstOrDefault();
                 var progressCaps = DbUtil.Find<AchieveMissionProgressDto>(db).FirstOrDefault();
+                if (message.MissionId < 1 || message.MissionId > 10 || progressRow == null || progressCaps == null)
+                {
+                    await session.SendAsync(new AchieveMissionRewardAckMessage { Unk = 0 });
+                    return;
+                }
                 if (progressRow != null && progressCaps != null)
                 {
                     if (message.MissionId == 1 && progressRow.Progress < progressCaps.MaxProgress)
@@ -991,8 +994,8 @@
                 .Where($"{nameof(AchieveMissionRewardedDto.PlayerId):C} = @{nameof(session.Player.Account.Id)}")
                 .WithParameters(new { session.Player.Account.Id }));
                 var rewardDef = DbUtil.Find<AchieveMissionRewardsDto>(db, statement => statement
-                .Where($"{nameof(AchieveMissionRewardsDto.Id):C} = @{nameof(message.RewardId)}")
-                .WithParameters(new { message.RewardId })).FirstOrDefault();
+                .Where($"{nameof(AchieveMissionRewardsDto.Id):C} = @MissionId")
+                .WithParameters(new { message.MissionId })).FirstOrDefault();
                 if (!rewardedRows.Any())
                 {
                     AchieveMissionRewardedDto rewardedEntry = new AchieveMissionRewardedDto
@@ -1039,11 +1042,10 @@
         [MessageHandler(typeof(PromotionCointEventGetCoinReqMessage))]
         public async Task PromotionCointEventGetCoinReqMessage(GameSession session, PromotionCointEventGetCoinReqMessage message)
         {
-            var actor = session.Player;
-            actor.AP += 5;
-            actor.PEN += 1500;
-            await session.SendAsync(new MoneyRefreshCashInfoAckMessage { PEN = session.Player.PEN, AP = session.Player.AP });
-            await session.Player.ChatSession.SendAsync(new MessageChatAckMessage(ChatType.Channel, session.Player.Account.Id, "CoinSystem", $"You got 5 AP & 1500 PEN!"));
+            //Removed this code due to infinite money possible bug and added line below just to complete the task
+            //feel free to add your own implementation for this message
+
+            await Task.CompletedTask;
         }
         [MessageHandler(typeof(AchieveMissionReqMessage))]
         public async Task AchieveMissionReq(GameSession session, AchieveMissionReqMessage message)

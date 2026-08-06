@@ -284,6 +284,11 @@
         {
             if (actor?.Club == null || targetAccountId == 0)
                 return;
+            var callerSlot = actor.Club.GetPlayer((ulong)actor.Account.Id);
+            if (callerSlot == null || callerSlot.Rank != ClubRank.Master)
+                return;
+            if (targetAccountId == (ulong)actor.Account.Id)
+                return;
             var clubId = actor.Club.Id;
             var playerId = (int)targetAccountId;
             using (var gameDb = GameDatabase.Open())
@@ -293,6 +298,8 @@
                         .WithParameters(new { clubId, playerId }))
                     .FirstOrDefault();
                 if (row == null)
+                    return;
+                if ((ClubRank)row.Rank == ClubRank.Master)
                     return;
                 row.Rank = (int)rank;
                 DbUtil.Update(gameDb, row);
