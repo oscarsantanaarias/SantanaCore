@@ -446,7 +446,8 @@ namespace Santana.Database.Game
         public int AuthorId { get; set; }
         public string AuthorName { get; set; }
         public string Message { get; set; }
-        public byte IsPublic { get; set; }
+        public byte MembersOnly { get; set; }
+        public uint AuthorClubId { get; set; }
         public long CreatedAt { get; set; }
         public int AuthorLevel { get; set; }
         public uint ParentId { get; set; }

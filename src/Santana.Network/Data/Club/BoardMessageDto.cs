@@ -7,7 +7,7 @@ namespace Santana.Network.Data.Club
   {
      public int PostId { get; set; }
 
-    public string Unk2 { get; set; }
+    public string AuthorClubMark { get; set; }
 
      public int RowType { get; set; }
 
@@ -27,7 +27,7 @@ namespace Santana.Network.Data.Club
 
      public int Unk11 { get; set; }
 
-     public byte IsPublic { get; set; }
+     public byte MembersOnly { get; set; }
 
      public int ClubId { get; set; }
   }

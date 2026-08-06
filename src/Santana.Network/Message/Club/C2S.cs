@@ -210,21 +210,21 @@ namespace Santana.Network.Message.Club
     {
         public int ClubId { get; set; }
         public int ParentPostId { get; set; }
-        public int IsPublic { get; set; }
+        public int MembersOnly { get; set; }
         public string Message { get; set; }
     }
     [Packet(4028, PacketType.Club)]
     public class ClubBoardReadReqMessage
     {
-        public int Unk1 { get; set; }
-        public int Unk2 { get; set; }
+        public int ClubId { get; set; }
+        public int Page { get; set; }
     }
     [Packet(4029, PacketType.Club)]
     public class ClubBoardModifyReqMessage
     {
         public int ClubId { get; set; }
         public int PostId { get; set; }
-        public int IsPublic { get; set; }
+        public int MembersOnly { get; set; }
         public string Message { get; set; }
     }
     [Packet(4030, PacketType.Club)]
@@ -247,14 +247,14 @@ namespace Santana.Network.Message.Club
     [Packet(4033, PacketType.Club)]
     public class ClubBoardReadOtherClubReqMessage
     {
-        public int Unk1 { get; set; }
-        public int Unk2 { get; set; }
+        public int ClubId { get; set; }
+        public int Page { get; set; }
     }
     [Packet(4034, PacketType.Club)]
     public class ClubBoardReadMineReqMessage
     {
-        public int Unk1 { get; set; }
-        public int Unk2 { get; set; }
+        public int ClubId { get; set; }
+        public int Page { get; set; }
     }
     [Packet(4035, PacketType.Club)]
     public class ClubCreateReq2Message

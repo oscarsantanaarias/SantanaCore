@@ -89,6 +89,10 @@
                 return;
             ClearViewingOtherClub(actor);
             var wanted = message.ClubId != 0 ? message.ClubId : actor.Club?.Id ?? 0;
+#if !LATESTS4
+            if (wanted != 0 && wanted != (actor.Club?.Id ?? 0))
+                BeginOtherClubVisit(actor, wanted);
+#endif
             if (wanted != 0 && TryResolveClubSnapshot(out var snap, clubId: wanted))
             {
                 session.SendAsync(new ClubClubInfoAckMessage(BuildClubInfoDtoFromSnapshot(snap)));
@@ -503,12 +507,16 @@
                 DbUtil.Update(gameDb, row);
             }
         }
-        private static BoardMessageDto[] LoadBoard(uint clubId, int authorId = 0)
+        private static BoardMessageDto[] LoadBoard(uint clubId, int authorId = 0, uint viewerClubId = 0, int viewerId = 0)
         {
             using (var gameDb = GameDatabase.Open())
             {
                 var rows = DbUtil.Find<ClubBoardDto>(gameDb)
-                    .Where(post => post.ClubId == clubId && (authorId == 0 || post.AuthorId == authorId))
+                    .Where(post => post.ClubId == clubId && (authorId == 0 || post.AuthorId == authorId) &&
+                                   (post.MembersOnly == 0 ||
+                                    viewerClubId == clubId ||
+                                    post.AuthorId == viewerId ||
+                                    (post.AuthorClubId != 0 && post.AuthorClubId == viewerClubId)))
                     .OrderByDescending(post => post.Id)
                     .Take(50)
                     .ToArray();
@@ -525,10 +533,13 @@
                     foreach (var reply in rows.Where(post => post.ParentId == current.Id).OrderByDescending(post => post.Id))
                         pending.Push(reply);
                 }
+                var marks = DbUtil.Find<ClubDto>(gameDb)
+                    .Where(club => threaded.Any(post => post.AuthorClubId == club.Id))
+                    .ToDictionary(club => club.Id, club => GetSafeClanIcon(club.Icon));
                 return threaded.Select(post => new BoardMessageDto
                 {
                     PostId = (int)post.Id,
-                    Unk2 = "",
+                    AuthorClubMark = marks.TryGetValue(post.AuthorClubId, out var mark) ? mark : "",
                     RowType = Math.Min(levels[post.Id], 2),
                     AuthorId = post.AuthorId,
                     ClassIcon = post.AuthorLevel,
@@ -538,9 +549,23 @@
                     CreatedAt = DateTimeOffset.FromUnixTimeSeconds(post.CreatedAt).LocalDateTime.ToString("yyyyMMddHHmmss"),
                     Unk10 = 0,
                     Unk11 = (int)post.ParentId,
-                    IsPublic = post.IsPublic,
+                    MembersOnly = post.MembersOnly,
                     ClubId = (int)clubId
                 }).ToArray();
+            }
+        }
+        private static void PushBoardToViewers(uint clubId, Player skip)
+        {
+            if (clubId == 0)
+                return;
+            foreach (var viewer in GameServer.Instance.PlayerManager
+                         .Where(other => other != skip && other.Session != null &&
+                                         (other.Club?.Id == clubId || other.ViewingOtherClubId == clubId))
+                         .ToArray())
+            {
+                if (!CanUseBoard(viewer, clubId, false))
+                    continue;
+                SendBoard(viewer.Session, LoadBoard(clubId, 0, viewer.Club?.Id ?? 0, (int)viewer.Account.Id));
             }
         }
         private static void SendBoard(GameSession session, BoardMessageDto[] posts)
@@ -556,21 +581,55 @@
                 Unk = posts
             });
         }
+        private const int BoardOpenToEveryone = 0;
+        private const int BoardOpenToApplicants = 1;
+        private static bool CanUseBoard(Player actor, uint clubId, bool posting)
+        {
+            if (actor == null || clubId == 0)
+                return false;
+            if (actor.Club != null && actor.Club.Id == clubId)
+                return true;
+            using (var gameDb = GameDatabase.Open())
+            {
+                var row = DbUtil.Find<ClubDto>(gameDb).FirstOrDefault(club => club.Id == clubId);
+                if (row == null)
+                    return false;
+                var setting = posting ? row.BoardPost : row.BoardAccess;
+                if (setting == BoardOpenToEveryone)
+                    return true;
+                if (setting > BoardOpenToApplicants)
+                    return false;
+                return DbUtil.Find<ClanRequestDto>(gameDb)
+                    .Any(request => request.ClubId == clubId && request.PlayerId == actor.Account.Id);
+            }
+        }
+        private static uint ResolveBoardClub(Player actor, int requested)
+        {
+            if (actor == null)
+                return 0;
+            if (requested > 0)
+                return (uint)requested;
+            if (actor.ViewingOtherClubId > 0)
+                return actor.ViewingOtherClubId;
+            return actor.Club?.Id ?? 0;
+        }
         [MessageHandler(typeof(ClubBoardReadReqMessage))]
         public void ClubBoardReadReq(GameSession session, ClubBoardReadReqMessage message)
         {
             var actor = session.Player;
-            SendBoard(session, actor?.Club == null
+            var clubId = ResolveBoardClub(actor, message.ClubId);
+            SendBoard(session, !CanUseBoard(actor, clubId, false)
                 ? Array.Empty<BoardMessageDto>()
-                : LoadBoard(actor.Club.Id));
+                : LoadBoard(clubId, 0, actor.Club?.Id ?? 0, (int)actor.Account.Id));
         }
         [MessageHandler(typeof(ClubBoardReadMineReqMessage))]
         public void ClubBoardReadMineReq(GameSession session, ClubBoardReadMineReqMessage message)
         {
             var actor = session.Player;
-            SendBoard(session, actor?.Club == null
+            var clubId = ResolveBoardClub(actor, message.ClubId);
+            SendBoard(session, clubId == 0
                 ? Array.Empty<BoardMessageDto>()
-                : LoadBoard(actor.Club.Id, (int)actor.Account.Id));
+                : LoadBoard(clubId, (int)actor.Account.Id, actor.Club?.Id ?? 0, (int)actor.Account.Id));
         }
         [MessageHandler(typeof(ClubBoardReadOtherClubReqMessage))]
         public void ClubBoardReadOtherClubReq(GameSession session, ClubBoardReadOtherClubReqMessage message)
@@ -603,7 +662,8 @@
         public void ClubBoardWriteReq(GameSession session, ClubBoardWriteReqMessage message)
         {
             var actor = session.Player;
-            if (actor?.Club == null)
+            var clubId = ResolveBoardClub(actor, message.ClubId);
+            if (!CanUseBoard(actor, clubId, true))
             {
                 session.SendAsync(new ClubBoardWriteAckMessage { Unk = 1 });
                 return;
@@ -612,53 +672,62 @@
             {
                 DbUtil.Insert(gameDb, new ClubBoardDto
                 {
-                    ClubId = actor.Club.Id,
+                    ClubId = clubId,
                     AuthorId = (int)actor.Account.Id,
                     AuthorName = actor.Account.Nickname ?? "",
                     Message = message.Message ?? "",
-                    IsPublic = (byte)message.IsPublic,
+                    MembersOnly = (byte)message.MembersOnly,
+                    AuthorClubId = actor.Club?.Id ?? 0,
                     CreatedAt = DateTimeOffset.Now.ToUnixTimeSeconds(),
                     AuthorLevel = actor.Level,
                     ParentId = (uint)message.ParentPostId
                 });
             }
+            PushBoardToViewers(clubId, actor);
             session.SendAsync(new ClubBoardWriteAckMessage { Unk = 0 });
         }
         [MessageHandler(typeof(ClubBoardModifyReqMessage))]
         public void ClubBoardModifyReq(GameSession session, ClubBoardModifyReqMessage message)
         {
             var actor = session.Player;
-            if (actor?.Club != null)
+            var clubId = ResolveBoardClub(actor, message.ClubId);
+            if (clubId != 0)
             {
                 using (var gameDb = GameDatabase.Open())
                 {
                     var row = DbUtil.Find<ClubBoardDto>(gameDb)
-                        .FirstOrDefault(post => post.Id == (uint)message.PostId && post.ClubId == actor.Club.Id);
+                        .FirstOrDefault(post => post.Id == (uint)message.PostId && post.ClubId == clubId);
                     if (row != null && row.AuthorId == (int)actor.Account.Id)
                     {
                         row.Message = message.Message ?? "";
-                        row.IsPublic = (byte)message.IsPublic;
+                        row.MembersOnly = (byte)message.MembersOnly;
                         DbUtil.Update(gameDb, row);
                     }
                 }
             }
+            PushBoardToViewers(clubId, actor);
             session.SendAsync(new ClubBoardModifyAckMessage { Unk = 0 });
         }
         [MessageHandler(typeof(ClubBoardDeleteReqMessage))]
         public void ClubBoardDeleteReq(GameSession session, ClubBoardDeleteReqMessage message)
         {
             var actor = session.Player;
-            if (actor?.Club != null)
+            var clubId = ResolveBoardClub(actor, 0);
+            if (clubId != 0)
             {
+                var member = actor.Club != null && actor.Club.Id == clubId;
+                var mine = (int)actor.Account.Id;
                 using (var gameDb = GameDatabase.Open())
                 {
                     foreach (var post in DbUtil.Find<ClubBoardDto>(gameDb)
-                                 .Where(row => row.ClubId == actor.Club.Id &&
+                                 .Where(row => row.ClubId == clubId &&
+                                               (member || row.AuthorId == mine) &&
                                                (row.Id == (uint)message.PostId || row.ParentId == (uint)message.PostId))
                                  .ToArray())
                         DbUtil.Delete(gameDb, post);
                 }
             }
+            PushBoardToViewers(clubId, actor);
             session.SendAsync(new ClubBoardDeleteAckMessage { Unk = 0 });
         }
         [MessageHandler(typeof(ClubBoardDeleteAllReqMessage))]
