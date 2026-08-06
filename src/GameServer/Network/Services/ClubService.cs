@@ -23,6 +23,7 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Text;
     using System.Net;
     using System.Threading.Tasks;
     using System.Collections.Concurrent;
@@ -150,16 +151,16 @@
                     var when = DateTimeOffset.FromUnixTimeSeconds(entry.CreatedAt).LocalDateTime.ToString("yyyyMMddHH");
                     news.Add(new ClubNewsDto
                     {
-                        Unk1 = entry.Category,
-                        Unk2 = entry.Message ?? "",
-                        Unk3 = when
+                        Category = entry.Category,
+                        Body = entry.Message ?? "",
+                        Date = when
                     });
                     if (entry.PlayerId == mine && entry.Category != ClubNewsMine)
                         news.Add(new ClubNewsDto
                         {
-                            Unk1 = ClubNewsMine,
-                            Unk2 = entry.Message ?? "",
-                            Unk3 = when
+                            Category = ClubNewsMine,
+                            Body = entry.Message ?? "",
+                            Date = when
                         });
                 }
                 session.SendAsync(new ClubNewsInfoAckMessage { News = news.ToArray() });
@@ -391,11 +392,20 @@
         }
 #if !LATESTS4
         private const int ClubNewsDays = 30;
-        private const int ClubNewsClan = 0;
-        private const int ClubNewsMine = 1;
-        private const int ClubNewsRegister = 2;
-        private const int ClubNewsSignedOut = 3;
-        private const int ClubNewsLevelUp = 4;
+        private const int ClubNewsClan = 1;
+        private const int ClubNewsMine = 2;
+        private const int ClubNewsSignedOut = 4;
+        private const int ClubNewsGradeChange = 5;
+        private const int ClubNewsKeyGradeChanged = 4;
+        private static string BuildClubNews(int key, params string[] parameters)
+        {
+            var text = new StringBuilder();
+            text.Append("<News Key=\"").Append(key).Append("\" Cnt=\"").Append(parameters.Length).Append("\"");
+            for (var i = 0; i < parameters.Length; i++)
+                text.Append(" Param").Append(i + 1).Append("=\"").Append(parameters[i] ?? "").Append("\"");
+            text.Append("/>");
+            return text.ToString();
+        }
         internal static void AddClubNews(uint clubId, int playerId, int category, string text)
         {
             if (clubId == 0)
@@ -439,7 +449,8 @@
                     JoinedAt = DateTime.Now
                 });
             }
-            AddClubNews(clubId, playerId, ClubNewsRegister, GetAccountNickname((ulong)playerId));
+            AddClubNews(clubId, playerId, ClubNewsClan,
+                BuildClubNews(2, GetAccountNickname((ulong)playerId)));
         }
         private static void RecordClubLeave(uint clubId, int playerId)
         {
@@ -455,7 +466,8 @@
                     DbUtil.Update(gameDb, entry);
                 }
             }
-            AddClubNews(clubId, playerId, ClubNewsSignedOut, GetAccountNickname((ulong)playerId));
+            AddClubNews(clubId, playerId, ClubNewsSignedOut,
+                BuildClubNews(1, GetAccountNickname((ulong)playerId)));
         }
 #endif
         [MessageHandler(typeof(ClubGradeCountReqMessage))]
@@ -722,16 +734,17 @@
                     .FirstOrDefault();
                 var capacity = Math.Max((clubRow?.Level ?? 1) * 12, 12);
                 var headcount = roster.Count;
-                var isPublic = clubRow?.JoinCondition1 == 2;
+                var isMember = actor.Club != null && actor.Club.Id == targetClub.Id;
+                var hideQuestions = !isMember && clubRow?.JoinCondition1 == 2;
                 session.SendAsync(new ClubJoinConditionInfoAckMessage
                 {
                     Unk1 = clubRow?.JoinCondition1 ?? 0,
                     Unk2 = clubRow?.JoinCondition2 ?? 0,
-                    Unk3 = isPublic ? "" : clubRow?.Question1 ?? "",
-                    Unk4 = isPublic ? "" : clubRow?.Question2 ?? "",
-                    Unk5 = isPublic ? "" : clubRow?.Question3 ?? "",
-                    Unk6 = isPublic ? "" : clubRow?.Question4 ?? "",
-                    Unk7 = isPublic ? "" : clubRow?.Question5 ?? ""
+                    Unk3 = hideQuestions ? "" : clubRow?.Question1 ?? "",
+                    Unk4 = hideQuestions ? "" : clubRow?.Question2 ?? "",
+                    Unk5 = hideQuestions ? "" : clubRow?.Question3 ?? "",
+                    Unk6 = hideQuestions ? "" : clubRow?.Question4 ?? "",
+                    Unk7 = hideQuestions ? "" : clubRow?.Question5 ?? ""
                 });
             }
         }
@@ -1878,7 +1891,8 @@
             }
             return playerId;
         }
-        private static JoinWaiterInfoDto BuildJoinWaiterInfoDto(ulong accountId, AccountDto account, PlayerDto playerDto)
+        private static JoinWaiterInfoDto BuildJoinWaiterInfoDto(ulong accountId, AccountDto account, PlayerDto playerDto,
+            ClubDto clubRow = null, ClanRequestDto request = null)
         {
             var displayNick = account?.Nickname ?? accountId.ToString(CultureInfo.InvariantCulture);
             var lvl = playerDto?.Level ?? 0;
@@ -1893,16 +1907,16 @@
                 Unk3 = lvl,
                 Unk4 = 30,
                 Unk5 = "",
-                Unk6 = "",
-                Unk7 = "",
-                Unk8 = "",
-                Unk9 = "",
-                Unk10 = "",
-                Unk11 = "",
-                Unk12 = "",
-                Unk13 = "",
-                Unk14 = "",
-                Unk15 = "",
+                Unk6 = clubRow?.Question1 ?? "",
+                Unk7 = clubRow?.Question2 ?? "",
+                Unk8 = clubRow?.Question3 ?? "",
+                Unk9 = clubRow?.Question4 ?? "",
+                Unk10 = clubRow?.Question5 ?? "",
+                Unk11 = request?.Answer1 ?? "",
+                Unk12 = request?.Answer2 ?? "",
+                Unk13 = request?.Answer3 ?? "",
+                Unk14 = request?.Answer4 ?? "",
+                Unk15 = request?.Answer5 ?? "",
                 Unk16 = winTotal,
                 Unk17 = lossTotal,
                 Unk18 = battleTotal,
@@ -1919,6 +1933,10 @@
                         .WithParameters(new { ClubId = clubId }))
                     .OrderBy(x => x.Id)
                     .ToList();
+                var clubRow = DbUtil.Find<ClubDto>(gameDb, statement => statement
+                        .Where($"{nameof(ClubDto.Id):C} = @ClubId")
+                        .WithParameters(new { ClubId = clubId }))
+                    .FirstOrDefault();
                 return requestRows
                     .Select(req =>
                     {
@@ -1931,7 +1949,7 @@
                                 .Where($"{nameof(PlayerDto.Id):C} = @Id")
                                 .WithParameters(new { Id = (int)acctId }))
                             .FirstOrDefault();
-                        return BuildJoinWaiterInfoDto(acctId, acct, pRow);
+                        return BuildJoinWaiterInfoDto(acctId, acct, pRow, clubRow, req);
                     })
                     .Where(x => x != null)
                     .ToArray();
@@ -2804,6 +2822,12 @@
                     continue;
                 }
                 targetSlot.Rank = desiredRank;
+#if !LATESTS4
+                AddClubNews(clan.Id, (int)targetSlot.AccountId, ClubNewsGradeChange,
+                    BuildClubNews(1, GetAccountNickname(targetSlot.AccountId)));
+                AddClubNews(clan.Id, (int)targetSlot.AccountId, ClubNewsClan,
+                    BuildClubNews(ClubNewsKeyGradeChanged, GetAccountNickname(targetSlot.AccountId), desiredRank.ToString()));
+#endif
                 using (var gameDb = GameDatabase.Open())
                 {
                     await DbUtil.UpdateAsync(gameDb, new ClubPlayerDto

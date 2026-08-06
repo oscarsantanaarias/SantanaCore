@@ -1,4 +1,4 @@
-using ProudNetSrc.Serialization;
+﻿using ProudNetSrc.Serialization;
 namespace Santana.Network.Data.Club
 {
   [Dto]
@@ -6,14 +6,14 @@ namespace Santana.Network.Data.Club
   {
     public ClubNewsDto()
     {
-      Unk2 = "";
-      Unk3 = "";
+      Body = "";
+      Date = "";
     }
 
-     public int Unk1 { get; set; }
+     public int Category { get; set; }
 
-    public string Unk2 { get; set; }
+    public string Body { get; set; }
 
-    public string Unk3 { get; set; }
+    public string Date { get; set; }
   }
 }

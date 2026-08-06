@@ -1,4 +1,4 @@
-namespace Santana
+﻿namespace Santana
 {
     using System;
     using System.Collections.Generic;
@@ -172,10 +172,6 @@ namespace Santana
                 }
                 didLevelUp = true;
             }
-#if !LATESTS4
-            if (levelsClimbed > 0 && Club != null)
-                Santana.Network.Services.ClubService.AddClubNews(Club.Id, (int)Account.Id, 4, Account.Nickname ?? "");
-#endif
             if (levelsClimbed > 0)
                 AddCombiLevelExp(levelsClimbed, levelsClimbed * 20);
             Session.Player.Session.SendAsync(new MoneyRefreshCashInfoAckMessage(Session.Player.PEN, Session.Player.AP));
