@@ -121,18 +121,80 @@
         [MessageHandler(typeof(ClubNewsInfoReqMessage))]
         public void ClubNewsInfoReq(GameSession session, ClubNewsInfoReqMessage message)
         {
+#if LATESTS4
             session.SendAsync(new ClubNewsInfoAckMessage());
+#else
+            var actor = session.Player;
+            if (actor?.Club == null)
+            {
+                session.SendAsync(new ClubNewsInfoAckMessage());
+                return;
+            }
+            var clubId = actor.Club.Id;
+            using (var gameDb = GameDatabase.Open())
+            {
+                var since = DateTimeOffset.Now.AddDays(-ClubNewsDays).ToUnixTimeSeconds();
+                var entries = DbUtil.Find<ClubNewsRowDto>(gameDb)
+                    .Where(entry => entry.ClubId == clubId && entry.CreatedAt >= since)
+                    .OrderByDescending(entry => entry.Id)
+                    .Take(60)
+                    .ToArray();
+                var mine = (int)actor.Account.Id;
+                var news = new List<ClubNewsDto>();
+                foreach (var entry in entries)
+                {
+                    var when = DateTimeOffset.FromUnixTimeSeconds(entry.CreatedAt).LocalDateTime.ToString("yyyyMMddHH");
+                    news.Add(new ClubNewsDto
+                    {
+                        Unk1 = entry.Category,
+                        Unk2 = entry.Message ?? "",
+                        Unk3 = when
+                    });
+                    if (entry.PlayerId == mine && entry.Category != ClubNewsMine)
+                        news.Add(new ClubNewsDto
+                        {
+                            Unk1 = ClubNewsMine,
+                            Unk2 = entry.Message ?? "",
+                            Unk3 = when
+                        });
+                }
+                session.SendAsync(new ClubNewsInfoAckMessage { News = news.ToArray() });
+            }
+#endif
         }
         [MessageHandler(typeof(ClubRestoreReqMessage))]
         public void ClubRestoreReq(GameSession session, ClubRestoreReqMessage message)
         {
+#if LATESTS4
             session.SendAsync(new ClubRestoreAckMessage { Unk = 0 });
+#else
+            session.SendAsync(new ClubRestoreAckMessage { Unk = RestoreClub(session.Player, message.ClubId) });
+#endif
         }
+#if !LATESTS4
+        private static int RestoreClub(Player actor, uint clubId)
+        {
+            if (actor == null)
+                return 1;
+            var wanted = clubId != 0 ? clubId : actor.Club?.Id ?? 0;
+            if (wanted == 0)
+                return 1;
+            var restored = 1;
+            UpdateClubRow(wanted, row =>
+            {
+                if (row.IsClosed == 0)
+                    return;
+                row.IsClosed = 0;
+                restored = 0;
+            });
+            return restored;
+        }
+#endif
 #if !LATESTS4
         [MessageHandler(typeof(ClubRestoreReq2Message))]
         public void ClubRestoreReq2(GameSession session, ClubRestoreReq2Message message)
         {
-            session.SendAsync(new ClubRestoreAck2Message { Result = 0 });
+            session.SendAsync(new ClubRestoreAck2Message { Result = RestoreClub(session.Player, 0) });
         }
         [MessageHandler(typeof(ClubEditIntroduceReqMessage))]
         public void ClubEditIntroduceReq(GameSession session, ClubEditIntroduceReqMessage message)
@@ -192,16 +254,61 @@
         [MessageHandler(typeof(ClubAdminSubMasterReqMessage))]
         public void ClubAdminSubMasterReq(GameSession session, ClubAdminSubMasterReqMessage message)
         {
+#if !LATESTS4
+            SetClubRank(session.Player, message.Target, ClubRank.CoMaster);
+#endif
             session.SendAsync(new ClubAdminSubMasterAckMessage { Unk = 0 });
         }
         [MessageHandler(typeof(ClubAdminSubMasterCancelReqMessage))]
         public void ClubAdminSubMasterCancelReq(GameSession session, ClubAdminSubMasterCancelReqMessage message)
         {
+#if !LATESTS4
+            SetClubRank(session.Player, message.Target, ClubRank.Member);
+#endif
             session.SendAsync(new ClubAdminSubMasterCancelAckMessage { Unk = 0 });
         }
+#if !LATESTS4
+        private static void SetClubRank(Player actor, ulong targetAccountId, ClubRank rank)
+        {
+            if (actor?.Club == null || targetAccountId == 0)
+                return;
+            var clubId = actor.Club.Id;
+            var playerId = (int)targetAccountId;
+            using (var gameDb = GameDatabase.Open())
+            {
+                var row = DbUtil.Find<ClubPlayerDto>(gameDb, statement => statement
+                        .Where($"{nameof(ClubPlayerDto.ClubId):C} = @{nameof(clubId)} AND {nameof(ClubPlayerDto.PlayerId):C} = @{nameof(playerId)}")
+                        .WithParameters(new { clubId, playerId }))
+                    .FirstOrDefault();
+                if (row == null)
+                    return;
+                row.Rank = (int)rank;
+                DbUtil.Update(gameDb, row);
+            }
+            var member = actor.Club.GetPlayer(targetAccountId);
+            if (member != null)
+                member.Rank = rank;
+        }
+#endif
         [MessageHandler(typeof(ClubAdminJoinConditionModifyReqMessage))]
         public void ClubAdminJoinConditionModifyReq(GameSession session, ClubAdminJoinConditionModifyReqMessage message)
         {
+            var actor = session.Player;
+#if !LATESTS4
+            if (actor?.Club != null)
+            {
+                UpdateClubRow(actor.Club.Id, row =>
+                {
+                    row.JoinCondition1 = message.Unk1;
+                    row.JoinCondition2 = message.Unk2;
+                    row.Question1 = message.Unk3 ?? "";
+                    row.Question2 = message.Unk4 ?? "";
+                    row.Question3 = message.Unk5 ?? "";
+                    row.Question4 = message.Unk6 ?? "";
+                    row.Question5 = message.Unk7 ?? "";
+                });
+            }
+#endif
             session.SendAsync(new ClubAdminJoinConditionModifyAckMessage { Unk = 0 });
         }
         [MessageHandler(typeof(ClubAdminBoardModifyReqMessage))]
@@ -223,13 +330,114 @@
         [MessageHandler(typeof(ClubUnjoinerListReqMessage))]
         public void ClubUnjoinerListReq(GameSession session, ClubUnjoinerListReqMessage message)
         {
+#if LATESTS4
             session.SendAsync(new ClubUnjoinerListAckMessage { Unk = Array.Empty<UnjoinerDto>() });
+#else
+            var actor = session.Player;
+            if (actor?.Club == null)
+            {
+                session.SendAsync(new ClubUnjoinerListAckMessage { Unk = Array.Empty<UnjoinerDto>() });
+                return;
+            }
+            var clubId = actor.Club.Id;
+            using (var gameDb = GameDatabase.Open())
+            {
+                var leavers = DbUtil.Find<ClubMemberHistoryDto>(gameDb)
+                    .Where(entry => entry.ClubId == clubId && entry.LeftAt != null)
+                    .OrderByDescending(entry => entry.LeftAt)
+                    .Take(50)
+                    .ToArray();
+                var rows = leavers.Select(entry => new UnjoinerDto
+                {
+                    Unk1 = entry.PlayerId,
+                    Unk2 = GetAccountNickname((ulong)entry.PlayerId),
+                    Unk3 = 0,
+                    Unk4 = 0,
+                    Unk5 = entry.LeftAt?.ToString("yyyyMMddHH") ?? ""
+                }).ToArray();
+                session.SendAsync(new ClubUnjoinerListAckMessage { Unk = rows });
+            }
+#endif
         }
         [MessageHandler(typeof(ClubUnjoinSettingMemberListReqMessage))]
         public void ClubUnjoinSettingMemberListReq(GameSession session, ClubUnjoinSettingMemberListReqMessage message)
         {
+#if LATESTS4
             session.SendAsync(new ClubUnjoinSettingMemberListAckMessage { Unk = Array.Empty<UnjoinSettingMemberDto>() });
+#else
+            var actor = session.Player;
+            if (actor?.Club == null)
+            {
+                session.SendAsync(new ClubUnjoinSettingMemberListAckMessage { Unk = Array.Empty<UnjoinSettingMemberDto>() });
+                return;
+            }
+            var rows = actor.Club.Players.Values
+                .Where(member => member.Rank != ClubRank.Master)
+                .Select(member => new UnjoinSettingMemberDto
+                {
+                    Unk1 = (int)member.AccountId,
+                    Unk2 = member.Account?.Nickname ?? "",
+                    Unk3 = (int)member.Rank,
+                    Unk4 = "",
+                    Unk5 = ""
+                })
+                .ToArray();
+            session.SendAsync(new ClubUnjoinSettingMemberListAckMessage { Unk = rows });
+#endif
         }
+#if !LATESTS4
+        private const int ClubNewsDays = 30;
+        private const int ClubNewsClan = 0;
+        private const int ClubNewsMine = 1;
+        private const int ClubNewsRegister = 2;
+        private const int ClubNewsSignedOut = 3;
+        private const int ClubNewsLevelUp = 4;
+        internal static void AddClubNews(uint clubId, int playerId, int category, string text)
+        {
+            if (clubId == 0)
+                return;
+            using (var gameDb = GameDatabase.Open())
+            {
+                DbUtil.Insert(gameDb, new ClubNewsRowDto
+                {
+                    ClubId = clubId,
+                    PlayerId = playerId,
+                    Category = category,
+                    Message = text ?? "",
+                    CreatedAt = DateTimeOffset.Now.ToUnixTimeSeconds()
+                });
+            }
+        }
+        private static void RecordClubJoin(uint clubId, int playerId)
+        {
+            using (var gameDb = GameDatabase.Open())
+            {
+                DbUtil.Insert(gameDb, new ClubMemberHistoryDto
+                {
+                    ClubId = clubId,
+                    PlayerId = playerId,
+                    JoinedAt = DateTime.Now
+                });
+            }
+            AddClubNews(clubId, playerId, ClubNewsRegister, GetAccountNickname((ulong)playerId));
+        }
+        private static void RecordClubLeave(uint clubId, int playerId)
+        {
+            using (var gameDb = GameDatabase.Open())
+            {
+                var entry = DbUtil.Find<ClubMemberHistoryDto>(gameDb)
+                    .Where(row => row.ClubId == clubId && row.PlayerId == playerId && row.LeftAt == null)
+                    .OrderByDescending(row => row.Id)
+                    .FirstOrDefault();
+                if (entry != null)
+                {
+                    entry.LeftAt = DateTime.Now;
+                    DbUtil.Update(gameDb, entry);
+                }
+            }
+            AddClubNews(clubId, playerId, ClubNewsSignedOut, GetAccountNickname((ulong)playerId));
+        }
+#endif
         [MessageHandler(typeof(ClubGradeCountReqMessage))]
         public void ClubGradeCountReq(GameSession session, ClubGradeCountReqMessage message)
         {
@@ -496,13 +704,13 @@
                 var headcount = roster.Count;
                 session.SendAsync(new ClubJoinConditionInfoAckMessage
                 {
-                    Unk1 = 0,
-                    Unk2 = 0,
-                    Unk3 = "",
-                    Unk4 = "",
-                    Unk5 = "",
-                    Unk6 = "",
-                    Unk7 = ""
+                    Unk1 = clubRow?.JoinCondition1 ?? 0,
+                    Unk2 = clubRow?.JoinCondition2 ?? 0,
+                    Unk3 = clubRow?.Question1 ?? "",
+                    Unk4 = clubRow?.Question2 ?? "",
+                    Unk5 = clubRow?.Question3 ?? "",
+                    Unk6 = clubRow?.Question4 ?? "",
+                    Unk7 = clubRow?.Question5 ?? ""
                 });
             }
         }
@@ -641,12 +849,29 @@
                     await actor.SendAsync(new ClubJoinAckMessage { Unk = ClubJoinResult.ClubFull });
                     return;
                 }
+#if !LATESTS4
+                if (clubRow.JoinCondition1 == 2)
+                {
+                    if (existingReq != null)
+                        DbUtil.Delete(gameDb, existingReq);
+                    await targetClub.AddPlayer((ulong)actor.Account.Id);
+                    RecordClubJoin(targetClub.Id, (int)actor.Account.Id);
+                    await actor.SendAsync(new ClubJoinAckMessage { Unk = ClubJoinResult.Joined });
+                    await actor.SendAsync(new ClubMyInfoAckMessage(actor.Map<Player, ClubMyInfoDto>()));
+                    return;
+                }
+#endif
                 if (existingReq == null)
                 {
                     await DbUtil.InsertAsync(gameDb, new ClanRequestDto
                     {
                         ClubId = targetClub.Id,
-                        PlayerId = (ulong)actor.Account.Id
+                        PlayerId = (ulong)actor.Account.Id,
+                        Answer1 = message.Answer1 ?? "",
+                        Answer2 = message.Answer2 ?? "",
+                        Answer3 = message.Answer3 ?? "",
+                        Answer4 = message.Answer4 ?? "",
+                        Answer5 = message.Answer5 ?? ""
                     });
                     storedNewRequest = true;
                 }
@@ -918,6 +1143,11 @@
             forwarded.Introduction = message.Introduction;
             forwarded.ActivityArea = message.ActivityArea;
             forwarded.ActivityPurpose = message.ActivityPurpose;
+            forwarded.Question1 = message.Question1;
+            forwarded.Question2 = message.Question2;
+            forwarded.Question3 = message.Question3;
+            forwarded.Question4 = message.Question4;
+            forwarded.Question5 = message.Question5;
 #endif
             await ClubCreateReq2(session, forwarded);
         }
@@ -1002,6 +1232,11 @@
                                 Activity = message.ActivityPurpose,
                                 Title = message.Introduction ?? string.Empty,
                                 CreatedAt = DateTimeOffset.Now.ToUnixTimeSeconds(),
+                                Question1 = message.Question1 ?? string.Empty,
+                                Question2 = message.Question2 ?? string.Empty,
+                                Question3 = message.Question3 ?? string.Empty,
+                                Question4 = message.Question4 ?? string.Empty,
+                                Question5 = message.Question5 ?? string.Empty,
                             };
                             await DbUtil.InsertAsync(gameDb, clubRow, statement =>
                                 statement.AttachToTransaction(tx));
@@ -1023,6 +1258,9 @@
                                 State = (int)ClubState.Joined
                             }, statement => statement.AttachToTransaction(tx));
                             tx.Commit();
+#if !LATESTS4
+                            RecordClubJoin(newClub.Id, (int)actor.Account.Id);
+#endif
                         }
                         catch (Exception ex)
                         {
@@ -2082,6 +2320,9 @@
                                 Club.LogOff(actor);
                                 actor.Club.Players.TryRemove(actor.Account.Id, out var _);
                                 gameDb.Delete(new ClubPlayerDto() { PlayerId = membershipRow.PlayerId });
+#if !LATESTS4
+                                RecordClubLeave(membershipRow.ClubId, membershipRow.PlayerId);
+#endif
                                 actor.Club = null;
                                 await session.SendAsync(new ClubMyInfoAckMessage(actor.Map<Player, ClubMyInfoDto>()));
                                 await session.SendAsync(new ClubUnjoinAck2Message());
@@ -2333,11 +2574,53 @@
                 return;
             }
             var memberDtos = new List<ClubMemberInfoDto>();
-            memberDtos.AddRange(GameServer.Instance.PlayerManager
-            .Where(p => actor.Club.Players.Keys.Contains(p.Account.Id))
-            .Select(p => p.Map<Player, ClubMemberInfoDto>()));
-            memberDtos.AddRange(actor.Club.Players.Select(x => x.Value.Map<ClubPlayerInfo, ClubMemberInfoDto>()));
-            await actor.ChatSession.SendAsync(new ClubNewJoinMemberInfoAckMessage(memberDtos.ToArray()));
+            ClubDto clubRow;
+            using (var gameDb = GameDatabase.Open())
+            {
+                clubRow = DbUtil.Find<ClubDto>(gameDb).FirstOrDefault(row => row.Id == clan.Id);
+            }
+            foreach (var entry in clan.Players.Values)
+            {
+                var online = GameServer.Instance.PlayerManager[entry.AccountId];
+                ClanRequestDto answers;
+                var joinedAt = "";
+                using (var gameDb = GameDatabase.Open())
+                {
+                    answers = DbUtil.Find<ClanRequestDto>(gameDb)
+                        .FirstOrDefault(row => row.ClubId == clan.Id && row.PlayerId == entry.AccountId);
+                    var history = DbUtil.Find<ClubMemberHistoryDto>(gameDb)
+                        .Where(row => row.ClubId == clan.Id && row.PlayerId == (int)entry.AccountId)
+                        .OrderByDescending(row => row.Id)
+                        .FirstOrDefault();
+                    if (history != null)
+                        joinedAt = history.JoinedAt.ToString("yyyyMMddHH");
+                }
+                var nickname = online?.Account?.Nickname;
+                if (string.IsNullOrWhiteSpace(nickname))
+                    nickname = entry.Account?.Nickname;
+                if (string.IsNullOrWhiteSpace(nickname))
+                    nickname = GetAccountNickname(entry.AccountId);
+                memberDtos.Add(new ClubMemberInfoDto
+                {
+                    Unk1 = entry.AccountId,
+                    Unk2 = nickname ?? "",
+                    Unk3 = online?.Level ?? 0,
+                    Unk4 = (int)entry.Rank,
+                    Unk5 = 0,
+                    Unk6 = joinedAt,
+                    Unk7 = clubRow?.Question1 ?? "",
+                    Unk8 = clubRow?.Question2 ?? "",
+                    Unk9 = clubRow?.Question3 ?? "",
+                    Unk10 = clubRow?.Question4 ?? "",
+                    Unk11 = clubRow?.Question5 ?? "",
+                    Unk12 = answers?.Answer1 ?? "",
+                    Unk13 = answers?.Answer2 ?? "",
+                    Unk14 = answers?.Answer3 ?? "",
+                    Unk15 = answers?.Answer4 ?? "",
+                    Unk16 = answers?.Answer5 ?? ""
+                });
+            }
+            await session.SendAsync(new ClubNewJoinMemberInfoAckMessage(memberDtos.ToArray()));
         }
         [MessageHandler(typeof(ClubAdminJoinCommandReqMessage))]
         public async Task ClubAdminJoinCommandReq(GameSession session, ClubAdminJoinCommandReqMessage message)
@@ -2378,6 +2661,10 @@
                     else
                     {
                         var kicked = await clan.RemoveKickPlayer(target, cmd == ClubCommand.Ban);
+#if !LATESTS4
+                        if (kicked)
+                            RecordClubLeave(clan.Id, (int)target);
+#endif
                         outcome = kicked ? ClubCommandResult.Success : ClubCommandResult.MemberNotFound;
                     }
                 }
@@ -2412,6 +2699,9 @@
                             {
                                 DbUtil.Delete(gameDb, joinReq);
                                 await clan.AddPlayer(target);
+#if !LATESTS4
+                                RecordClubJoin(clan.Id, (int)target);
+#endif
                                 notifyDecision = true;
                                 wasAccepted = true;
                             }

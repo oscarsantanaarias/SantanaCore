@@ -1,4 +1,5 @@
 ﻿using Santana.Database.Game;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -403,6 +404,37 @@ namespace Santana.Database.Game
         public int BoardAccessBadManner { get; set; }
         public int BoardPost { get; set; }
         public int BoardPostBadManner { get; set; }
+        public int JoinCondition1 { get; set; }
+        public int JoinCondition2 { get; set; }
+        public string Question1 { get; set; }
+        public string Question2 { get; set; }
+        public string Question3 { get; set; }
+        public string Question4 { get; set; }
+        public string Question5 { get; set; }
+        public byte IsClosed { get; set; }
+    }
+    [Table("club_news")]
+    public class ClubNewsRowDto
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public uint Id { get; set; }
+        public uint ClubId { get; set; }
+        public int PlayerId { get; set; }
+        public string Message { get; set; }
+        public long CreatedAt { get; set; }
+        public int Category { get; set; }
+    }
+    [Table("club_member_history")]
+    public class ClubMemberHistoryDto
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public uint Id { get; set; }
+        public int PlayerId { get; set; }
+        public uint ClubId { get; set; }
+        public DateTime JoinedAt { get; set; }
+        public DateTime? LeftAt { get; set; }
     }
     [Table("club_board")]
     public class ClubBoardDto
@@ -477,6 +509,11 @@ namespace Santana.Database.Game
         [ForeignKey("Player")]
         public ulong PlayerId { get; set; }
         public PlayerDto Player { get; set; }
+        public string Answer1 { get; set; }
+        public string Answer2 { get; set; }
+        public string Answer3 { get; set; }
+        public string Answer4 { get; set; }
+        public string Answer5 { get; set; }
     }
     [Table("club_ban")]
     public class ClanBannedDto

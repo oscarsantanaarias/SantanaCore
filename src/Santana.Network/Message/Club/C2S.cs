@@ -265,6 +265,11 @@ namespace Santana.Network.Message.Club
         [Skip] public int ActivityArea { get; set; }
         [Skip] public int ActivityPurpose { get; set; }
         [Skip] public string Introduction { get; set; }
+        [Skip] public string Question1 { get; set; }
+        [Skip] public string Question2 { get; set; }
+        [Skip] public string Question3 { get; set; }
+        [Skip] public string Question4 { get; set; }
+        [Skip] public string Question5 { get; set; }
     }
     [Packet(4045, PacketType.Club)]
     public class ClubRankListReqMessage
