@@ -1025,6 +1025,8 @@ namespace Santana.Network.Services
         {
             if (session.Player.TutorialState == 0)
             {
+                session.Player.TutorialState = 1;
+                session.Player.Save();
                 var roll = new SecureRandom();
                 var rewards = new List<BTCGiveItemResultDto>();
                  switch (roll.Next(1, 3))
@@ -1048,7 +1050,6 @@ namespace Santana.Network.Services
                 session.Player.PEN += 5000;
                 session.Player.AP += 2000;
                 session.Player.Session.SendAsync(new MoneyRefreshCashInfoAckMessage(session.Player.PEN, session.Player.AP));
-                session.Player.TutorialState = 1;
             }
             else
             {

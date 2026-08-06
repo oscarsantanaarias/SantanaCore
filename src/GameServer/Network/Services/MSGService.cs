@@ -163,6 +163,8 @@ namespace Santana.Network.Services
       if (Mailbox.MailRateExceeded((int)session.Player.Account.Id))
       {
         Log_.ForAccount(session).Error("Send blocked: mail rate limit reached");
+        session.SendAsync(new MessageChatAckMessage(ChatType.Channel, session.Player.Account.Id, "System",
+            "You are sending mail too fast. Please wait a moment."));
         await session.SendAsync(new NoteSendAckMessage(1));
         return;
       }

@@ -539,19 +539,32 @@ namespace ProudNetSrc.Serialization
             else SantanaLib.Serialization.Serializer.Serialize(w, v ?? Activator.CreateInstance(t));
         }
 
+        [ThreadStatic] private static int _deserializeDepth;
         private static object DeserializeInto(BinaryReader r, Type t)
         {
-            if (_schemas.TryGetValue(t, out var schema))
+            if (++_deserializeDepth > 32)
             {
-                var obj = Activator.CreateInstance(t);
-                foreach (var (name, ft) in schema.Fields)
-                {
-                    var m = GetMember(t, name);
-                    m.Set(obj, ReadField(r, ft, m.Type));
-                }
-                return obj;
+                _deserializeDepth--;
+                throw new ProudException("Packet: nested struct depth exceeds 32");
             }
-            return SantanaLib.Serialization.Serializer.Deserialize(r, t);
+            try
+            {
+                if (_schemas.TryGetValue(t, out var schema))
+                {
+                    var obj = Activator.CreateInstance(t);
+                    foreach (var (name, ft) in schema.Fields)
+                    {
+                        var m = GetMember(t, name);
+                        m.Set(obj, ReadField(r, ft, m.Type));
+                    }
+                    return obj;
+                }
+                return SantanaLib.Serialization.Serializer.Deserialize(r, t);
+            }
+            finally
+            {
+                _deserializeDepth--;
+            }
         }
 
         private static short CompressF(float value)

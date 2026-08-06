@@ -188,7 +188,16 @@ namespace ProudNetSrc.Handlers
         using (var zlib = new System.IO.Compression.ZLibStream(input, System.IO.Compression.CompressionMode.Decompress))
         using (var output = new MemoryStream())
         {
-          zlib.CopyTo(output);
+          var buffer = new byte[8192];
+          long total = 0;
+          int read;
+          while ((read = zlib.Read(buffer, 0, buffer.Length)) > 0)
+          {
+            total += read;
+            if (total > SecurityGuard.MaxDecompressedBytes)
+              return null;
+            output.Write(buffer, 0, read);
+          }
           body = output.ToArray();
         }
 

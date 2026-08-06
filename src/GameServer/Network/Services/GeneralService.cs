@@ -393,6 +393,8 @@
                 return;
             if (Mailbox.MailRateExceeded((int)player.Account.Id))
             {
+                player.ChatSession?.SendAsync(new MessageChatAckMessage(ChatType.Channel, player.Account.Id, "System",
+                    "You are sending requests too fast. Please wait a moment."));
                 await session.SendAsync(new NoteImportuneItemAckMessage { Unk = NoteImportuneItemAckFailValue });
                 return;
             }
@@ -609,11 +611,20 @@
                 return;
             var gambleCards = new ItemNumber[] { 8020000, 8020001, 8020002, 8020003, 8020004, 8020005, 8020006,
              8020007, 8020008, 8020009, 8020010};
+            var consumed = false;
             foreach (var cardId in gambleCards)
             {
                 var owned = actor.Inventory.FirstOrDefault(x => x.ItemNumber == cardId);
                 if (owned != null)
+                {
                     actor.Inventory.RemoveOrDecrease(owned);
+                    consumed = true;
+                }
+            }
+            if (!consumed)
+            {
+                await session.SendAsync(new CardGambleAckMessage { Result = 0 });
+                return;
             }
             actor.Inventory.CreateUnits(4031187, 1);
             await session.SendAsync(new CardGambleAckMessage { Result = 3, ItemId = 4031187 });

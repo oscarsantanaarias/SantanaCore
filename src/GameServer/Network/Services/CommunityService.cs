@@ -1315,7 +1315,16 @@ namespace Santana.Network.Services
                     case FriendAction.Add:
                         if (link != null)
                             return;
-
+                        if (targetLive == null)
+                        {
+                            who.SendAsync(new FriendActionAckMessage
+                            {
+                                Friend = new FriendDto(),
+                                Result = FriendResult.UserNotExist,
+                                Unk = 0
+                            });
+                            return;
+                        }
                         switch (targetLive.Settings.GetSetting("AllowFriendRequest"))
                         {
                             case CommunitySetting.Allow:
