@@ -59,8 +59,8 @@ INSERT INTO `accounts` (`Id`, `Username`, `Nickname`, `Password`, `Salt`, `Secur
 	(5, 'tester5', 'tester5', '', '', 0, '9f08413b', '058a8054', 'tester5', '', '20260804034413', '000906724C800800FEFFFFFFF', '', '', '', 1, 'tester5@hotmail.com', '0', 0, 0, 0, 0, NULL, NULL),
 	(6, 'tester6', 'tester6', '', '', 0, 'a0d76e34', '66071705', 'tester6', '', '20260724120540', '000906724C800800FEFFFFFFF', '', '', '', 1, 'tester5@hotmail.com', '0', 0, 0, 0, 0, NULL, NULL),
 	(7, 'tester7', 'tester7', '', '', 0, '09ef1d89', '87cbbfeb', 'tester7', '', '20260805141810', '000906724C800800FEFFFFFFF', '', '', '', 1, 'tester5@hotmail.com', '0', 0, 1, 0, 0, NULL, NULL),
-	(8, 'tester8', 'tester8', '', '', 0, 'c06b4a57', '0495c85c', 'tester8', '', '20260805182450', '000906724C800800FEFFFFFFF', '', '', '', 1, 'tester5@hotmail.com', '0', 0, 0, 0, 0, NULL, NULL),
-	(9, 'tester9', 'tester9', '', '', 0, '124a6e3c', '77c26db6', 'tester9', '', '20260805185716', '000906724C800800FEFFFFFFF', '', '', '', 1, 'tester5@hotmail.com', '0', 0, 1, 0, 0, NULL, NULL);
+	(8, 'tester8', 'tester8', '', '', 0, 'd6520b9d', '95400ba4', 'tester8', '', '20260806055014', '000906724C800800FEFFFFFFF', '', '', '', 1, 'tester5@hotmail.com', '0', 0, 1, 0, 0, NULL, NULL),
+	(9, 'tester9', 'tester9', '', '', 0, '6799a848', '9f11b6fa', 'tester9', '', '20260806055013', '000906724C800800FEFFFFFFF', '', '', '', 1, 'tester5@hotmail.com', '0', 0, 1, 0, 0, NULL, NULL);
 
 -- Dumping structure for table test.accounts_inactive
 CREATE TABLE IF NOT EXISTS `accounts_inactive` (
@@ -402,17 +402,29 @@ CREATE TABLE IF NOT EXISTS `clubs` (
   `Area` int(11) NOT NULL DEFAULT 0,
   `Activity` int(11) NOT NULL DEFAULT 0,
   `CreatedAt` bigint(20) NOT NULL DEFAULT 0,
+  `BoardAccess` int(11) NOT NULL DEFAULT 1,
+  `BoardAccessBadManner` int(11) NOT NULL DEFAULT 0,
+  `BoardPost` int(11) NOT NULL DEFAULT 1,
+  `BoardPostBadManner` int(11) NOT NULL DEFAULT 0,
+  `JoinCondition1` int(11) NOT NULL DEFAULT 0,
+  `JoinCondition2` int(11) NOT NULL DEFAULT 0,
+  `Question1` text DEFAULT NULL,
+  `Question2` text DEFAULT NULL,
+  `Question3` text DEFAULT NULL,
+  `Question4` text DEFAULT NULL,
+  `Question5` text DEFAULT NULL,
+  `IsClosed` tinyint(3) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`Id`),
   UNIQUE KEY `Name` (`Name`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table test.clubs: ~5 rows (approximately)
-INSERT INTO `clubs` (`Id`, `Name`, `Icon`, `Level`, `Exp`, `Rank`, `Points`, `Win`, `Loss`, `Title`, `Message`, `Area`, `Activity`, `CreatedAt`) VALUES
-	(1, 'Champions', 'D-8', 1, 0, 1, 160, 7, 2, NULL, NULL, 0, 0, 1785948500),
-	(2, 'asasas', 'D-8', 1, 0, 2, 48, 2, 7, NULL, NULL, 0, 0, 1785948500),
-	(3, 'asasasaa', 'D-8', 1, 0, 3, 0, 0, 0, NULL, NULL, 0, 0, 1785948500),
-	(4, 'tester', 'D-8', 1, 0, 4, 0, 0, 0, NULL, NULL, 0, 0, 1785948500),
-	(5, 'testeando', 'D-8', 2, 0, 5, 100, 50, 20, 'introduccion bro!', NULL, 4, 2, 1785948500);
+-- Dumping data for table test.clubs: ~6 rows (approximately)
+INSERT INTO `clubs` (`Id`, `Name`, `Icon`, `Level`, `Exp`, `Rank`, `Points`, `Win`, `Loss`, `Title`, `Message`, `Area`, `Activity`, `CreatedAt`, `BoardAccess`, `BoardAccessBadManner`, `BoardPost`, `BoardPostBadManner`, `JoinCondition1`, `JoinCondition2`, `Question1`, `Question2`, `Question3`, `Question4`, `Question5`, `IsClosed`) VALUES
+	(1, 'Champions', 'D-2', 1, 0, 1, 160, 7, 2, NULL, NULL, 0, 0, 1785948500, 1, 0, 1, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0),
+	(2, 'asasas', 'D-3', 1, 0, 2, 48, 2, 7, NULL, NULL, 0, 0, 1785948500, 1, 0, 1, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0),
+	(3, 'asasasaa', 'D-4', 1, 0, 3, 0, 0, 0, NULL, NULL, 0, 0, 1785948500, 1, 0, 1, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0),
+	(4, 'tester', 'D-6', 1, 0, 4, 0, 0, 0, NULL, NULL, 0, 0, 1785948500, 1, 0, 1, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, 0),
+	(5, 'testeando', 'D-8', 2, 0, 5, 100, 50, 20, 'introduccion bro!', 'Aqui probando una notice bro!', 4, 2, 1785948500, 0, 0, 0, 0, 1, 0, 'aaaaaaaaa', 'bbbbbb', 'asssssssssssssss', 'dcccccccccccc', 'ggggggggggg', 0);
 
 -- Dumping structure for table test.club_ban
 CREATE TABLE IF NOT EXISTS `club_ban` (
@@ -432,18 +444,22 @@ CREATE TABLE IF NOT EXISTS `club_board` (
   `AuthorId` int(11) NOT NULL,
   `AuthorName` varchar(64) NOT NULL DEFAULT '',
   `Message` text NOT NULL,
-  `IsPublic` tinyint(3) unsigned NOT NULL DEFAULT 0,
+  `MembersOnly` tinyint(3) unsigned NOT NULL DEFAULT 0,
+  `AuthorClubId` int(10) unsigned NOT NULL DEFAULT 0,
   `CreatedAt` bigint(20) NOT NULL DEFAULT 0,
+  `AuthorLevel` int(11) NOT NULL DEFAULT 0,
+  `ParentId` int(11) unsigned NOT NULL DEFAULT 0,
   PRIMARY KEY (`Id`),
   KEY `ClubId` (`ClubId`),
   KEY `AuthorId` (`AuthorId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table test.club_board: ~3 rows (approximately)
-INSERT INTO `club_board` (`Id`, `ClubId`, `AuthorId`, `AuthorName`, `Message`, `IsPublic`, `CreatedAt`, `AuthorLevel`, `ParentId`) VALUES
-	(1, 5, 9, 'tester9', 'que dices primer Cuentame lo edite!', 1, 1785948536, 77, 0),
-	(10, 5, 9, 'tester9', 'Qu dices?', 1, 1785955626, 77, 0),
-	(11, 5, 9, 'tester9', 'hablame!', 1, 1785956033, 77, 10);
+-- Dumping data for table test.club_board: ~0 rows (approximately)
+INSERT INTO `club_board` (`Id`, `ClubId`, `AuthorId`, `AuthorName`, `Message`, `MembersOnly`, `AuthorClubId`, `CreatedAt`, `AuthorLevel`, `ParentId`) VALUES
+	(1, 6, 9, 'tester9', 'hola', 1, 5, 1785995189, 77, 0),
+	(3, 6, 8, 'tester8', 'diga?', 0, 6, 1785995211, 55, 0),
+	(4, 6, 8, 'tester8', 'seeee', 1, 6, 1785995453, 55, 0),
+	(5, 6, 9, 'tester9', 'aaaaaaaaaaa', 1, 5, 1785995458, 77, 0);
 
 -- Dumping structure for table test.club_member_history
 CREATE TABLE IF NOT EXISTS `club_member_history` (
@@ -455,11 +471,37 @@ CREATE TABLE IF NOT EXISTS `club_member_history` (
   PRIMARY KEY (`Id`),
   KEY `PlayerId` (`PlayerId`),
   KEY `ClubId` (`ClubId`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table test.club_member_history: ~1 rows (approximately)
+-- Dumping data for table test.club_member_history: ~4 rows (approximately)
 INSERT INTO `club_member_history` (`Id`, `PlayerId`, `ClubId`, `JoinedAt`, `LeftAt`) VALUES
-	(1, 4, 2, '2026-07-27 15:24:07', NULL);
+	(9, 8, 5, '2026-08-05 23:25:44', '2026-08-06 00:31:18'),
+	(10, 8, 5, '2026-08-06 00:32:15', '2026-08-06 00:40:44'),
+	(11, 8, 5, '2026-08-06 00:41:19', '2026-08-06 00:46:58'),
+	(12, 8, 6, '2026-08-06 00:48:35', NULL),
+	(13, 8, 5, '2026-08-06 01:53:24', NULL);
+
+-- Dumping structure for table test.club_news
+CREATE TABLE IF NOT EXISTS `club_news` (
+  `Id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `ClubId` int(11) unsigned NOT NULL,
+  `PlayerId` int(11) NOT NULL DEFAULT 0,
+  `Message` text NOT NULL,
+  `CreatedAt` bigint(20) NOT NULL DEFAULT 0,
+  `Category` int(11) NOT NULL DEFAULT 0,
+  PRIMARY KEY (`Id`),
+  KEY `ClubId` (`ClubId`)
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- Dumping data for table test.club_news: ~7 rows (approximately)
+INSERT INTO `club_news` (`Id`, `ClubId`, `PlayerId`, `Message`, `CreatedAt`, `Category`) VALUES
+	(14, 5, 8, '<News Key="1" Cnt="1" Param1="tester8"/>', 1785985476, 4),
+	(16, 5, 8, '<News Key="1" Cnt="1" Param1="tester8"/>', 1785987129, 5),
+	(50, 5, 8, '<News Key="1" Cnt="1" Param1="tester8"/>', 1785990678, 4),
+	(51, 5, 8, '<News Key="1" Cnt="1" Param1="tester8"/>', 1785991244, 4),
+	(52, 5, 8, '<News Key="1" Cnt="1" Param1="tester8"/>', 1785991316, 5),
+	(53, 5, 0, '<News Key="4" Cnt="2" Param1="4" Param2="5"/>', 1785991316, 1),
+	(54, 5, 8, '<News Key="1" Cnt="1" Param1="tester8"/>', 1785991618, 4);
 
 -- Dumping structure for table test.club_players
 CREATE TABLE IF NOT EXISTS `club_players` (
@@ -471,33 +513,42 @@ CREATE TABLE IF NOT EXISTS `club_players` (
   `Win` int(11) DEFAULT NULL,
   `Loss` int(11) DEFAULT NULL,
   `LastLogin` text DEFAULT NULL,
+  `Answer1` text DEFAULT NULL,
+  `Answer2` text DEFAULT NULL,
+  `Answer3` text DEFAULT NULL,
+  `Answer4` text DEFAULT NULL,
+  `Answer5` text DEFAULT NULL,
   PRIMARY KEY (`PlayerId`),
   KEY `PlayerId` (`PlayerId`),
   KEY `ClubId` (`ClubId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table test.club_players: ~6 rows (approximately)
-INSERT INTO `club_players` (`PlayerId`, `ClubId`, `State`, `Rank`, `Points`, `Win`, `Loss`, `LastLogin`) VALUES
-	(1, 1, 2, 1, 0, 0, 0, NULL),
-	(2, 4, 2, 1, 0, 0, 0, NULL),
-	(3, 1, 2, 4, 0, 0, 0, NULL),
-	(4, 2, 2, 1, 0, 0, 0, NULL),
-	(5, 3, 2, 1, 0, 0, 0, NULL),
-	(9, 5, 2, 1, 0, 0, 0, NULL);
+-- Dumping data for table test.club_players: ~7 rows (approximately)
+INSERT INTO `club_players` (`PlayerId`, `ClubId`, `State`, `Rank`, `Points`, `Win`, `Loss`, `LastLogin`, `Answer1`, `Answer2`, `Answer3`, `Answer4`, `Answer5`) VALUES
+	(1, 1, 2, 1, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL),
+	(2, 4, 2, 1, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL),
+	(3, 1, 2, 4, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL),
+	(4, 2, 2, 1, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL),
+	(5, 3, 2, 1, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL),
+	(8, 5, 2, 4, 0, 0, 0, NULL, 'ass', 'asa', 'sas', 'asas', 'asa'),
+	(9, 5, 2, 1, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- Dumping structure for table test.club_request
 CREATE TABLE IF NOT EXISTS `club_request` (
   `Id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `ClubId` int(11) unsigned NOT NULL,
   `PlayerId` int(11) unsigned NOT NULL,
+  `Answer1` text DEFAULT NULL,
+  `Answer2` text DEFAULT NULL,
+  `Answer3` text DEFAULT NULL,
+  `Answer4` text DEFAULT NULL,
+  `Answer5` text DEFAULT NULL,
   PRIMARY KEY (`Id`),
   KEY `ClubId` (`ClubId`),
   KEY `PlayerId` (`PlayerId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table test.club_request: ~1 rows (approximately)
-INSERT INTO `club_request` (`Id`, `ClubId`, `PlayerId`) VALUES
-	(2, 1, 7);
+-- Dumping data for table test.club_request: ~0 rows (approximately)
 
 -- Dumping structure for table test.collect_books
 CREATE TABLE IF NOT EXISTS `collect_books` (
@@ -2084,7 +2135,7 @@ CREATE TABLE IF NOT EXISTS `collect_book_meta` (
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table test.collect_book_meta: ~1 rows (approximately)
+-- Dumping data for table test.collect_book_meta: ~0 rows (approximately)
 INSERT INTO `collect_book_meta` (`Id`, `Version`, `UpdatedAt`) VALUES
 	(1, '20260528091048', '2026-05-28 08:55:48');
 
@@ -3228,7 +3279,7 @@ CREATE TABLE IF NOT EXISTS `combi` (
   CONSTRAINT `FK_combi_players_PlayerId` FOREIGN KEY (`PlayerId`) REFERENCES `players` (`Id`) ON DELETE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC;
 
--- Dumping data for table test.combi: ~1 rows (approximately)
+-- Dumping data for table test.combi: ~0 rows (approximately)
 INSERT INTO `combi` (`Id`, `PlayerId`, `CombiPlayerId`, `Exp`, `Battle`, `Match`, `Win`, `Defeat`, `CombiName`, `CombiMate`, `CombiDate`, `State`) VALUES
 	(4, 2, 4, 1540, 148, 148, 124, 24, 'sdsdsd', 'tester4', '20260717124825', 1);
 
@@ -3328,9 +3379,9 @@ CREATE TABLE IF NOT EXISTS `daily_mission` (
   `Date` text NOT NULL,
   PRIMARY KEY (`Id`),
   KEY `PlayerId` (`PlayerId`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- Dumping data for table test.daily_mission: ~30 rows (approximately)
+-- Dumping data for table test.daily_mission: ~32 rows (approximately)
 INSERT INTO `daily_mission` (`Id`, `PlayerId`, `Map`, `MaxProgress`, `Progress`, `Reward`, `Reward2`, `Reward3`, `IsRewarded`, `Date`) VALUES
 	(1, 3, 10, 1, 0, 8, 6, 5, 0, 'Thursday, 30 July 2026'),
 	(2, 4, 9, 1, 0, 4, 8, 9, 0, 'Thursday, 30 July 2026'),
@@ -3361,7 +3412,9 @@ INSERT INTO `daily_mission` (`Id`, `PlayerId`, `Map`, `MaxProgress`, `Progress`,
 	(27, 7, 4, 1, 0, 6, 4, 5, 0, 'Wednesday, 05 August 2026'),
 	(28, 9, 4, 1, 0, 2, 6, 6, 0, 'Wednesday, 05 August 2026'),
 	(29, 2, 1, 1, 0, 5, 4, 8, 0, 'Wednesday, 05 August 2026'),
-	(30, 8, 11, 1, 0, 3, 2, 4, 0, 'Wednesday, 05 August 2026');
+	(30, 8, 11, 1, 0, 3, 2, 4, 0, 'Wednesday, 05 August 2026'),
+	(31, 8, 6, 1, 0, 9, 6, 6, 0, 'Thursday, 06 August 2026'),
+	(32, 9, 1, 1, 0, 8, 9, 8, 0, 'Thursday, 06 August 2026');
 
 -- Dumping structure for table test.daily_reward
 CREATE TABLE IF NOT EXISTS `daily_reward` (
@@ -7264,9 +7317,9 @@ INSERT INTO `players` (`Id`, `PlayTime`, `TutorialState`, `Level`, `TotalExperie
 	(4, '1.03:44:23.6572639', 0, 34, 104563, 86540, 8330, 0, 0, 0, 84, 75, 9, 4000000009, 0),
 	(5, '12:12:24.7304523', 0, 29, 54232, 52960, 9529, 0, 0, 0, 40, 28, 12, 4000000009, 0),
 	(6, '00:33:32.1626295', 0, 27, 45056, 9041, 8771, 0, 0, 0, 0, 0, 0, 4000000009, 0),
-	(7, '02:27:49.9596080', 0, 0, 162, 821, 5274, 0, 0, 0, 2, 1, 1, 4000000009, 0),
-	(8, '00:59:04.6711882', 0, 0, 59, 10057, 9950, 0, 0, 0, 3, 2, 1, 0, 0),
-	(9, '00:32:17.4563933', 0, 77, 4873200, 8498, 8839, 0, 0, 0, 0, 0, 0, 0, 0);
+	(7, '02:27:49.9596080', 0, 44, 162, 821, 5274, 0, 0, 0, 2, 1, 1, 4000000009, 0),
+	(8, '02:11:23.8195475', 0, 55, 1064600, 10057, 9900, 0, 0, 0, 3, 2, 1, 0, 0),
+	(9, '01:55:02.5754773', 0, 77, 4873200, 5398, 8539, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- Dumping structure for table test.player_boosters
 CREATE TABLE IF NOT EXISTS `player_boosters` (
@@ -7345,7 +7398,7 @@ INSERT INTO `player_characters` (`Id`, `PlayerId`, `Slot`, `Gender`, `BasicHair`
 	(8, 7, 0, 1, 0, 0, 0, 0, NULL, NULL, 308, 314, 541, NULL, 537, 538, 539, 540, NULL, NULL),
 	(9, 3, 2, 1, 0, 0, 0, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 	(10, 8, 0, 1, 0, 0, 0, 0, NULL, NULL, 346, 347, 341, NULL, 342, 343, 344, 345, NULL, NULL),
-	(11, 9, 0, 1, 0, 0, 0, 0, 595, 597, 592, 598, 578, NULL, 601, 580, 581, 582, NULL, NULL);
+	(11, 9, 0, 1, 0, 0, 0, 0, 595, 597, 592, 598, 578, NULL, 599, 580, 581, 582, NULL, NULL);
 
 -- Dumping structure for table test.player_collect_books
 CREATE TABLE IF NOT EXISTS `player_collect_books` (
@@ -9360,7 +9413,7 @@ CREATE TABLE IF NOT EXISTS `player_collect_book_effects` (
   PRIMARY KEY (`PlayerId`,`BookKey`,`EffectId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table test.player_collect_book_effects: ~19 rows (approximately)
+-- Dumping data for table test.player_collect_book_effects: ~16 rows (approximately)
 INSERT INTO `player_collect_book_effects` (`PlayerId`, `BookKey`, `EffectId`, `RewardType`, `IsActive`, `CreatedAt`, `UpdatedAt`) VALUES
 	(1, 5000229, 1105300003, 'EFFECT', 1, '2026-08-03 15:15:13', '2026-08-03 15:15:13'),
 	(1, 5000229, 1999801004, 'EFFECT', 1, '2026-08-03 15:15:13', '2026-08-03 15:15:13'),
@@ -21378,8 +21431,8 @@ INSERT INTO `player_daily_attendance_state` (`PlayerId`, `WeekKey`, `ClaimedMask
 	(7, 202630, 0, 0, '2026-07-31'),
 	(7, 202631, 0, 0, '2026-08-05'),
 	(8, 202630, 0, 0, '2026-07-31'),
-	(8, 202631, 0, 0, '2026-08-05'),
-	(9, 202631, 0, 0, '2026-08-05');
+	(8, 202631, 0, 0, '2026-08-06'),
+	(9, 202631, 0, 0, '2026-08-06');
 
 -- Dumping structure for table test.player_daily_reward
 CREATE TABLE IF NOT EXISTS `player_daily_reward` (
@@ -21402,7 +21455,7 @@ CREATE TABLE IF NOT EXISTS `player_deny` (
   KEY `DenyPlayerId` (`DenyPlayerId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table test.player_deny: ~1 rows (approximately)
+-- Dumping data for table test.player_deny: ~0 rows (approximately)
 INSERT INTO `player_deny` (`Id`, `PlayerId`, `DenyPlayerId`) VALUES
 	(1, 3, 5);
 
@@ -21619,9 +21672,9 @@ CREATE TABLE IF NOT EXISTS `player_items` (
   KEY `PlayerId` (`PlayerId`),
   KEY `ShopItemInfoId` (`ShopItemInfoId`),
   KEY `ShopPriceId` (`ShopPriceId`)
-) ENGINE=InnoDB AUTO_INCREMENT=594 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=603 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table test.player_items: ~475 rows (approximately)
+-- Dumping data for table test.player_items: ~478 rows (approximately)
 INSERT INTO `player_items` (`Id`, `PlayerId`, `ShopItemInfoId`, `ShopPriceId`, `Period`, `DaysLeft`, `Effects`, `Color`, `PurchaseDate`, `Durability`, `Count`, `EnchantMP`, `EnchantLvl`, `PeriodType`, `EsperChip`) VALUES
 	(1, 2, 6, 3, 1, 1, '1100313003,1100315003,1100317003', 0, 1784259642, 2400, 1, 0, 0, 0, 0),
 	(2, 2, 199, 5, 1, 1, '1102303003', 0, 1784259642, 2400, 1, 0, 0, 0, 0),
@@ -22097,7 +22150,10 @@ INSERT INTO `player_items` (`Id`, `PlayerId`, `ShopItemInfoId`, `ShopPriceId`, `
 	(596, 9, 1583, 84, 1, 1, '1102303003', 0, 1785949805, 2400, 0, 0, 0, 0, 0),
 	(597, 9, 1555, 129, 1, 1, '1102303003', 0, 1785949810, 2400, 0, 0, 0, 0, 0),
 	(598, 9, 1646, 83, 1, 1, '0', 0, 1785949814, 2400, 0, 0, 0, 0, 0),
-	(599, 9, 390, 5, 0, 0, '1102303003', 0, 1785951093, 2400, 0, 0, 0, 0, 0);
+	(599, 9, 390, 5, 0, 0, '1102303003', 0, 1785951093, 2400, 0, 0, 0, 0, 0),
+	(600, 8, 2460, 193, 1, 1, '2102310002,2102800003,2102801005', 0, 1785965068, 2400, 1, 0, 0, 0, 0),
+	(601, 8, 2485, 195, 1, 1, '2102304002,2102800003,2102801005', 0, 1785973467, 2400, 5, 0, 0, 0, 0),
+	(602, 8, 2437, 163, 1, 1, '2102310001', 0, 1785973901, 2400, 1, 0, 0, 0, 0);
 
 -- Dumping structure for table test.player_licenses
 CREATE TABLE IF NOT EXISTS `player_licenses` (
@@ -22126,13 +22182,52 @@ CREATE TABLE IF NOT EXISTS `player_mails` (
   PRIMARY KEY (`Id`),
   KEY `PlayerId` (`PlayerId`),
   KEY `SenderPlayerId` (`SenderPlayerId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=78 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table test.player_mails: ~3 rows (approximately)
+-- Dumping data for table test.player_mails: ~41 rows (approximately)
 INSERT INTO `player_mails` (`Id`, `PlayerId`, `SenderPlayerId`, `SentDate`, `Title`, `Message`, `IsMailNew`, `IsMailDeleted`, `IsClubMail`) VALUES
-	(1, 1, 3, 1784302405, 'Request to Join', '[NNREQ:2;0;0;0;0;0;0;0;0;0]The player tester3 requested to join the club.', 0, 0, 0),
-	(2, 3, 1, 1784302477, 'Approved', '[NNREQ:2;0;0;0;0;0;0;0;0;0]Your request to join asasa has been approved.', 0, 0, 0),
-	(3, 1, 7, 1785906700, 'Request to Join', '[NNREQ:2;0;0;0;0;0;0;0;0;0]The player tester7 requested to join the club.', 1, 0, 0);
+	(36, 8, 9, 1785971691, 'Group Message', 'ffffffffffffffffffffff', 0, 1, 1),
+	(37, 9, 8, 1785971721, 'sddddddddddd', 'sssssss', 0, 1, 0),
+	(38, 9, 8, 1785972442, 'DADASD', 'ASADA', 0, 1, 0),
+	(39, 8, 9, 1785972957, 'SSSSSS', 'AAAAAAAAA', 0, 1, 0),
+	(40, 8, 9, 1785973438, 'assssssssss', 'aaaaaaaaaaa', 0, 1, 0),
+	(41, 8, 9, 1785973461, 'SSSSSSSSS', '[NNGIFT:9;0;7012245;2;4;1;0;23789461;1;1]SSSSSSSSSS', 0, 1, 0),
+	(42, 8, 9, 1785973508, 'sssssssss', '[NNGIFT:9;0;7012245;2;4;1;0;23789461;1;1]aaaaaaaaaaaaaaaaaaa', 0, 1, 0),
+	(43, 8, 9, 1785973638, 'sssssssss', '[NNGIFT:9;0;7012245;2;4;1;0;23789461;1;1]ssaaaaaaaaaaaa', 0, 1, 0),
+	(44, 8, 9, 1785973896, 's', '[NNGIFT:9;0;7012003;2;4;1;0;23789219;1;0]ssss', 1, 1, 0),
+	(45, 8, 9, 1785974541, 'Group Message', 'ssssssssssssssssssssssss', 0, 1, 1),
+	(46, 8, 9, 1785974547, 'Group Message', 'ssssssssssssssss', 0, 1, 1),
+	(47, 8, 9, 1785975504, 'sss', '[NNGIFT:9;0;7012245;2;4;1;0;23789461;1;0]ssssssss', 1, 1, 0),
+	(48, 9, 8, 1785975562, 'Leave', '[NNREQ:2;0;0;0;0;0;0;0;0;0]The player tester8 has left the club.', 0, 1, 0),
+	(49, 9, 8, 1785975580, 'Request to Join', '[NNREQ:2;0;0;0;0;0;0;0;0;0]The player tester8 requested to join the club.', 1, 1, 0),
+	(50, 8, 9, 1785975591, 'Approved', '[NNREQ:2;0;0;0;0;0;0;0;0;0]Your request to join testeando has been approved.', 0, 1, 0),
+	(51, 8, 9, 1785976271, 'Group Message', 'ssssssssssssssssssssssssssssssss', 0, 1, 1),
+	(52, 8, 9, 1785976309, 'Rank Changed', '[NNREQ:2;0;0;0;0;0;0;0;0;0]Your rank has been changed to Staff.', 1, 1, 0),
+	(53, 9, 8, 1785978756, 'Leave', '[NNREQ:2;0;0;0;0;0;0;0;0;0]The player tester8 has left the club.', 0, 1, 0),
+	(54, 8, 9, 1785978823, 'Approved', '[NNREQ:2;0;0;0;0;0;0;0;0;0]Your request to join testeando has been approved.', 0, 1, 0),
+	(55, 9, 8, 1785979098, 'Leave', '[NNREQ:2;0;0;0;0;0;0;0;0;0]The player tester8 has left the club.', 0, 1, 0),
+	(56, 8, 9, 1785979318, 'Approved', '[NNREQ:2;0;0;0;0;0;0;0;0;0]Your request to join testeando has been approved.', 0, 1, 0),
+	(57, 9, 8, 1785979778, 'Leave', '[NNREQ:2;0;0;0;0;0;0;0;0;0]The player tester8 has left the club.', 1, 1, 0),
+	(58, 9, 8, 1785980884, 'Leave', '[NNREQ:2;0;0;0;0;0;0;0;0;0]The player tester8 has left the club.', 1, 1, 0),
+	(59, 9, 8, 1785981083, 'Leave', '[NNREQ:2;0;0;0;0;0;0;0;0;0]The player tester8 has left the club.', 1, 1, 0),
+	(60, 9, 8, 1785981449, 'Leave', '[NNREQ:2;0;0;0;0;0;0;0;0;0]The player tester8 has left the club.', 1, 1, 0),
+	(61, 9, 8, 1785982033, 'Leave', '[NNREQ:2;0;0;0;0;0;0;0;0;0]The player tester8 has left the club.', 1, 1, 0),
+	(62, 9, 8, 1785983105, 'Leave', '[NNREQ:2;0;0;0;0;0;0;0;0;0]The player tester8 has left the club.', 1, 1, 0),
+	(63, 8, 9, 1785983455, 'Approved', '[NNREQ:2;0;0;0;0;0;0;0;0;0]Your request to join testeando has been approved.', 1, 1, 0),
+	(64, 9, 8, 1785985476, 'Leave', '[NNREQ:2;0;0;0;0;0;0;0;0;0]The player tester8 has left the club.', 1, 1, 0),
+	(65, 8, 9, 1785985539, 'Rejected', '[NNREQ:2;0;0;0;0;0;0;0;0;0]Your request to join testeando has been rejected.', 1, 1, 0),
+	(66, 8, 9, 1785985887, 'Rejected', '[NNREQ:2;0;0;0;0;0;0;0;0;0]Your request to join testeando has been rejected.', 1, 1, 0),
+	(67, 8, 9, 1785985891, 'Rejected', '[NNREQ:2;0;0;0;0;0;0;0;0;0]Your request to join testeando has been rejected.', 1, 1, 0),
+	(68, 8, 9, 1785986058, 'Rejected', '[NNREQ:2;0;0;0;0;0;0;0;0;0]Your request to join testeando has been rejected.', 0, 0, 0),
+	(69, 8, 9, 1785986744, 'Approved', '[NNREQ:2;0;0;0;0;0;0;0;0;0]Your request to join testeando has been approved.', 0, 0, 0),
+	(70, 8, 9, 1785987129, 'Rank Changed', '[NNREQ:2;0;0;0;0;0;0;0;0;0]Your rank has been changed to Staff.', 0, 0, 0),
+	(71, 9, 8, 1785990678, 'Leave', '[NNREQ:2;0;0;0;0;0;0;0;0;0]The player tester8 has left the club.', 0, 0, 0),
+	(72, 8, 9, 1785990735, 'Approved', '[NNREQ:2;0;0;0;0;0;0;0;0;0]Your request to join testeando has been approved.', 1, 0, 0),
+	(73, 9, 8, 1785991244, 'Leave', '[NNREQ:2;0;0;0;0;0;0;0;0;0]The player tester8 has left the club.', 1, 0, 0),
+	(74, 8, 9, 1785991279, 'Approved', '[NNREQ:2;0;0;0;0;0;0;0;0;0]Your request to join testeando has been approved.', 1, 0, 0),
+	(75, 8, 9, 1785991316, 'Rank Changed', '[NNREQ:2;0;0;0;0;0;0;0;0;0]Your rank has been changed to Normal.', 1, 0, 0),
+	(76, 9, 8, 1785991618, 'Leave', '[NNREQ:2;0;0;0;0;0;0;0;0;0]The player tester8 has left the club.', 0, 0, 0),
+	(77, 8, 9, 1785995604, 'Approved', '[NNREQ:2;0;0;0;0;0;0;0;0;0]Your request to join testeando has been approved.', 1, 0, 0);
 
 -- Dumping structure for table test.player_mission
 CREATE TABLE IF NOT EXISTS `player_mission` (
@@ -22357,7 +22452,7 @@ CREATE TABLE IF NOT EXISTS `randomshop_version` (
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
--- Dumping data for table test.randomshop_version: ~1 rows (approximately)
+-- Dumping data for table test.randomshop_version: ~0 rows (approximately)
 INSERT INTO `randomshop_version` (`Id`, `Version`) VALUES
 	(1, '201949751868');
 
@@ -22369,9 +22464,9 @@ CREATE TABLE IF NOT EXISTS `server_status` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Dumping data for table test.server_status: ~1 rows (approximately)
+-- Dumping data for table test.server_status: ~0 rows (approximately)
 INSERT INTO `server_status` (`id`, `online`, `updated_at`) VALUES
-	(1, 3, '2026-08-03 20:46:49');
+	(1, 0, '2026-08-05 19:42:43');
 
 -- Dumping structure for table test.shoppingbasket_items
 CREATE TABLE IF NOT EXISTS `shoppingbasket_items` (
@@ -34454,9 +34549,9 @@ CREATE TABLE IF NOT EXISTS `shop_version` (
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
--- Dumping data for table test.shop_version: ~1 rows (approximately)
+-- Dumping data for table test.shop_version: ~0 rows (approximately)
 INSERT INTO `shop_version` (`Id`, `Version`) VALUES
-	(1, '201949755125');
+	(1, '201949755126');
 
 -- Dumping structure for table test.start_items
 CREATE TABLE IF NOT EXISTS `start_items` (
