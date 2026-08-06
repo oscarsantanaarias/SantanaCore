@@ -363,9 +363,7 @@ namespace Santana.Network
             Mapper.Register<PlayerItem, ItemDto>()
                 .Member(dest => dest.Id, src => src.Id)
                 .Member(dest => dest.EnchantLevel, src => src.EnchantLvl)
-#if LATESTS4
                 .Member(dest => dest.EsperID, src => src.EsperChip)
-#endif
                 .Function(dest => dest.ExpireTime, src => src.CalculateExpireTime())
                 .Function(dest => dest.Durability, src =>
                 {
@@ -417,7 +415,7 @@ namespace Santana.Network
                 .Function(dest => dest.Unk1, src => (ulong)(src.Id & 0xFFFFFFFF))
                 .Function(dest => dest.Receiver, src => (ulong)(src.Id >> 32))
                 .Member(dest => dest.Title, src => src.Title)
-                .Function(dest => dest.ReadCount, src => src.IsNew ? (ushort)0 : (ushort)1)
+                .Function(dest => dest.ReadCount, src => src.IsNew ? 0 : 1)
                 .Function(dest => dest.DaysLeft,
                     src => DateTimeOffset.Now < src.Expires
                         ? (byte)System.Math.Max(0, System.Math.Min(255,
@@ -551,18 +549,10 @@ namespace Santana.Network
                            string.Empty)
                 .Function(dest => dest.MemberCount, src => src.Club?.Count + 5 ?? 0)
                 .Function(dest => dest.Type, src => src.Club?.ClanIcon ?? string.Empty)
-#if LATESTS4
                 .Function(dest => dest.Unk1, src => (int)(src.Club?.ClubPoints ?? 0))
                 .Function(dest => dest.Unk2, src => (int)(src.Club?.ClanRank ?? 0))
                 .Function(dest => dest.Unk3, src => (int)(src.Club?.ClubWin ?? 0))
                 .Function(dest => dest.Unk4, src => (int)(src.Club?.ClubLoss ?? 0));
-#else
-                .Function(dest => dest.Area, src => src.Club?.Area ?? 0)
-                .Function(dest => dest.Activity, src => src.Club?.Activity ?? 0)
-                .Function(dest => dest.Wins, src => (int)(src.Club?.ClubWin ?? 0))
-                .Function(dest => dest.Losses, src => (int)(src.Club?.ClubLoss ?? 0))
-                .Function(dest => dest.ClanRank, src => (int)(src.Club?.ClanRank ?? 0));
-#endif
             Mapper.Register<Player, ClubInfoDto2>()
                 .Function(dest => dest.Id, src => src.Club?.Id ?? 0)
                 .Function(dest => dest.Id2, src => src.Club?.Id ?? 0)
@@ -576,9 +566,6 @@ namespace Santana.Network
                 .Function(dest => dest.Unk5, src => src.Club?.ClubPoints ?? 0)
                 .Function(dest => dest.Unk7, src => src.Club?.ClubWin ?? 0)
                 .Function(dest => dest.Unk8, src => src.Club?.ClubLoss ?? 0);
-            Mapper.Register<Club, ClubSearchResultDto>()
-                .Function(dest => dest.Area, src => (ClubArea)src.Area)
-                .Function(dest => dest.Activity, src => (ClubActivity)src.Activity);
             Mapper.Register<Friend, PlayerInfoDto>()
                 .Function(dest => dest.Info, src =>
                 {

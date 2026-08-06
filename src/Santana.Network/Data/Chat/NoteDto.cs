@@ -1,4 +1,4 @@
-
+﻿
 using ProudNetSrc.Serialization;
 namespace Santana.Network.Data.Chat
 {
@@ -24,18 +24,20 @@ namespace Santana.Network.Data.Chat
 
     public string Title { get; set; }
 
-     public ushort ReadCount { get; set; }
+     public uint ReadCount { get; set; }
 
      public byte DaysLeft { get; set; }
 
      public byte Unk8 { get; set; }
 
+    [Skip]
     public bool IsGift
     {
       get => MessageType == 5 || MessageType == 8;
       set => MessageType = value ? 5 : 0;
     }
 
+    [Skip]
     public bool OpenedGift
     {
       get => MessageType == 8 || Unk8 != 0;
