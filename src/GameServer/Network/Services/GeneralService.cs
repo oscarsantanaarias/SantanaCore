@@ -17,7 +17,6 @@
     using ProudNetSrc;
     using ProudNetSrc.Serialization;
     using System.Text;
-    using Santana.Network.Data.Chat;
     using Santana.Network.Message.Chat;
     using System.Collections.Generic;
     using Santana.Database.Game;
@@ -54,6 +53,7 @@
                         var historyRows = await DbUtil.FindAsync<NicknameHistoryDto>(conn, statement => statement
                             .Where($"{nameof(NicknameHistoryDto.AccountId):C} = @Id")
                             .WithParameters(new { plr.Account.Id }));
+                        historyRows = historyRows.Where(x => x.ExpireDate != -1).ToList();
                         var earliest = historyRows.FirstOrDefault();
                         if (earliest == null)
                         {
@@ -88,7 +88,8 @@
                         Unk2 = 0L,
                         Unk3 = requestedNick
                     });
-                    plr.Inventory.CreateSilent(4000002, 0, 0, 0);
+                    if (nicknameHistory.ExpireDate != -1)
+                        plr.Inventory.CreateSilent(4000002, 0, 0, 0);
                     DbUtil.Update(conn, accountRow);
                     return true;
                 }
@@ -180,6 +181,11 @@
                     break;
                 case 4000004:
                     historyEntry.ExpireDate = DateTimeOffset.Now.AddDays(7).ToUnixTimeSeconds();
+                    if (await ChangeNickname(session.Player, historyEntry, false))
+                        actor.Inventory.RemoveOrDecrease(ticket);
+                    break;
+                case 4000006:
+                    historyEntry.ExpireDate = DateTimeOffset.Now.AddDays(3).ToUnixTimeSeconds();
                     if (await ChangeNickname(session.Player, historyEntry, false))
                         actor.Inventory.RemoveOrDecrease(ticket);
                     break;
@@ -575,7 +581,7 @@
                 var inbox = player.Mailbox;
                 var pageCount = Math.Max(1, (inbox.Count() + Mailbox.ItemsPerPage - 1) / Mailbox.ItemsPerPage);
                 var rows = inbox.GetMailsByPage(1)
-                    .Select(row => row.Map<Mail, NoteDto>())
+                    .Select(row => row.Map<Mail, Santana.Network.Data.Chat.NoteDto>())
                     .ToArray();
                 await player.ChatSession.SendAsync(new NoteListAckMessage(pageCount, 1, rows));
             }
@@ -692,14 +698,16 @@
             }
             foreach (var gear in message.Info)
                 actor.Inventory.RemoveOrDecreaseCount(actor.Inventory.FirstOrDefault(x => x.ItemNumber == gear.GearId), (uint)gear.GearCount);
+            var grantedInfo = GameServer.Instance.ResourceCache.GetShop().GetFirstItemInfo(grantedItem);
+            var grantedPrice = grantedInfo?.PriceGroup?.Prices?.FirstOrDefault();
             var resultItems = new List<AlchemyItemDto>();
             var resultEntry = new AlchemyItemDto
             {
                 Unk = 0,
                 itemNumber = grantedItem,
-                itemPriceType = ItemPriceType.AP,
-                itemPeriodType = ItemPeriodType.None,
-                Period = 1,
+                itemPriceType = grantedInfo?.PriceGroup?.PriceType ?? ItemPriceType.AP,
+                itemPeriodType = grantedPrice?.PeriodType ?? ItemPeriodType.None,
+                Period = (uint)(grantedPrice?.Period ?? 1),
                 Unk3 = 0,
                 Color = 0,
                 Effect = 0
