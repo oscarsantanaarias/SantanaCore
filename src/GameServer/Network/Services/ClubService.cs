@@ -155,7 +155,7 @@
                         Body = entry.Message ?? "",
                         Date = when
                     });
-                    if (entry.PlayerId == mine && entry.Category != ClubNewsMine)
+                    if (entry.PlayerId == mine && entry.Category == ClubNewsClan)
                         news.Add(new ClubNewsDto
                         {
                             Category = ClubNewsMine,
@@ -253,6 +253,9 @@
                     row.Activity = message.Unk2;
                     row.Title = message.Unk3 ?? "";
                 });
+#if !LATESTS4
+                AddClubNews(actor.Club.Id, 0, ClubNewsClan, BuildClubNews(ClubNewsKeyInfoChanged));
+#endif
             }
             session.SendAsync(new ClubAdminInfoModifyAckMessage { Unk = 0 });
         }
@@ -396,6 +399,8 @@
         private const int ClubNewsMine = 2;
         private const int ClubNewsSignedOut = 4;
         private const int ClubNewsGradeChange = 5;
+        private const int ClubNewsKeyMemberPane = 1;
+        private const int ClubNewsKeyInfoChanged = 2;
         private const int ClubNewsKeyGradeChanged = 4;
         private static string BuildClubNews(int key, params string[] parameters)
         {
@@ -449,8 +454,6 @@
                     JoinedAt = DateTime.Now
                 });
             }
-            AddClubNews(clubId, playerId, ClubNewsClan,
-                BuildClubNews(2, GetAccountNickname((ulong)playerId)));
         }
         private static void RecordClubLeave(uint clubId, int playerId)
         {
@@ -465,9 +468,16 @@
                     entry.LeftAt = DateTime.Now;
                     DbUtil.Update(gameDb, entry);
                 }
+                foreach (var owned in DbUtil.Find<ClubNewsRowDto>(gameDb)
+                             .Where(row => row.ClubId == clubId && row.PlayerId == playerId && row.Category == ClubNewsClan)
+                             .ToArray())
+                {
+                    owned.PlayerId = 0;
+                    DbUtil.Update(gameDb, owned);
+                }
             }
             AddClubNews(clubId, playerId, ClubNewsSignedOut,
-                BuildClubNews(1, GetAccountNickname((ulong)playerId)));
+                BuildClubNews(ClubNewsKeyMemberPane, GetAccountNickname((ulong)playerId)));
         }
 #endif
         [MessageHandler(typeof(ClubGradeCountReqMessage))]
@@ -2821,12 +2831,13 @@
                     rejects.Add(edit.AccountId);
                     continue;
                 }
+                var previousRank = targetSlot.Rank;
                 targetSlot.Rank = desiredRank;
 #if !LATESTS4
                 AddClubNews(clan.Id, (int)targetSlot.AccountId, ClubNewsGradeChange,
-                    BuildClubNews(1, GetAccountNickname(targetSlot.AccountId)));
+                    BuildClubNews(ClubNewsKeyMemberPane, GetAccountNickname(targetSlot.AccountId)));
                 AddClubNews(clan.Id, (int)targetSlot.AccountId, ClubNewsClan,
-                    BuildClubNews(ClubNewsKeyGradeChanged, GetAccountNickname(targetSlot.AccountId), desiredRank.ToString()));
+                    BuildClubNews(ClubNewsKeyGradeChanged, ((int)previousRank).ToString(), ((int)desiredRank).ToString()));
 #endif
                 using (var gameDb = GameDatabase.Open())
                 {
