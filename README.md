@@ -18,3 +18,4 @@ Optional:
 * [AIO repack](https://github.com/abbodi1406/vcredist)
 * [Season 8 Game Client (EU v1267)](https://archive.org/download/s4lgameclientarchives/S4%20League%20Game%20Client%20Archive/Season%208%28EU%20v1267%29/FumbiClient_1267_S8.7z)
 * [Season 10 Game Client (EU v1465)](https://archive.org/download/s4lgameclientarchives/S4%20League%20Game%20Client%20Archive/Season%2010%28EU%201465%29%20%28Final%29.7z)
+* Full Season 10 Client with Patches here: https://github.com/oscarsantanaarias/S4PatchCollection
